@@ -1,0 +1,3034 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    string
+
+Grammar
+
+Rule 0     S' -> ProgramFlow
+Rule 1     ProgramFlow -> VariablesDeclaration SubroutinesDeclaration
+Rule 2     AssignmentStatement -> identifier equal ArithmeticExpression
+Rule 3     VariablesDeclaration -> Begin_Variables_Declaration SingleTypeVariableDeclaration End_Variables_Declaration
+Rule 4     SingleTypeVariableDeclaration -> SimpleTypes SequenceOfIdentifiers semicolon SingleTypeVariableDeclaration
+Rule 5     SingleTypeVariableDeclaration -> <empty>
+Rule 6     SimpleTypes -> int
+Rule 7     SimpleTypes -> double
+Rule 8     SequenceOfIdentifiers -> identifier
+Rule 9     SequenceOfIdentifiers -> identifier comma SequenceOfIdentifiers
+Rule 10    SequenceOfIdentifiers -> AssignmentStatement
+Rule 11    SequenceOfIdentifiers -> AssignmentStatement comma SequenceOfIdentifiers
+Rule 12    ArithmeticExpression -> Number
+Rule 13    ArithmeticExpression -> UnaryOperation
+Rule 14    ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis
+Rule 15    ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis plus ArithmeticExpression
+Rule 16    ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis minus ArithmeticExpression
+Rule 17    ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis star ArithmeticExpression
+Rule 18    ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis slash ArithmeticExpression
+Rule 19    ArithmeticExpression -> Number plus ArithmeticExpression
+Rule 20    ArithmeticExpression -> Number minus ArithmeticExpression
+Rule 21    ArithmeticExpression -> Number star ArithmeticExpression
+Rule 22    ArithmeticExpression -> Number slash ArithmeticExpression
+Rule 23    ArithmeticExpression -> UnaryOperation plus ArithmeticExpression
+Rule 24    ArithmeticExpression -> UnaryOperation minus ArithmeticExpression
+Rule 25    ArithmeticExpression -> UnaryOperation star ArithmeticExpression
+Rule 26    ArithmeticExpression -> UnaryOperation slash ArithmeticExpression
+Rule 27    UnaryOperation -> plus_plus identifier
+Rule 28    UnaryOperation -> minus_minus identifier
+Rule 29    UnaryOperation -> identifier plus_plus
+Rule 30    UnaryOperation -> identifier minus_minus
+Rule 31    Number -> int_number
+Rule 32    Number -> double_number
+Rule 33    Number -> identifier
+Rule 34    BooleanExpression -> ArithmeticExpression LogicOperator ArithmeticExpression
+Rule 35    LogicOperator -> is_equal
+Rule 36    LogicOperator -> not_equal
+Rule 37    LogicOperator -> less_or_equal
+Rule 38    LogicOperator -> greater_or_equal
+Rule 39    LogicOperator -> less_than
+Rule 40    LogicOperator -> greater_than
+Rule 41    ifCondition -> if open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition
+Rule 42    elseIfCondition -> elseif open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition
+Rule 43    elseIfCondition -> elseCondition
+Rule 44    elseCondition -> else open_brace Routine close_brace
+Rule 45    elseCondition -> <empty>
+Rule 46    whileLoop -> while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace
+Rule 47    doWhileLoop -> do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon
+Rule 48    forLoop -> for open_parenthesis SequenceOfIdentifiers semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace
+Rule 49    UpdateVariables -> AssignmentStatement
+Rule 50    UpdateVariables -> AssignmentStatement comma UpdateVariables
+Rule 51    UpdateVariables -> UnaryOperation
+Rule 52    UpdateVariables -> UnaryOperation comma UpdateVariables
+Rule 53    Routine -> AssignmentStatement semicolon Routine
+Rule 54    Routine -> UnaryOperation semicolon Routine
+Rule 55    Routine -> ifCondition Routine
+Rule 56    Routine -> whileLoop Routine
+Rule 57    Routine -> doWhileLoop Routine
+Rule 58    Routine -> forLoop Routine
+Rule 59    Routine -> call identifier Routine
+Rule 60    Routine -> InOut Routine
+Rule 61    Routine -> <empty>
+Rule 62    SubroutinesDeclaration -> Begin_Subroutines_Declaration SingleSubroutine End_Subroutines_Declaration
+Rule 63    SingleSubroutine -> identifier open_brace Routine close_brace SingleSubroutine
+Rule 64    SingleSubroutine -> <empty>
+Rule 65    InOut -> cin in identifier RecursiveIn semicolon
+Rule 66    InOut -> cout out identifier RecursiveOut semicolon
+Rule 67    RecursiveIn -> in identifier RecursiveIn
+Rule 68    RecursiveIn -> <empty>
+Rule 69    RecursiveOut -> out identifier RecursiveOut
+Rule 70    RecursiveOut -> <empty>
+
+Terminals, with rules where they appear
+
+Begin_Subroutines_Declaration : 62
+Begin_Variables_Declaration : 3
+End_Subroutines_Declaration : 62
+End_Variables_Declaration : 3
+call                 : 59
+cin                  : 65
+close_brace          : 41 42 44 46 47 48 63
+close_parenthesis    : 14 15 16 17 18 41 42 46 47 48
+comma                : 9 11 50 52
+cout                 : 66
+do                   : 47
+double               : 7
+double_number        : 32
+else                 : 44
+elseif               : 42
+equal                : 2
+error                : 
+for                  : 48
+greater_or_equal     : 38
+greater_than         : 40
+identifier           : 2 8 9 27 28 29 30 33 59 63 65 66 67 69
+if                   : 41
+in                   : 65 67
+int                  : 6
+int_number           : 31
+is_equal             : 35
+less_or_equal        : 37
+less_than            : 39
+minus                : 16 20 24
+minus_minus          : 28 30
+not_equal            : 36
+open_brace           : 41 42 44 46 47 48 63
+open_parenthesis     : 14 15 16 17 18 41 42 46 47 48
+out                  : 66 69
+plus                 : 15 19 23
+plus_plus            : 27 29
+semicolon            : 4 47 48 48 53 54 65 66
+slash                : 18 22 26
+star                 : 17 21 25
+string               : 
+while                : 46 47
+
+Nonterminals, with rules where they appear
+
+ArithmeticExpression : 2 14 15 15 16 16 17 17 18 18 19 20 21 22 23 24 25 26 34 34
+AssignmentStatement  : 10 11 49 50 53
+BooleanExpression    : 41 42 46 47 48
+InOut                : 60
+LogicOperator        : 34
+Number               : 12 19 20 21 22
+ProgramFlow          : 0
+RecursiveIn          : 65 67
+RecursiveOut         : 66 69
+Routine              : 41 42 44 46 47 48 53 54 55 56 57 58 59 60 63
+SequenceOfIdentifiers : 4 9 11 48
+SimpleTypes          : 4
+SingleSubroutine     : 62 63
+SingleTypeVariableDeclaration : 3 4
+SubroutinesDeclaration : 1
+UnaryOperation       : 13 23 24 25 26 51 52 54
+UpdateVariables      : 48 50 52
+VariablesDeclaration : 1
+doWhileLoop          : 57
+elseCondition        : 43
+elseIfCondition      : 41 42
+forLoop              : 58
+ifCondition          : 55
+whileLoop            : 56
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . ProgramFlow
+    (1) ProgramFlow -> . VariablesDeclaration SubroutinesDeclaration
+    (3) VariablesDeclaration -> . Begin_Variables_Declaration SingleTypeVariableDeclaration End_Variables_Declaration
+
+    Begin_Variables_Declaration shift and go to state 3
+
+    ProgramFlow                    shift and go to state 1
+    VariablesDeclaration           shift and go to state 2
+
+state 1
+
+    (0) S' -> ProgramFlow .
+
+
+
+state 2
+
+    (1) ProgramFlow -> VariablesDeclaration . SubroutinesDeclaration
+    (62) SubroutinesDeclaration -> . Begin_Subroutines_Declaration SingleSubroutine End_Subroutines_Declaration
+
+    Begin_Subroutines_Declaration shift and go to state 5
+
+    SubroutinesDeclaration         shift and go to state 4
+
+state 3
+
+    (3) VariablesDeclaration -> Begin_Variables_Declaration . SingleTypeVariableDeclaration End_Variables_Declaration
+    (4) SingleTypeVariableDeclaration -> . SimpleTypes SequenceOfIdentifiers semicolon SingleTypeVariableDeclaration
+    (5) SingleTypeVariableDeclaration -> .
+    (6) SimpleTypes -> . int
+    (7) SimpleTypes -> . double
+
+    End_Variables_Declaration reduce using rule 5 (SingleTypeVariableDeclaration -> .)
+    int             shift and go to state 8
+    double          shift and go to state 9
+
+    SingleTypeVariableDeclaration  shift and go to state 6
+    SimpleTypes                    shift and go to state 7
+
+state 4
+
+    (1) ProgramFlow -> VariablesDeclaration SubroutinesDeclaration .
+
+    $end            reduce using rule 1 (ProgramFlow -> VariablesDeclaration SubroutinesDeclaration .)
+
+
+state 5
+
+    (62) SubroutinesDeclaration -> Begin_Subroutines_Declaration . SingleSubroutine End_Subroutines_Declaration
+    (63) SingleSubroutine -> . identifier open_brace Routine close_brace SingleSubroutine
+    (64) SingleSubroutine -> .
+
+    identifier      shift and go to state 11
+    End_Subroutines_Declaration reduce using rule 64 (SingleSubroutine -> .)
+
+    SingleSubroutine               shift and go to state 10
+
+state 6
+
+    (3) VariablesDeclaration -> Begin_Variables_Declaration SingleTypeVariableDeclaration . End_Variables_Declaration
+
+    End_Variables_Declaration shift and go to state 12
+
+
+state 7
+
+    (4) SingleTypeVariableDeclaration -> SimpleTypes . SequenceOfIdentifiers semicolon SingleTypeVariableDeclaration
+    (8) SequenceOfIdentifiers -> . identifier
+    (9) SequenceOfIdentifiers -> . identifier comma SequenceOfIdentifiers
+    (10) SequenceOfIdentifiers -> . AssignmentStatement
+    (11) SequenceOfIdentifiers -> . AssignmentStatement comma SequenceOfIdentifiers
+    (2) AssignmentStatement -> . identifier equal ArithmeticExpression
+
+    identifier      shift and go to state 14
+
+    SequenceOfIdentifiers          shift and go to state 13
+    AssignmentStatement            shift and go to state 15
+
+state 8
+
+    (6) SimpleTypes -> int .
+
+    identifier      reduce using rule 6 (SimpleTypes -> int .)
+
+
+state 9
+
+    (7) SimpleTypes -> double .
+
+    identifier      reduce using rule 7 (SimpleTypes -> double .)
+
+
+state 10
+
+    (62) SubroutinesDeclaration -> Begin_Subroutines_Declaration SingleSubroutine . End_Subroutines_Declaration
+
+    End_Subroutines_Declaration shift and go to state 16
+
+
+state 11
+
+    (63) SingleSubroutine -> identifier . open_brace Routine close_brace SingleSubroutine
+
+    open_brace      shift and go to state 17
+
+
+state 12
+
+    (3) VariablesDeclaration -> Begin_Variables_Declaration SingleTypeVariableDeclaration End_Variables_Declaration .
+
+    Begin_Subroutines_Declaration reduce using rule 3 (VariablesDeclaration -> Begin_Variables_Declaration SingleTypeVariableDeclaration End_Variables_Declaration .)
+
+
+state 13
+
+    (4) SingleTypeVariableDeclaration -> SimpleTypes SequenceOfIdentifiers . semicolon SingleTypeVariableDeclaration
+
+    semicolon       shift and go to state 18
+
+
+state 14
+
+    (8) SequenceOfIdentifiers -> identifier .
+    (9) SequenceOfIdentifiers -> identifier . comma SequenceOfIdentifiers
+    (2) AssignmentStatement -> identifier . equal ArithmeticExpression
+
+    semicolon       reduce using rule 8 (SequenceOfIdentifiers -> identifier .)
+    comma           shift and go to state 19
+    equal           shift and go to state 20
+
+
+state 15
+
+    (10) SequenceOfIdentifiers -> AssignmentStatement .
+    (11) SequenceOfIdentifiers -> AssignmentStatement . comma SequenceOfIdentifiers
+
+    semicolon       reduce using rule 10 (SequenceOfIdentifiers -> AssignmentStatement .)
+    comma           shift and go to state 21
+
+
+state 16
+
+    (62) SubroutinesDeclaration -> Begin_Subroutines_Declaration SingleSubroutine End_Subroutines_Declaration .
+
+    $end            reduce using rule 62 (SubroutinesDeclaration -> Begin_Subroutines_Declaration SingleSubroutine End_Subroutines_Declaration .)
+
+
+state 17
+
+    (63) SingleSubroutine -> identifier open_brace . Routine close_brace SingleSubroutine
+    (53) Routine -> . AssignmentStatement semicolon Routine
+    (54) Routine -> . UnaryOperation semicolon Routine
+    (55) Routine -> . ifCondition Routine
+    (56) Routine -> . whileLoop Routine
+    (57) Routine -> . doWhileLoop Routine
+    (58) Routine -> . forLoop Routine
+    (59) Routine -> . call identifier Routine
+    (60) Routine -> . InOut Routine
+    (61) Routine -> .
+    (2) AssignmentStatement -> . identifier equal ArithmeticExpression
+    (27) UnaryOperation -> . plus_plus identifier
+    (28) UnaryOperation -> . minus_minus identifier
+    (29) UnaryOperation -> . identifier plus_plus
+    (30) UnaryOperation -> . identifier minus_minus
+    (41) ifCondition -> . if open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition
+    (46) whileLoop -> . while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace
+    (47) doWhileLoop -> . do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon
+    (48) forLoop -> . for open_parenthesis SequenceOfIdentifiers semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace
+    (65) InOut -> . cin in identifier RecursiveIn semicolon
+    (66) InOut -> . cout out identifier RecursiveOut semicolon
+
+    call            shift and go to state 30
+    close_brace     reduce using rule 61 (Routine -> .)
+    identifier      shift and go to state 22
+    plus_plus       shift and go to state 32
+    minus_minus     shift and go to state 33
+    if              shift and go to state 34
+    while           shift and go to state 35
+    do              shift and go to state 36
+    for             shift and go to state 37
+    cin             shift and go to state 38
+    cout            shift and go to state 39
+
+    Routine                        shift and go to state 23
+    AssignmentStatement            shift and go to state 24
+    UnaryOperation                 shift and go to state 25
+    ifCondition                    shift and go to state 26
+    whileLoop                      shift and go to state 27
+    doWhileLoop                    shift and go to state 28
+    forLoop                        shift and go to state 29
+    InOut                          shift and go to state 31
+
+state 18
+
+    (4) SingleTypeVariableDeclaration -> SimpleTypes SequenceOfIdentifiers semicolon . SingleTypeVariableDeclaration
+    (4) SingleTypeVariableDeclaration -> . SimpleTypes SequenceOfIdentifiers semicolon SingleTypeVariableDeclaration
+    (5) SingleTypeVariableDeclaration -> .
+    (6) SimpleTypes -> . int
+    (7) SimpleTypes -> . double
+
+    End_Variables_Declaration reduce using rule 5 (SingleTypeVariableDeclaration -> .)
+    int             shift and go to state 8
+    double          shift and go to state 9
+
+    SimpleTypes                    shift and go to state 7
+    SingleTypeVariableDeclaration  shift and go to state 40
+
+state 19
+
+    (9) SequenceOfIdentifiers -> identifier comma . SequenceOfIdentifiers
+    (8) SequenceOfIdentifiers -> . identifier
+    (9) SequenceOfIdentifiers -> . identifier comma SequenceOfIdentifiers
+    (10) SequenceOfIdentifiers -> . AssignmentStatement
+    (11) SequenceOfIdentifiers -> . AssignmentStatement comma SequenceOfIdentifiers
+    (2) AssignmentStatement -> . identifier equal ArithmeticExpression
+
+    identifier      shift and go to state 14
+
+    SequenceOfIdentifiers          shift and go to state 41
+    AssignmentStatement            shift and go to state 15
+
+state 20
+
+    (2) AssignmentStatement -> identifier equal . ArithmeticExpression
+    (12) ArithmeticExpression -> . Number
+    (13) ArithmeticExpression -> . UnaryOperation
+    (14) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis
+    (15) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis plus ArithmeticExpression
+    (16) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis minus ArithmeticExpression
+    (17) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis star ArithmeticExpression
+    (18) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis slash ArithmeticExpression
+    (19) ArithmeticExpression -> . Number plus ArithmeticExpression
+    (20) ArithmeticExpression -> . Number minus ArithmeticExpression
+    (21) ArithmeticExpression -> . Number star ArithmeticExpression
+    (22) ArithmeticExpression -> . Number slash ArithmeticExpression
+    (23) ArithmeticExpression -> . UnaryOperation plus ArithmeticExpression
+    (24) ArithmeticExpression -> . UnaryOperation minus ArithmeticExpression
+    (25) ArithmeticExpression -> . UnaryOperation star ArithmeticExpression
+    (26) ArithmeticExpression -> . UnaryOperation slash ArithmeticExpression
+    (31) Number -> . int_number
+    (32) Number -> . double_number
+    (33) Number -> . identifier
+    (27) UnaryOperation -> . plus_plus identifier
+    (28) UnaryOperation -> . minus_minus identifier
+    (29) UnaryOperation -> . identifier plus_plus
+    (30) UnaryOperation -> . identifier minus_minus
+
+    open_parenthesis shift and go to state 46
+    int_number      shift and go to state 47
+    double_number   shift and go to state 48
+    identifier      shift and go to state 42
+    plus_plus       shift and go to state 32
+    minus_minus     shift and go to state 33
+
+    ArithmeticExpression           shift and go to state 43
+    Number                         shift and go to state 44
+    UnaryOperation                 shift and go to state 45
+
+state 21
+
+    (11) SequenceOfIdentifiers -> AssignmentStatement comma . SequenceOfIdentifiers
+    (8) SequenceOfIdentifiers -> . identifier
+    (9) SequenceOfIdentifiers -> . identifier comma SequenceOfIdentifiers
+    (10) SequenceOfIdentifiers -> . AssignmentStatement
+    (11) SequenceOfIdentifiers -> . AssignmentStatement comma SequenceOfIdentifiers
+    (2) AssignmentStatement -> . identifier equal ArithmeticExpression
+
+    identifier      shift and go to state 14
+
+    AssignmentStatement            shift and go to state 15
+    SequenceOfIdentifiers          shift and go to state 49
+
+state 22
+
+    (2) AssignmentStatement -> identifier . equal ArithmeticExpression
+    (29) UnaryOperation -> identifier . plus_plus
+    (30) UnaryOperation -> identifier . minus_minus
+
+    equal           shift and go to state 20
+    plus_plus       shift and go to state 50
+    minus_minus     shift and go to state 51
+
+
+state 23
+
+    (63) SingleSubroutine -> identifier open_brace Routine . close_brace SingleSubroutine
+
+    close_brace     shift and go to state 52
+
+
+state 24
+
+    (53) Routine -> AssignmentStatement . semicolon Routine
+
+    semicolon       shift and go to state 53
+
+
+state 25
+
+    (54) Routine -> UnaryOperation . semicolon Routine
+
+    semicolon       shift and go to state 54
+
+
+state 26
+
+    (55) Routine -> ifCondition . Routine
+    (53) Routine -> . AssignmentStatement semicolon Routine
+    (54) Routine -> . UnaryOperation semicolon Routine
+    (55) Routine -> . ifCondition Routine
+    (56) Routine -> . whileLoop Routine
+    (57) Routine -> . doWhileLoop Routine
+    (58) Routine -> . forLoop Routine
+    (59) Routine -> . call identifier Routine
+    (60) Routine -> . InOut Routine
+    (61) Routine -> .
+    (2) AssignmentStatement -> . identifier equal ArithmeticExpression
+    (27) UnaryOperation -> . plus_plus identifier
+    (28) UnaryOperation -> . minus_minus identifier
+    (29) UnaryOperation -> . identifier plus_plus
+    (30) UnaryOperation -> . identifier minus_minus
+    (41) ifCondition -> . if open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition
+    (46) whileLoop -> . while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace
+    (47) doWhileLoop -> . do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon
+    (48) forLoop -> . for open_parenthesis SequenceOfIdentifiers semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace
+    (65) InOut -> . cin in identifier RecursiveIn semicolon
+    (66) InOut -> . cout out identifier RecursiveOut semicolon
+
+    call            shift and go to state 30
+    close_brace     reduce using rule 61 (Routine -> .)
+    identifier      shift and go to state 22
+    plus_plus       shift and go to state 32
+    minus_minus     shift and go to state 33
+    if              shift and go to state 34
+    while           shift and go to state 35
+    do              shift and go to state 36
+    for             shift and go to state 37
+    cin             shift and go to state 38
+    cout            shift and go to state 39
+
+    ifCondition                    shift and go to state 26
+    Routine                        shift and go to state 55
+    AssignmentStatement            shift and go to state 24
+    UnaryOperation                 shift and go to state 25
+    whileLoop                      shift and go to state 27
+    doWhileLoop                    shift and go to state 28
+    forLoop                        shift and go to state 29
+    InOut                          shift and go to state 31
+
+state 27
+
+    (56) Routine -> whileLoop . Routine
+    (53) Routine -> . AssignmentStatement semicolon Routine
+    (54) Routine -> . UnaryOperation semicolon Routine
+    (55) Routine -> . ifCondition Routine
+    (56) Routine -> . whileLoop Routine
+    (57) Routine -> . doWhileLoop Routine
+    (58) Routine -> . forLoop Routine
+    (59) Routine -> . call identifier Routine
+    (60) Routine -> . InOut Routine
+    (61) Routine -> .
+    (2) AssignmentStatement -> . identifier equal ArithmeticExpression
+    (27) UnaryOperation -> . plus_plus identifier
+    (28) UnaryOperation -> . minus_minus identifier
+    (29) UnaryOperation -> . identifier plus_plus
+    (30) UnaryOperation -> . identifier minus_minus
+    (41) ifCondition -> . if open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition
+    (46) whileLoop -> . while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace
+    (47) doWhileLoop -> . do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon
+    (48) forLoop -> . for open_parenthesis SequenceOfIdentifiers semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace
+    (65) InOut -> . cin in identifier RecursiveIn semicolon
+    (66) InOut -> . cout out identifier RecursiveOut semicolon
+
+    call            shift and go to state 30
+    close_brace     reduce using rule 61 (Routine -> .)
+    identifier      shift and go to state 22
+    plus_plus       shift and go to state 32
+    minus_minus     shift and go to state 33
+    if              shift and go to state 34
+    while           shift and go to state 35
+    do              shift and go to state 36
+    for             shift and go to state 37
+    cin             shift and go to state 38
+    cout            shift and go to state 39
+
+    whileLoop                      shift and go to state 27
+    Routine                        shift and go to state 56
+    AssignmentStatement            shift and go to state 24
+    UnaryOperation                 shift and go to state 25
+    ifCondition                    shift and go to state 26
+    doWhileLoop                    shift and go to state 28
+    forLoop                        shift and go to state 29
+    InOut                          shift and go to state 31
+
+state 28
+
+    (57) Routine -> doWhileLoop . Routine
+    (53) Routine -> . AssignmentStatement semicolon Routine
+    (54) Routine -> . UnaryOperation semicolon Routine
+    (55) Routine -> . ifCondition Routine
+    (56) Routine -> . whileLoop Routine
+    (57) Routine -> . doWhileLoop Routine
+    (58) Routine -> . forLoop Routine
+    (59) Routine -> . call identifier Routine
+    (60) Routine -> . InOut Routine
+    (61) Routine -> .
+    (2) AssignmentStatement -> . identifier equal ArithmeticExpression
+    (27) UnaryOperation -> . plus_plus identifier
+    (28) UnaryOperation -> . minus_minus identifier
+    (29) UnaryOperation -> . identifier plus_plus
+    (30) UnaryOperation -> . identifier minus_minus
+    (41) ifCondition -> . if open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition
+    (46) whileLoop -> . while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace
+    (47) doWhileLoop -> . do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon
+    (48) forLoop -> . for open_parenthesis SequenceOfIdentifiers semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace
+    (65) InOut -> . cin in identifier RecursiveIn semicolon
+    (66) InOut -> . cout out identifier RecursiveOut semicolon
+
+    call            shift and go to state 30
+    close_brace     reduce using rule 61 (Routine -> .)
+    identifier      shift and go to state 22
+    plus_plus       shift and go to state 32
+    minus_minus     shift and go to state 33
+    if              shift and go to state 34
+    while           shift and go to state 35
+    do              shift and go to state 36
+    for             shift and go to state 37
+    cin             shift and go to state 38
+    cout            shift and go to state 39
+
+    doWhileLoop                    shift and go to state 28
+    Routine                        shift and go to state 57
+    AssignmentStatement            shift and go to state 24
+    UnaryOperation                 shift and go to state 25
+    ifCondition                    shift and go to state 26
+    whileLoop                      shift and go to state 27
+    forLoop                        shift and go to state 29
+    InOut                          shift and go to state 31
+
+state 29
+
+    (58) Routine -> forLoop . Routine
+    (53) Routine -> . AssignmentStatement semicolon Routine
+    (54) Routine -> . UnaryOperation semicolon Routine
+    (55) Routine -> . ifCondition Routine
+    (56) Routine -> . whileLoop Routine
+    (57) Routine -> . doWhileLoop Routine
+    (58) Routine -> . forLoop Routine
+    (59) Routine -> . call identifier Routine
+    (60) Routine -> . InOut Routine
+    (61) Routine -> .
+    (2) AssignmentStatement -> . identifier equal ArithmeticExpression
+    (27) UnaryOperation -> . plus_plus identifier
+    (28) UnaryOperation -> . minus_minus identifier
+    (29) UnaryOperation -> . identifier plus_plus
+    (30) UnaryOperation -> . identifier minus_minus
+    (41) ifCondition -> . if open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition
+    (46) whileLoop -> . while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace
+    (47) doWhileLoop -> . do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon
+    (48) forLoop -> . for open_parenthesis SequenceOfIdentifiers semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace
+    (65) InOut -> . cin in identifier RecursiveIn semicolon
+    (66) InOut -> . cout out identifier RecursiveOut semicolon
+
+    call            shift and go to state 30
+    close_brace     reduce using rule 61 (Routine -> .)
+    identifier      shift and go to state 22
+    plus_plus       shift and go to state 32
+    minus_minus     shift and go to state 33
+    if              shift and go to state 34
+    while           shift and go to state 35
+    do              shift and go to state 36
+    for             shift and go to state 37
+    cin             shift and go to state 38
+    cout            shift and go to state 39
+
+    forLoop                        shift and go to state 29
+    Routine                        shift and go to state 58
+    AssignmentStatement            shift and go to state 24
+    UnaryOperation                 shift and go to state 25
+    ifCondition                    shift and go to state 26
+    whileLoop                      shift and go to state 27
+    doWhileLoop                    shift and go to state 28
+    InOut                          shift and go to state 31
+
+state 30
+
+    (59) Routine -> call . identifier Routine
+
+    identifier      shift and go to state 59
+
+
+state 31
+
+    (60) Routine -> InOut . Routine
+    (53) Routine -> . AssignmentStatement semicolon Routine
+    (54) Routine -> . UnaryOperation semicolon Routine
+    (55) Routine -> . ifCondition Routine
+    (56) Routine -> . whileLoop Routine
+    (57) Routine -> . doWhileLoop Routine
+    (58) Routine -> . forLoop Routine
+    (59) Routine -> . call identifier Routine
+    (60) Routine -> . InOut Routine
+    (61) Routine -> .
+    (2) AssignmentStatement -> . identifier equal ArithmeticExpression
+    (27) UnaryOperation -> . plus_plus identifier
+    (28) UnaryOperation -> . minus_minus identifier
+    (29) UnaryOperation -> . identifier plus_plus
+    (30) UnaryOperation -> . identifier minus_minus
+    (41) ifCondition -> . if open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition
+    (46) whileLoop -> . while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace
+    (47) doWhileLoop -> . do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon
+    (48) forLoop -> . for open_parenthesis SequenceOfIdentifiers semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace
+    (65) InOut -> . cin in identifier RecursiveIn semicolon
+    (66) InOut -> . cout out identifier RecursiveOut semicolon
+
+    call            shift and go to state 30
+    close_brace     reduce using rule 61 (Routine -> .)
+    identifier      shift and go to state 22
+    plus_plus       shift and go to state 32
+    minus_minus     shift and go to state 33
+    if              shift and go to state 34
+    while           shift and go to state 35
+    do              shift and go to state 36
+    for             shift and go to state 37
+    cin             shift and go to state 38
+    cout            shift and go to state 39
+
+    InOut                          shift and go to state 31
+    Routine                        shift and go to state 60
+    AssignmentStatement            shift and go to state 24
+    UnaryOperation                 shift and go to state 25
+    ifCondition                    shift and go to state 26
+    whileLoop                      shift and go to state 27
+    doWhileLoop                    shift and go to state 28
+    forLoop                        shift and go to state 29
+
+state 32
+
+    (27) UnaryOperation -> plus_plus . identifier
+
+    identifier      shift and go to state 61
+
+
+state 33
+
+    (28) UnaryOperation -> minus_minus . identifier
+
+    identifier      shift and go to state 62
+
+
+state 34
+
+    (41) ifCondition -> if . open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition
+
+    open_parenthesis shift and go to state 63
+
+
+state 35
+
+    (46) whileLoop -> while . open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace
+
+    open_parenthesis shift and go to state 64
+
+
+state 36
+
+    (47) doWhileLoop -> do . open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon
+
+    open_brace      shift and go to state 65
+
+
+state 37
+
+    (48) forLoop -> for . open_parenthesis SequenceOfIdentifiers semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace
+
+    open_parenthesis shift and go to state 66
+
+
+state 38
+
+    (65) InOut -> cin . in identifier RecursiveIn semicolon
+
+    in              shift and go to state 67
+
+
+state 39
+
+    (66) InOut -> cout . out identifier RecursiveOut semicolon
+
+    out             shift and go to state 68
+
+
+state 40
+
+    (4) SingleTypeVariableDeclaration -> SimpleTypes SequenceOfIdentifiers semicolon SingleTypeVariableDeclaration .
+
+    End_Variables_Declaration reduce using rule 4 (SingleTypeVariableDeclaration -> SimpleTypes SequenceOfIdentifiers semicolon SingleTypeVariableDeclaration .)
+
+
+state 41
+
+    (9) SequenceOfIdentifiers -> identifier comma SequenceOfIdentifiers .
+
+    semicolon       reduce using rule 9 (SequenceOfIdentifiers -> identifier comma SequenceOfIdentifiers .)
+
+
+state 42
+
+    (33) Number -> identifier .
+    (29) UnaryOperation -> identifier . plus_plus
+    (30) UnaryOperation -> identifier . minus_minus
+
+    plus            reduce using rule 33 (Number -> identifier .)
+    minus           reduce using rule 33 (Number -> identifier .)
+    star            reduce using rule 33 (Number -> identifier .)
+    slash           reduce using rule 33 (Number -> identifier .)
+    comma           reduce using rule 33 (Number -> identifier .)
+    semicolon       reduce using rule 33 (Number -> identifier .)
+    close_parenthesis reduce using rule 33 (Number -> identifier .)
+    is_equal        reduce using rule 33 (Number -> identifier .)
+    not_equal       reduce using rule 33 (Number -> identifier .)
+    less_or_equal   reduce using rule 33 (Number -> identifier .)
+    greater_or_equal reduce using rule 33 (Number -> identifier .)
+    less_than       reduce using rule 33 (Number -> identifier .)
+    greater_than    reduce using rule 33 (Number -> identifier .)
+    plus_plus       shift and go to state 50
+    minus_minus     shift and go to state 51
+
+
+state 43
+
+    (2) AssignmentStatement -> identifier equal ArithmeticExpression .
+
+    comma           reduce using rule 2 (AssignmentStatement -> identifier equal ArithmeticExpression .)
+    semicolon       reduce using rule 2 (AssignmentStatement -> identifier equal ArithmeticExpression .)
+    close_parenthesis reduce using rule 2 (AssignmentStatement -> identifier equal ArithmeticExpression .)
+
+
+state 44
+
+    (12) ArithmeticExpression -> Number .
+    (19) ArithmeticExpression -> Number . plus ArithmeticExpression
+    (20) ArithmeticExpression -> Number . minus ArithmeticExpression
+    (21) ArithmeticExpression -> Number . star ArithmeticExpression
+    (22) ArithmeticExpression -> Number . slash ArithmeticExpression
+
+    comma           reduce using rule 12 (ArithmeticExpression -> Number .)
+    semicolon       reduce using rule 12 (ArithmeticExpression -> Number .)
+    close_parenthesis reduce using rule 12 (ArithmeticExpression -> Number .)
+    is_equal        reduce using rule 12 (ArithmeticExpression -> Number .)
+    not_equal       reduce using rule 12 (ArithmeticExpression -> Number .)
+    less_or_equal   reduce using rule 12 (ArithmeticExpression -> Number .)
+    greater_or_equal reduce using rule 12 (ArithmeticExpression -> Number .)
+    less_than       reduce using rule 12 (ArithmeticExpression -> Number .)
+    greater_than    reduce using rule 12 (ArithmeticExpression -> Number .)
+    plus            shift and go to state 69
+    minus           shift and go to state 70
+    star            shift and go to state 71
+    slash           shift and go to state 72
+
+
+state 45
+
+    (13) ArithmeticExpression -> UnaryOperation .
+    (23) ArithmeticExpression -> UnaryOperation . plus ArithmeticExpression
+    (24) ArithmeticExpression -> UnaryOperation . minus ArithmeticExpression
+    (25) ArithmeticExpression -> UnaryOperation . star ArithmeticExpression
+    (26) ArithmeticExpression -> UnaryOperation . slash ArithmeticExpression
+
+    comma           reduce using rule 13 (ArithmeticExpression -> UnaryOperation .)
+    semicolon       reduce using rule 13 (ArithmeticExpression -> UnaryOperation .)
+    close_parenthesis reduce using rule 13 (ArithmeticExpression -> UnaryOperation .)
+    is_equal        reduce using rule 13 (ArithmeticExpression -> UnaryOperation .)
+    not_equal       reduce using rule 13 (ArithmeticExpression -> UnaryOperation .)
+    less_or_equal   reduce using rule 13 (ArithmeticExpression -> UnaryOperation .)
+    greater_or_equal reduce using rule 13 (ArithmeticExpression -> UnaryOperation .)
+    less_than       reduce using rule 13 (ArithmeticExpression -> UnaryOperation .)
+    greater_than    reduce using rule 13 (ArithmeticExpression -> UnaryOperation .)
+    plus            shift and go to state 73
+    minus           shift and go to state 74
+    star            shift and go to state 75
+    slash           shift and go to state 76
+
+
+state 46
+
+    (14) ArithmeticExpression -> open_parenthesis . ArithmeticExpression close_parenthesis
+    (15) ArithmeticExpression -> open_parenthesis . ArithmeticExpression close_parenthesis plus ArithmeticExpression
+    (16) ArithmeticExpression -> open_parenthesis . ArithmeticExpression close_parenthesis minus ArithmeticExpression
+    (17) ArithmeticExpression -> open_parenthesis . ArithmeticExpression close_parenthesis star ArithmeticExpression
+    (18) ArithmeticExpression -> open_parenthesis . ArithmeticExpression close_parenthesis slash ArithmeticExpression
+    (12) ArithmeticExpression -> . Number
+    (13) ArithmeticExpression -> . UnaryOperation
+    (14) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis
+    (15) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis plus ArithmeticExpression
+    (16) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis minus ArithmeticExpression
+    (17) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis star ArithmeticExpression
+    (18) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis slash ArithmeticExpression
+    (19) ArithmeticExpression -> . Number plus ArithmeticExpression
+    (20) ArithmeticExpression -> . Number minus ArithmeticExpression
+    (21) ArithmeticExpression -> . Number star ArithmeticExpression
+    (22) ArithmeticExpression -> . Number slash ArithmeticExpression
+    (23) ArithmeticExpression -> . UnaryOperation plus ArithmeticExpression
+    (24) ArithmeticExpression -> . UnaryOperation minus ArithmeticExpression
+    (25) ArithmeticExpression -> . UnaryOperation star ArithmeticExpression
+    (26) ArithmeticExpression -> . UnaryOperation slash ArithmeticExpression
+    (31) Number -> . int_number
+    (32) Number -> . double_number
+    (33) Number -> . identifier
+    (27) UnaryOperation -> . plus_plus identifier
+    (28) UnaryOperation -> . minus_minus identifier
+    (29) UnaryOperation -> . identifier plus_plus
+    (30) UnaryOperation -> . identifier minus_minus
+
+    open_parenthesis shift and go to state 46
+    int_number      shift and go to state 47
+    double_number   shift and go to state 48
+    identifier      shift and go to state 42
+    plus_plus       shift and go to state 32
+    minus_minus     shift and go to state 33
+
+    ArithmeticExpression           shift and go to state 77
+    Number                         shift and go to state 44
+    UnaryOperation                 shift and go to state 45
+
+state 47
+
+    (31) Number -> int_number .
+
+    plus            reduce using rule 31 (Number -> int_number .)
+    minus           reduce using rule 31 (Number -> int_number .)
+    star            reduce using rule 31 (Number -> int_number .)
+    slash           reduce using rule 31 (Number -> int_number .)
+    comma           reduce using rule 31 (Number -> int_number .)
+    semicolon       reduce using rule 31 (Number -> int_number .)
+    close_parenthesis reduce using rule 31 (Number -> int_number .)
+    is_equal        reduce using rule 31 (Number -> int_number .)
+    not_equal       reduce using rule 31 (Number -> int_number .)
+    less_or_equal   reduce using rule 31 (Number -> int_number .)
+    greater_or_equal reduce using rule 31 (Number -> int_number .)
+    less_than       reduce using rule 31 (Number -> int_number .)
+    greater_than    reduce using rule 31 (Number -> int_number .)
+
+
+state 48
+
+    (32) Number -> double_number .
+
+    plus            reduce using rule 32 (Number -> double_number .)
+    minus           reduce using rule 32 (Number -> double_number .)
+    star            reduce using rule 32 (Number -> double_number .)
+    slash           reduce using rule 32 (Number -> double_number .)
+    comma           reduce using rule 32 (Number -> double_number .)
+    semicolon       reduce using rule 32 (Number -> double_number .)
+    close_parenthesis reduce using rule 32 (Number -> double_number .)
+    is_equal        reduce using rule 32 (Number -> double_number .)
+    not_equal       reduce using rule 32 (Number -> double_number .)
+    less_or_equal   reduce using rule 32 (Number -> double_number .)
+    greater_or_equal reduce using rule 32 (Number -> double_number .)
+    less_than       reduce using rule 32 (Number -> double_number .)
+    greater_than    reduce using rule 32 (Number -> double_number .)
+
+
+state 49
+
+    (11) SequenceOfIdentifiers -> AssignmentStatement comma SequenceOfIdentifiers .
+
+    semicolon       reduce using rule 11 (SequenceOfIdentifiers -> AssignmentStatement comma SequenceOfIdentifiers .)
+
+
+state 50
+
+    (29) UnaryOperation -> identifier plus_plus .
+
+    semicolon       reduce using rule 29 (UnaryOperation -> identifier plus_plus .)
+    plus            reduce using rule 29 (UnaryOperation -> identifier plus_plus .)
+    minus           reduce using rule 29 (UnaryOperation -> identifier plus_plus .)
+    star            reduce using rule 29 (UnaryOperation -> identifier plus_plus .)
+    slash           reduce using rule 29 (UnaryOperation -> identifier plus_plus .)
+    comma           reduce using rule 29 (UnaryOperation -> identifier plus_plus .)
+    close_parenthesis reduce using rule 29 (UnaryOperation -> identifier plus_plus .)
+    is_equal        reduce using rule 29 (UnaryOperation -> identifier plus_plus .)
+    not_equal       reduce using rule 29 (UnaryOperation -> identifier plus_plus .)
+    less_or_equal   reduce using rule 29 (UnaryOperation -> identifier plus_plus .)
+    greater_or_equal reduce using rule 29 (UnaryOperation -> identifier plus_plus .)
+    less_than       reduce using rule 29 (UnaryOperation -> identifier plus_plus .)
+    greater_than    reduce using rule 29 (UnaryOperation -> identifier plus_plus .)
+
+
+state 51
+
+    (30) UnaryOperation -> identifier minus_minus .
+
+    semicolon       reduce using rule 30 (UnaryOperation -> identifier minus_minus .)
+    plus            reduce using rule 30 (UnaryOperation -> identifier minus_minus .)
+    minus           reduce using rule 30 (UnaryOperation -> identifier minus_minus .)
+    star            reduce using rule 30 (UnaryOperation -> identifier minus_minus .)
+    slash           reduce using rule 30 (UnaryOperation -> identifier minus_minus .)
+    comma           reduce using rule 30 (UnaryOperation -> identifier minus_minus .)
+    close_parenthesis reduce using rule 30 (UnaryOperation -> identifier minus_minus .)
+    is_equal        reduce using rule 30 (UnaryOperation -> identifier minus_minus .)
+    not_equal       reduce using rule 30 (UnaryOperation -> identifier minus_minus .)
+    less_or_equal   reduce using rule 30 (UnaryOperation -> identifier minus_minus .)
+    greater_or_equal reduce using rule 30 (UnaryOperation -> identifier minus_minus .)
+    less_than       reduce using rule 30 (UnaryOperation -> identifier minus_minus .)
+    greater_than    reduce using rule 30 (UnaryOperation -> identifier minus_minus .)
+
+
+state 52
+
+    (63) SingleSubroutine -> identifier open_brace Routine close_brace . SingleSubroutine
+    (63) SingleSubroutine -> . identifier open_brace Routine close_brace SingleSubroutine
+    (64) SingleSubroutine -> .
+
+    identifier      shift and go to state 11
+    End_Subroutines_Declaration reduce using rule 64 (SingleSubroutine -> .)
+
+    SingleSubroutine               shift and go to state 78
+
+state 53
+
+    (53) Routine -> AssignmentStatement semicolon . Routine
+    (53) Routine -> . AssignmentStatement semicolon Routine
+    (54) Routine -> . UnaryOperation semicolon Routine
+    (55) Routine -> . ifCondition Routine
+    (56) Routine -> . whileLoop Routine
+    (57) Routine -> . doWhileLoop Routine
+    (58) Routine -> . forLoop Routine
+    (59) Routine -> . call identifier Routine
+    (60) Routine -> . InOut Routine
+    (61) Routine -> .
+    (2) AssignmentStatement -> . identifier equal ArithmeticExpression
+    (27) UnaryOperation -> . plus_plus identifier
+    (28) UnaryOperation -> . minus_minus identifier
+    (29) UnaryOperation -> . identifier plus_plus
+    (30) UnaryOperation -> . identifier minus_minus
+    (41) ifCondition -> . if open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition
+    (46) whileLoop -> . while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace
+    (47) doWhileLoop -> . do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon
+    (48) forLoop -> . for open_parenthesis SequenceOfIdentifiers semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace
+    (65) InOut -> . cin in identifier RecursiveIn semicolon
+    (66) InOut -> . cout out identifier RecursiveOut semicolon
+
+    call            shift and go to state 30
+    close_brace     reduce using rule 61 (Routine -> .)
+    identifier      shift and go to state 22
+    plus_plus       shift and go to state 32
+    minus_minus     shift and go to state 33
+    if              shift and go to state 34
+    while           shift and go to state 35
+    do              shift and go to state 36
+    for             shift and go to state 37
+    cin             shift and go to state 38
+    cout            shift and go to state 39
+
+    AssignmentStatement            shift and go to state 24
+    Routine                        shift and go to state 79
+    UnaryOperation                 shift and go to state 25
+    ifCondition                    shift and go to state 26
+    whileLoop                      shift and go to state 27
+    doWhileLoop                    shift and go to state 28
+    forLoop                        shift and go to state 29
+    InOut                          shift and go to state 31
+
+state 54
+
+    (54) Routine -> UnaryOperation semicolon . Routine
+    (53) Routine -> . AssignmentStatement semicolon Routine
+    (54) Routine -> . UnaryOperation semicolon Routine
+    (55) Routine -> . ifCondition Routine
+    (56) Routine -> . whileLoop Routine
+    (57) Routine -> . doWhileLoop Routine
+    (58) Routine -> . forLoop Routine
+    (59) Routine -> . call identifier Routine
+    (60) Routine -> . InOut Routine
+    (61) Routine -> .
+    (2) AssignmentStatement -> . identifier equal ArithmeticExpression
+    (27) UnaryOperation -> . plus_plus identifier
+    (28) UnaryOperation -> . minus_minus identifier
+    (29) UnaryOperation -> . identifier plus_plus
+    (30) UnaryOperation -> . identifier minus_minus
+    (41) ifCondition -> . if open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition
+    (46) whileLoop -> . while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace
+    (47) doWhileLoop -> . do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon
+    (48) forLoop -> . for open_parenthesis SequenceOfIdentifiers semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace
+    (65) InOut -> . cin in identifier RecursiveIn semicolon
+    (66) InOut -> . cout out identifier RecursiveOut semicolon
+
+    call            shift and go to state 30
+    close_brace     reduce using rule 61 (Routine -> .)
+    identifier      shift and go to state 22
+    plus_plus       shift and go to state 32
+    minus_minus     shift and go to state 33
+    if              shift and go to state 34
+    while           shift and go to state 35
+    do              shift and go to state 36
+    for             shift and go to state 37
+    cin             shift and go to state 38
+    cout            shift and go to state 39
+
+    UnaryOperation                 shift and go to state 25
+    Routine                        shift and go to state 80
+    AssignmentStatement            shift and go to state 24
+    ifCondition                    shift and go to state 26
+    whileLoop                      shift and go to state 27
+    doWhileLoop                    shift and go to state 28
+    forLoop                        shift and go to state 29
+    InOut                          shift and go to state 31
+
+state 55
+
+    (55) Routine -> ifCondition Routine .
+
+    close_brace     reduce using rule 55 (Routine -> ifCondition Routine .)
+
+
+state 56
+
+    (56) Routine -> whileLoop Routine .
+
+    close_brace     reduce using rule 56 (Routine -> whileLoop Routine .)
+
+
+state 57
+
+    (57) Routine -> doWhileLoop Routine .
+
+    close_brace     reduce using rule 57 (Routine -> doWhileLoop Routine .)
+
+
+state 58
+
+    (58) Routine -> forLoop Routine .
+
+    close_brace     reduce using rule 58 (Routine -> forLoop Routine .)
+
+
+state 59
+
+    (59) Routine -> call identifier . Routine
+    (53) Routine -> . AssignmentStatement semicolon Routine
+    (54) Routine -> . UnaryOperation semicolon Routine
+    (55) Routine -> . ifCondition Routine
+    (56) Routine -> . whileLoop Routine
+    (57) Routine -> . doWhileLoop Routine
+    (58) Routine -> . forLoop Routine
+    (59) Routine -> . call identifier Routine
+    (60) Routine -> . InOut Routine
+    (61) Routine -> .
+    (2) AssignmentStatement -> . identifier equal ArithmeticExpression
+    (27) UnaryOperation -> . plus_plus identifier
+    (28) UnaryOperation -> . minus_minus identifier
+    (29) UnaryOperation -> . identifier plus_plus
+    (30) UnaryOperation -> . identifier minus_minus
+    (41) ifCondition -> . if open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition
+    (46) whileLoop -> . while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace
+    (47) doWhileLoop -> . do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon
+    (48) forLoop -> . for open_parenthesis SequenceOfIdentifiers semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace
+    (65) InOut -> . cin in identifier RecursiveIn semicolon
+    (66) InOut -> . cout out identifier RecursiveOut semicolon
+
+    call            shift and go to state 30
+    close_brace     reduce using rule 61 (Routine -> .)
+    identifier      shift and go to state 22
+    plus_plus       shift and go to state 32
+    minus_minus     shift and go to state 33
+    if              shift and go to state 34
+    while           shift and go to state 35
+    do              shift and go to state 36
+    for             shift and go to state 37
+    cin             shift and go to state 38
+    cout            shift and go to state 39
+
+    Routine                        shift and go to state 81
+    AssignmentStatement            shift and go to state 24
+    UnaryOperation                 shift and go to state 25
+    ifCondition                    shift and go to state 26
+    whileLoop                      shift and go to state 27
+    doWhileLoop                    shift and go to state 28
+    forLoop                        shift and go to state 29
+    InOut                          shift and go to state 31
+
+state 60
+
+    (60) Routine -> InOut Routine .
+
+    close_brace     reduce using rule 60 (Routine -> InOut Routine .)
+
+
+state 61
+
+    (27) UnaryOperation -> plus_plus identifier .
+
+    semicolon       reduce using rule 27 (UnaryOperation -> plus_plus identifier .)
+    plus            reduce using rule 27 (UnaryOperation -> plus_plus identifier .)
+    minus           reduce using rule 27 (UnaryOperation -> plus_plus identifier .)
+    star            reduce using rule 27 (UnaryOperation -> plus_plus identifier .)
+    slash           reduce using rule 27 (UnaryOperation -> plus_plus identifier .)
+    comma           reduce using rule 27 (UnaryOperation -> plus_plus identifier .)
+    close_parenthesis reduce using rule 27 (UnaryOperation -> plus_plus identifier .)
+    is_equal        reduce using rule 27 (UnaryOperation -> plus_plus identifier .)
+    not_equal       reduce using rule 27 (UnaryOperation -> plus_plus identifier .)
+    less_or_equal   reduce using rule 27 (UnaryOperation -> plus_plus identifier .)
+    greater_or_equal reduce using rule 27 (UnaryOperation -> plus_plus identifier .)
+    less_than       reduce using rule 27 (UnaryOperation -> plus_plus identifier .)
+    greater_than    reduce using rule 27 (UnaryOperation -> plus_plus identifier .)
+
+
+state 62
+
+    (28) UnaryOperation -> minus_minus identifier .
+
+    semicolon       reduce using rule 28 (UnaryOperation -> minus_minus identifier .)
+    plus            reduce using rule 28 (UnaryOperation -> minus_minus identifier .)
+    minus           reduce using rule 28 (UnaryOperation -> minus_minus identifier .)
+    star            reduce using rule 28 (UnaryOperation -> minus_minus identifier .)
+    slash           reduce using rule 28 (UnaryOperation -> minus_minus identifier .)
+    comma           reduce using rule 28 (UnaryOperation -> minus_minus identifier .)
+    close_parenthesis reduce using rule 28 (UnaryOperation -> minus_minus identifier .)
+    is_equal        reduce using rule 28 (UnaryOperation -> minus_minus identifier .)
+    not_equal       reduce using rule 28 (UnaryOperation -> minus_minus identifier .)
+    less_or_equal   reduce using rule 28 (UnaryOperation -> minus_minus identifier .)
+    greater_or_equal reduce using rule 28 (UnaryOperation -> minus_minus identifier .)
+    less_than       reduce using rule 28 (UnaryOperation -> minus_minus identifier .)
+    greater_than    reduce using rule 28 (UnaryOperation -> minus_minus identifier .)
+
+
+state 63
+
+    (41) ifCondition -> if open_parenthesis . BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition
+    (34) BooleanExpression -> . ArithmeticExpression LogicOperator ArithmeticExpression
+    (12) ArithmeticExpression -> . Number
+    (13) ArithmeticExpression -> . UnaryOperation
+    (14) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis
+    (15) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis plus ArithmeticExpression
+    (16) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis minus ArithmeticExpression
+    (17) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis star ArithmeticExpression
+    (18) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis slash ArithmeticExpression
+    (19) ArithmeticExpression -> . Number plus ArithmeticExpression
+    (20) ArithmeticExpression -> . Number minus ArithmeticExpression
+    (21) ArithmeticExpression -> . Number star ArithmeticExpression
+    (22) ArithmeticExpression -> . Number slash ArithmeticExpression
+    (23) ArithmeticExpression -> . UnaryOperation plus ArithmeticExpression
+    (24) ArithmeticExpression -> . UnaryOperation minus ArithmeticExpression
+    (25) ArithmeticExpression -> . UnaryOperation star ArithmeticExpression
+    (26) ArithmeticExpression -> . UnaryOperation slash ArithmeticExpression
+    (31) Number -> . int_number
+    (32) Number -> . double_number
+    (33) Number -> . identifier
+    (27) UnaryOperation -> . plus_plus identifier
+    (28) UnaryOperation -> . minus_minus identifier
+    (29) UnaryOperation -> . identifier plus_plus
+    (30) UnaryOperation -> . identifier minus_minus
+
+    open_parenthesis shift and go to state 46
+    int_number      shift and go to state 47
+    double_number   shift and go to state 48
+    identifier      shift and go to state 42
+    plus_plus       shift and go to state 32
+    minus_minus     shift and go to state 33
+
+    BooleanExpression              shift and go to state 82
+    ArithmeticExpression           shift and go to state 83
+    Number                         shift and go to state 44
+    UnaryOperation                 shift and go to state 45
+
+state 64
+
+    (46) whileLoop -> while open_parenthesis . BooleanExpression close_parenthesis open_brace Routine close_brace
+    (34) BooleanExpression -> . ArithmeticExpression LogicOperator ArithmeticExpression
+    (12) ArithmeticExpression -> . Number
+    (13) ArithmeticExpression -> . UnaryOperation
+    (14) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis
+    (15) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis plus ArithmeticExpression
+    (16) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis minus ArithmeticExpression
+    (17) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis star ArithmeticExpression
+    (18) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis slash ArithmeticExpression
+    (19) ArithmeticExpression -> . Number plus ArithmeticExpression
+    (20) ArithmeticExpression -> . Number minus ArithmeticExpression
+    (21) ArithmeticExpression -> . Number star ArithmeticExpression
+    (22) ArithmeticExpression -> . Number slash ArithmeticExpression
+    (23) ArithmeticExpression -> . UnaryOperation plus ArithmeticExpression
+    (24) ArithmeticExpression -> . UnaryOperation minus ArithmeticExpression
+    (25) ArithmeticExpression -> . UnaryOperation star ArithmeticExpression
+    (26) ArithmeticExpression -> . UnaryOperation slash ArithmeticExpression
+    (31) Number -> . int_number
+    (32) Number -> . double_number
+    (33) Number -> . identifier
+    (27) UnaryOperation -> . plus_plus identifier
+    (28) UnaryOperation -> . minus_minus identifier
+    (29) UnaryOperation -> . identifier plus_plus
+    (30) UnaryOperation -> . identifier minus_minus
+
+    open_parenthesis shift and go to state 46
+    int_number      shift and go to state 47
+    double_number   shift and go to state 48
+    identifier      shift and go to state 42
+    plus_plus       shift and go to state 32
+    minus_minus     shift and go to state 33
+
+    BooleanExpression              shift and go to state 84
+    ArithmeticExpression           shift and go to state 83
+    Number                         shift and go to state 44
+    UnaryOperation                 shift and go to state 45
+
+state 65
+
+    (47) doWhileLoop -> do open_brace . Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon
+    (53) Routine -> . AssignmentStatement semicolon Routine
+    (54) Routine -> . UnaryOperation semicolon Routine
+    (55) Routine -> . ifCondition Routine
+    (56) Routine -> . whileLoop Routine
+    (57) Routine -> . doWhileLoop Routine
+    (58) Routine -> . forLoop Routine
+    (59) Routine -> . call identifier Routine
+    (60) Routine -> . InOut Routine
+    (61) Routine -> .
+    (2) AssignmentStatement -> . identifier equal ArithmeticExpression
+    (27) UnaryOperation -> . plus_plus identifier
+    (28) UnaryOperation -> . minus_minus identifier
+    (29) UnaryOperation -> . identifier plus_plus
+    (30) UnaryOperation -> . identifier minus_minus
+    (41) ifCondition -> . if open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition
+    (46) whileLoop -> . while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace
+    (47) doWhileLoop -> . do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon
+    (48) forLoop -> . for open_parenthesis SequenceOfIdentifiers semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace
+    (65) InOut -> . cin in identifier RecursiveIn semicolon
+    (66) InOut -> . cout out identifier RecursiveOut semicolon
+
+    call            shift and go to state 30
+    close_brace     reduce using rule 61 (Routine -> .)
+    identifier      shift and go to state 22
+    plus_plus       shift and go to state 32
+    minus_minus     shift and go to state 33
+    if              shift and go to state 34
+    while           shift and go to state 35
+    do              shift and go to state 36
+    for             shift and go to state 37
+    cin             shift and go to state 38
+    cout            shift and go to state 39
+
+    Routine                        shift and go to state 85
+    AssignmentStatement            shift and go to state 24
+    UnaryOperation                 shift and go to state 25
+    ifCondition                    shift and go to state 26
+    whileLoop                      shift and go to state 27
+    doWhileLoop                    shift and go to state 28
+    forLoop                        shift and go to state 29
+    InOut                          shift and go to state 31
+
+state 66
+
+    (48) forLoop -> for open_parenthesis . SequenceOfIdentifiers semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace
+    (8) SequenceOfIdentifiers -> . identifier
+    (9) SequenceOfIdentifiers -> . identifier comma SequenceOfIdentifiers
+    (10) SequenceOfIdentifiers -> . AssignmentStatement
+    (11) SequenceOfIdentifiers -> . AssignmentStatement comma SequenceOfIdentifiers
+    (2) AssignmentStatement -> . identifier equal ArithmeticExpression
+
+    identifier      shift and go to state 14
+
+    SequenceOfIdentifiers          shift and go to state 86
+    AssignmentStatement            shift and go to state 15
+
+state 67
+
+    (65) InOut -> cin in . identifier RecursiveIn semicolon
+
+    identifier      shift and go to state 87
+
+
+state 68
+
+    (66) InOut -> cout out . identifier RecursiveOut semicolon
+
+    identifier      shift and go to state 88
+
+
+state 69
+
+    (19) ArithmeticExpression -> Number plus . ArithmeticExpression
+    (12) ArithmeticExpression -> . Number
+    (13) ArithmeticExpression -> . UnaryOperation
+    (14) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis
+    (15) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis plus ArithmeticExpression
+    (16) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis minus ArithmeticExpression
+    (17) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis star ArithmeticExpression
+    (18) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis slash ArithmeticExpression
+    (19) ArithmeticExpression -> . Number plus ArithmeticExpression
+    (20) ArithmeticExpression -> . Number minus ArithmeticExpression
+    (21) ArithmeticExpression -> . Number star ArithmeticExpression
+    (22) ArithmeticExpression -> . Number slash ArithmeticExpression
+    (23) ArithmeticExpression -> . UnaryOperation plus ArithmeticExpression
+    (24) ArithmeticExpression -> . UnaryOperation minus ArithmeticExpression
+    (25) ArithmeticExpression -> . UnaryOperation star ArithmeticExpression
+    (26) ArithmeticExpression -> . UnaryOperation slash ArithmeticExpression
+    (31) Number -> . int_number
+    (32) Number -> . double_number
+    (33) Number -> . identifier
+    (27) UnaryOperation -> . plus_plus identifier
+    (28) UnaryOperation -> . minus_minus identifier
+    (29) UnaryOperation -> . identifier plus_plus
+    (30) UnaryOperation -> . identifier minus_minus
+
+    open_parenthesis shift and go to state 46
+    int_number      shift and go to state 47
+    double_number   shift and go to state 48
+    identifier      shift and go to state 42
+    plus_plus       shift and go to state 32
+    minus_minus     shift and go to state 33
+
+    Number                         shift and go to state 44
+    ArithmeticExpression           shift and go to state 89
+    UnaryOperation                 shift and go to state 45
+
+state 70
+
+    (20) ArithmeticExpression -> Number minus . ArithmeticExpression
+    (12) ArithmeticExpression -> . Number
+    (13) ArithmeticExpression -> . UnaryOperation
+    (14) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis
+    (15) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis plus ArithmeticExpression
+    (16) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis minus ArithmeticExpression
+    (17) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis star ArithmeticExpression
+    (18) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis slash ArithmeticExpression
+    (19) ArithmeticExpression -> . Number plus ArithmeticExpression
+    (20) ArithmeticExpression -> . Number minus ArithmeticExpression
+    (21) ArithmeticExpression -> . Number star ArithmeticExpression
+    (22) ArithmeticExpression -> . Number slash ArithmeticExpression
+    (23) ArithmeticExpression -> . UnaryOperation plus ArithmeticExpression
+    (24) ArithmeticExpression -> . UnaryOperation minus ArithmeticExpression
+    (25) ArithmeticExpression -> . UnaryOperation star ArithmeticExpression
+    (26) ArithmeticExpression -> . UnaryOperation slash ArithmeticExpression
+    (31) Number -> . int_number
+    (32) Number -> . double_number
+    (33) Number -> . identifier
+    (27) UnaryOperation -> . plus_plus identifier
+    (28) UnaryOperation -> . minus_minus identifier
+    (29) UnaryOperation -> . identifier plus_plus
+    (30) UnaryOperation -> . identifier minus_minus
+
+    open_parenthesis shift and go to state 46
+    int_number      shift and go to state 47
+    double_number   shift and go to state 48
+    identifier      shift and go to state 42
+    plus_plus       shift and go to state 32
+    minus_minus     shift and go to state 33
+
+    Number                         shift and go to state 44
+    ArithmeticExpression           shift and go to state 90
+    UnaryOperation                 shift and go to state 45
+
+state 71
+
+    (21) ArithmeticExpression -> Number star . ArithmeticExpression
+    (12) ArithmeticExpression -> . Number
+    (13) ArithmeticExpression -> . UnaryOperation
+    (14) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis
+    (15) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis plus ArithmeticExpression
+    (16) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis minus ArithmeticExpression
+    (17) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis star ArithmeticExpression
+    (18) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis slash ArithmeticExpression
+    (19) ArithmeticExpression -> . Number plus ArithmeticExpression
+    (20) ArithmeticExpression -> . Number minus ArithmeticExpression
+    (21) ArithmeticExpression -> . Number star ArithmeticExpression
+    (22) ArithmeticExpression -> . Number slash ArithmeticExpression
+    (23) ArithmeticExpression -> . UnaryOperation plus ArithmeticExpression
+    (24) ArithmeticExpression -> . UnaryOperation minus ArithmeticExpression
+    (25) ArithmeticExpression -> . UnaryOperation star ArithmeticExpression
+    (26) ArithmeticExpression -> . UnaryOperation slash ArithmeticExpression
+    (31) Number -> . int_number
+    (32) Number -> . double_number
+    (33) Number -> . identifier
+    (27) UnaryOperation -> . plus_plus identifier
+    (28) UnaryOperation -> . minus_minus identifier
+    (29) UnaryOperation -> . identifier plus_plus
+    (30) UnaryOperation -> . identifier minus_minus
+
+    open_parenthesis shift and go to state 46
+    int_number      shift and go to state 47
+    double_number   shift and go to state 48
+    identifier      shift and go to state 42
+    plus_plus       shift and go to state 32
+    minus_minus     shift and go to state 33
+
+    Number                         shift and go to state 44
+    ArithmeticExpression           shift and go to state 91
+    UnaryOperation                 shift and go to state 45
+
+state 72
+
+    (22) ArithmeticExpression -> Number slash . ArithmeticExpression
+    (12) ArithmeticExpression -> . Number
+    (13) ArithmeticExpression -> . UnaryOperation
+    (14) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis
+    (15) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis plus ArithmeticExpression
+    (16) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis minus ArithmeticExpression
+    (17) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis star ArithmeticExpression
+    (18) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis slash ArithmeticExpression
+    (19) ArithmeticExpression -> . Number plus ArithmeticExpression
+    (20) ArithmeticExpression -> . Number minus ArithmeticExpression
+    (21) ArithmeticExpression -> . Number star ArithmeticExpression
+    (22) ArithmeticExpression -> . Number slash ArithmeticExpression
+    (23) ArithmeticExpression -> . UnaryOperation plus ArithmeticExpression
+    (24) ArithmeticExpression -> . UnaryOperation minus ArithmeticExpression
+    (25) ArithmeticExpression -> . UnaryOperation star ArithmeticExpression
+    (26) ArithmeticExpression -> . UnaryOperation slash ArithmeticExpression
+    (31) Number -> . int_number
+    (32) Number -> . double_number
+    (33) Number -> . identifier
+    (27) UnaryOperation -> . plus_plus identifier
+    (28) UnaryOperation -> . minus_minus identifier
+    (29) UnaryOperation -> . identifier plus_plus
+    (30) UnaryOperation -> . identifier minus_minus
+
+    open_parenthesis shift and go to state 46
+    int_number      shift and go to state 47
+    double_number   shift and go to state 48
+    identifier      shift and go to state 42
+    plus_plus       shift and go to state 32
+    minus_minus     shift and go to state 33
+
+    Number                         shift and go to state 44
+    ArithmeticExpression           shift and go to state 92
+    UnaryOperation                 shift and go to state 45
+
+state 73
+
+    (23) ArithmeticExpression -> UnaryOperation plus . ArithmeticExpression
+    (12) ArithmeticExpression -> . Number
+    (13) ArithmeticExpression -> . UnaryOperation
+    (14) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis
+    (15) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis plus ArithmeticExpression
+    (16) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis minus ArithmeticExpression
+    (17) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis star ArithmeticExpression
+    (18) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis slash ArithmeticExpression
+    (19) ArithmeticExpression -> . Number plus ArithmeticExpression
+    (20) ArithmeticExpression -> . Number minus ArithmeticExpression
+    (21) ArithmeticExpression -> . Number star ArithmeticExpression
+    (22) ArithmeticExpression -> . Number slash ArithmeticExpression
+    (23) ArithmeticExpression -> . UnaryOperation plus ArithmeticExpression
+    (24) ArithmeticExpression -> . UnaryOperation minus ArithmeticExpression
+    (25) ArithmeticExpression -> . UnaryOperation star ArithmeticExpression
+    (26) ArithmeticExpression -> . UnaryOperation slash ArithmeticExpression
+    (31) Number -> . int_number
+    (32) Number -> . double_number
+    (33) Number -> . identifier
+    (27) UnaryOperation -> . plus_plus identifier
+    (28) UnaryOperation -> . minus_minus identifier
+    (29) UnaryOperation -> . identifier plus_plus
+    (30) UnaryOperation -> . identifier minus_minus
+
+    open_parenthesis shift and go to state 46
+    int_number      shift and go to state 47
+    double_number   shift and go to state 48
+    identifier      shift and go to state 42
+    plus_plus       shift and go to state 32
+    minus_minus     shift and go to state 33
+
+    UnaryOperation                 shift and go to state 45
+    ArithmeticExpression           shift and go to state 93
+    Number                         shift and go to state 44
+
+state 74
+
+    (24) ArithmeticExpression -> UnaryOperation minus . ArithmeticExpression
+    (12) ArithmeticExpression -> . Number
+    (13) ArithmeticExpression -> . UnaryOperation
+    (14) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis
+    (15) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis plus ArithmeticExpression
+    (16) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis minus ArithmeticExpression
+    (17) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis star ArithmeticExpression
+    (18) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis slash ArithmeticExpression
+    (19) ArithmeticExpression -> . Number plus ArithmeticExpression
+    (20) ArithmeticExpression -> . Number minus ArithmeticExpression
+    (21) ArithmeticExpression -> . Number star ArithmeticExpression
+    (22) ArithmeticExpression -> . Number slash ArithmeticExpression
+    (23) ArithmeticExpression -> . UnaryOperation plus ArithmeticExpression
+    (24) ArithmeticExpression -> . UnaryOperation minus ArithmeticExpression
+    (25) ArithmeticExpression -> . UnaryOperation star ArithmeticExpression
+    (26) ArithmeticExpression -> . UnaryOperation slash ArithmeticExpression
+    (31) Number -> . int_number
+    (32) Number -> . double_number
+    (33) Number -> . identifier
+    (27) UnaryOperation -> . plus_plus identifier
+    (28) UnaryOperation -> . minus_minus identifier
+    (29) UnaryOperation -> . identifier plus_plus
+    (30) UnaryOperation -> . identifier minus_minus
+
+    open_parenthesis shift and go to state 46
+    int_number      shift and go to state 47
+    double_number   shift and go to state 48
+    identifier      shift and go to state 42
+    plus_plus       shift and go to state 32
+    minus_minus     shift and go to state 33
+
+    UnaryOperation                 shift and go to state 45
+    ArithmeticExpression           shift and go to state 94
+    Number                         shift and go to state 44
+
+state 75
+
+    (25) ArithmeticExpression -> UnaryOperation star . ArithmeticExpression
+    (12) ArithmeticExpression -> . Number
+    (13) ArithmeticExpression -> . UnaryOperation
+    (14) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis
+    (15) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis plus ArithmeticExpression
+    (16) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis minus ArithmeticExpression
+    (17) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis star ArithmeticExpression
+    (18) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis slash ArithmeticExpression
+    (19) ArithmeticExpression -> . Number plus ArithmeticExpression
+    (20) ArithmeticExpression -> . Number minus ArithmeticExpression
+    (21) ArithmeticExpression -> . Number star ArithmeticExpression
+    (22) ArithmeticExpression -> . Number slash ArithmeticExpression
+    (23) ArithmeticExpression -> . UnaryOperation plus ArithmeticExpression
+    (24) ArithmeticExpression -> . UnaryOperation minus ArithmeticExpression
+    (25) ArithmeticExpression -> . UnaryOperation star ArithmeticExpression
+    (26) ArithmeticExpression -> . UnaryOperation slash ArithmeticExpression
+    (31) Number -> . int_number
+    (32) Number -> . double_number
+    (33) Number -> . identifier
+    (27) UnaryOperation -> . plus_plus identifier
+    (28) UnaryOperation -> . minus_minus identifier
+    (29) UnaryOperation -> . identifier plus_plus
+    (30) UnaryOperation -> . identifier minus_minus
+
+    open_parenthesis shift and go to state 46
+    int_number      shift and go to state 47
+    double_number   shift and go to state 48
+    identifier      shift and go to state 42
+    plus_plus       shift and go to state 32
+    minus_minus     shift and go to state 33
+
+    UnaryOperation                 shift and go to state 45
+    ArithmeticExpression           shift and go to state 95
+    Number                         shift and go to state 44
+
+state 76
+
+    (26) ArithmeticExpression -> UnaryOperation slash . ArithmeticExpression
+    (12) ArithmeticExpression -> . Number
+    (13) ArithmeticExpression -> . UnaryOperation
+    (14) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis
+    (15) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis plus ArithmeticExpression
+    (16) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis minus ArithmeticExpression
+    (17) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis star ArithmeticExpression
+    (18) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis slash ArithmeticExpression
+    (19) ArithmeticExpression -> . Number plus ArithmeticExpression
+    (20) ArithmeticExpression -> . Number minus ArithmeticExpression
+    (21) ArithmeticExpression -> . Number star ArithmeticExpression
+    (22) ArithmeticExpression -> . Number slash ArithmeticExpression
+    (23) ArithmeticExpression -> . UnaryOperation plus ArithmeticExpression
+    (24) ArithmeticExpression -> . UnaryOperation minus ArithmeticExpression
+    (25) ArithmeticExpression -> . UnaryOperation star ArithmeticExpression
+    (26) ArithmeticExpression -> . UnaryOperation slash ArithmeticExpression
+    (31) Number -> . int_number
+    (32) Number -> . double_number
+    (33) Number -> . identifier
+    (27) UnaryOperation -> . plus_plus identifier
+    (28) UnaryOperation -> . minus_minus identifier
+    (29) UnaryOperation -> . identifier plus_plus
+    (30) UnaryOperation -> . identifier minus_minus
+
+    open_parenthesis shift and go to state 46
+    int_number      shift and go to state 47
+    double_number   shift and go to state 48
+    identifier      shift and go to state 42
+    plus_plus       shift and go to state 32
+    minus_minus     shift and go to state 33
+
+    UnaryOperation                 shift and go to state 45
+    ArithmeticExpression           shift and go to state 96
+    Number                         shift and go to state 44
+
+state 77
+
+    (14) ArithmeticExpression -> open_parenthesis ArithmeticExpression . close_parenthesis
+    (15) ArithmeticExpression -> open_parenthesis ArithmeticExpression . close_parenthesis plus ArithmeticExpression
+    (16) ArithmeticExpression -> open_parenthesis ArithmeticExpression . close_parenthesis minus ArithmeticExpression
+    (17) ArithmeticExpression -> open_parenthesis ArithmeticExpression . close_parenthesis star ArithmeticExpression
+    (18) ArithmeticExpression -> open_parenthesis ArithmeticExpression . close_parenthesis slash ArithmeticExpression
+
+    close_parenthesis shift and go to state 97
+
+
+state 78
+
+    (63) SingleSubroutine -> identifier open_brace Routine close_brace SingleSubroutine .
+
+    End_Subroutines_Declaration reduce using rule 63 (SingleSubroutine -> identifier open_brace Routine close_brace SingleSubroutine .)
+
+
+state 79
+
+    (53) Routine -> AssignmentStatement semicolon Routine .
+
+    close_brace     reduce using rule 53 (Routine -> AssignmentStatement semicolon Routine .)
+
+
+state 80
+
+    (54) Routine -> UnaryOperation semicolon Routine .
+
+    close_brace     reduce using rule 54 (Routine -> UnaryOperation semicolon Routine .)
+
+
+state 81
+
+    (59) Routine -> call identifier Routine .
+
+    close_brace     reduce using rule 59 (Routine -> call identifier Routine .)
+
+
+state 82
+
+    (41) ifCondition -> if open_parenthesis BooleanExpression . close_parenthesis open_brace Routine close_brace elseIfCondition
+
+    close_parenthesis shift and go to state 98
+
+
+state 83
+
+    (34) BooleanExpression -> ArithmeticExpression . LogicOperator ArithmeticExpression
+    (35) LogicOperator -> . is_equal
+    (36) LogicOperator -> . not_equal
+    (37) LogicOperator -> . less_or_equal
+    (38) LogicOperator -> . greater_or_equal
+    (39) LogicOperator -> . less_than
+    (40) LogicOperator -> . greater_than
+
+    is_equal        shift and go to state 100
+    not_equal       shift and go to state 101
+    less_or_equal   shift and go to state 102
+    greater_or_equal shift and go to state 103
+    less_than       shift and go to state 104
+    greater_than    shift and go to state 105
+
+    LogicOperator                  shift and go to state 99
+
+state 84
+
+    (46) whileLoop -> while open_parenthesis BooleanExpression . close_parenthesis open_brace Routine close_brace
+
+    close_parenthesis shift and go to state 106
+
+
+state 85
+
+    (47) doWhileLoop -> do open_brace Routine . close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon
+
+    close_brace     shift and go to state 107
+
+
+state 86
+
+    (48) forLoop -> for open_parenthesis SequenceOfIdentifiers . semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace
+
+    semicolon       shift and go to state 108
+
+
+state 87
+
+    (65) InOut -> cin in identifier . RecursiveIn semicolon
+    (67) RecursiveIn -> . in identifier RecursiveIn
+    (68) RecursiveIn -> .
+
+    in              shift and go to state 109
+    semicolon       reduce using rule 68 (RecursiveIn -> .)
+
+    RecursiveIn                    shift and go to state 110
+
+state 88
+
+    (66) InOut -> cout out identifier . RecursiveOut semicolon
+    (69) RecursiveOut -> . out identifier RecursiveOut
+    (70) RecursiveOut -> .
+
+    out             shift and go to state 111
+    semicolon       reduce using rule 70 (RecursiveOut -> .)
+
+    RecursiveOut                   shift and go to state 112
+
+state 89
+
+    (19) ArithmeticExpression -> Number plus ArithmeticExpression .
+
+    comma           reduce using rule 19 (ArithmeticExpression -> Number plus ArithmeticExpression .)
+    semicolon       reduce using rule 19 (ArithmeticExpression -> Number plus ArithmeticExpression .)
+    close_parenthesis reduce using rule 19 (ArithmeticExpression -> Number plus ArithmeticExpression .)
+    is_equal        reduce using rule 19 (ArithmeticExpression -> Number plus ArithmeticExpression .)
+    not_equal       reduce using rule 19 (ArithmeticExpression -> Number plus ArithmeticExpression .)
+    less_or_equal   reduce using rule 19 (ArithmeticExpression -> Number plus ArithmeticExpression .)
+    greater_or_equal reduce using rule 19 (ArithmeticExpression -> Number plus ArithmeticExpression .)
+    less_than       reduce using rule 19 (ArithmeticExpression -> Number plus ArithmeticExpression .)
+    greater_than    reduce using rule 19 (ArithmeticExpression -> Number plus ArithmeticExpression .)
+
+
+state 90
+
+    (20) ArithmeticExpression -> Number minus ArithmeticExpression .
+
+    comma           reduce using rule 20 (ArithmeticExpression -> Number minus ArithmeticExpression .)
+    semicolon       reduce using rule 20 (ArithmeticExpression -> Number minus ArithmeticExpression .)
+    close_parenthesis reduce using rule 20 (ArithmeticExpression -> Number minus ArithmeticExpression .)
+    is_equal        reduce using rule 20 (ArithmeticExpression -> Number minus ArithmeticExpression .)
+    not_equal       reduce using rule 20 (ArithmeticExpression -> Number minus ArithmeticExpression .)
+    less_or_equal   reduce using rule 20 (ArithmeticExpression -> Number minus ArithmeticExpression .)
+    greater_or_equal reduce using rule 20 (ArithmeticExpression -> Number minus ArithmeticExpression .)
+    less_than       reduce using rule 20 (ArithmeticExpression -> Number minus ArithmeticExpression .)
+    greater_than    reduce using rule 20 (ArithmeticExpression -> Number minus ArithmeticExpression .)
+
+
+state 91
+
+    (21) ArithmeticExpression -> Number star ArithmeticExpression .
+
+    comma           reduce using rule 21 (ArithmeticExpression -> Number star ArithmeticExpression .)
+    semicolon       reduce using rule 21 (ArithmeticExpression -> Number star ArithmeticExpression .)
+    close_parenthesis reduce using rule 21 (ArithmeticExpression -> Number star ArithmeticExpression .)
+    is_equal        reduce using rule 21 (ArithmeticExpression -> Number star ArithmeticExpression .)
+    not_equal       reduce using rule 21 (ArithmeticExpression -> Number star ArithmeticExpression .)
+    less_or_equal   reduce using rule 21 (ArithmeticExpression -> Number star ArithmeticExpression .)
+    greater_or_equal reduce using rule 21 (ArithmeticExpression -> Number star ArithmeticExpression .)
+    less_than       reduce using rule 21 (ArithmeticExpression -> Number star ArithmeticExpression .)
+    greater_than    reduce using rule 21 (ArithmeticExpression -> Number star ArithmeticExpression .)
+
+
+state 92
+
+    (22) ArithmeticExpression -> Number slash ArithmeticExpression .
+
+    comma           reduce using rule 22 (ArithmeticExpression -> Number slash ArithmeticExpression .)
+    semicolon       reduce using rule 22 (ArithmeticExpression -> Number slash ArithmeticExpression .)
+    close_parenthesis reduce using rule 22 (ArithmeticExpression -> Number slash ArithmeticExpression .)
+    is_equal        reduce using rule 22 (ArithmeticExpression -> Number slash ArithmeticExpression .)
+    not_equal       reduce using rule 22 (ArithmeticExpression -> Number slash ArithmeticExpression .)
+    less_or_equal   reduce using rule 22 (ArithmeticExpression -> Number slash ArithmeticExpression .)
+    greater_or_equal reduce using rule 22 (ArithmeticExpression -> Number slash ArithmeticExpression .)
+    less_than       reduce using rule 22 (ArithmeticExpression -> Number slash ArithmeticExpression .)
+    greater_than    reduce using rule 22 (ArithmeticExpression -> Number slash ArithmeticExpression .)
+
+
+state 93
+
+    (23) ArithmeticExpression -> UnaryOperation plus ArithmeticExpression .
+
+    comma           reduce using rule 23 (ArithmeticExpression -> UnaryOperation plus ArithmeticExpression .)
+    semicolon       reduce using rule 23 (ArithmeticExpression -> UnaryOperation plus ArithmeticExpression .)
+    close_parenthesis reduce using rule 23 (ArithmeticExpression -> UnaryOperation plus ArithmeticExpression .)
+    is_equal        reduce using rule 23 (ArithmeticExpression -> UnaryOperation plus ArithmeticExpression .)
+    not_equal       reduce using rule 23 (ArithmeticExpression -> UnaryOperation plus ArithmeticExpression .)
+    less_or_equal   reduce using rule 23 (ArithmeticExpression -> UnaryOperation plus ArithmeticExpression .)
+    greater_or_equal reduce using rule 23 (ArithmeticExpression -> UnaryOperation plus ArithmeticExpression .)
+    less_than       reduce using rule 23 (ArithmeticExpression -> UnaryOperation plus ArithmeticExpression .)
+    greater_than    reduce using rule 23 (ArithmeticExpression -> UnaryOperation plus ArithmeticExpression .)
+
+
+state 94
+
+    (24) ArithmeticExpression -> UnaryOperation minus ArithmeticExpression .
+
+    comma           reduce using rule 24 (ArithmeticExpression -> UnaryOperation minus ArithmeticExpression .)
+    semicolon       reduce using rule 24 (ArithmeticExpression -> UnaryOperation minus ArithmeticExpression .)
+    close_parenthesis reduce using rule 24 (ArithmeticExpression -> UnaryOperation minus ArithmeticExpression .)
+    is_equal        reduce using rule 24 (ArithmeticExpression -> UnaryOperation minus ArithmeticExpression .)
+    not_equal       reduce using rule 24 (ArithmeticExpression -> UnaryOperation minus ArithmeticExpression .)
+    less_or_equal   reduce using rule 24 (ArithmeticExpression -> UnaryOperation minus ArithmeticExpression .)
+    greater_or_equal reduce using rule 24 (ArithmeticExpression -> UnaryOperation minus ArithmeticExpression .)
+    less_than       reduce using rule 24 (ArithmeticExpression -> UnaryOperation minus ArithmeticExpression .)
+    greater_than    reduce using rule 24 (ArithmeticExpression -> UnaryOperation minus ArithmeticExpression .)
+
+
+state 95
+
+    (25) ArithmeticExpression -> UnaryOperation star ArithmeticExpression .
+
+    comma           reduce using rule 25 (ArithmeticExpression -> UnaryOperation star ArithmeticExpression .)
+    semicolon       reduce using rule 25 (ArithmeticExpression -> UnaryOperation star ArithmeticExpression .)
+    close_parenthesis reduce using rule 25 (ArithmeticExpression -> UnaryOperation star ArithmeticExpression .)
+    is_equal        reduce using rule 25 (ArithmeticExpression -> UnaryOperation star ArithmeticExpression .)
+    not_equal       reduce using rule 25 (ArithmeticExpression -> UnaryOperation star ArithmeticExpression .)
+    less_or_equal   reduce using rule 25 (ArithmeticExpression -> UnaryOperation star ArithmeticExpression .)
+    greater_or_equal reduce using rule 25 (ArithmeticExpression -> UnaryOperation star ArithmeticExpression .)
+    less_than       reduce using rule 25 (ArithmeticExpression -> UnaryOperation star ArithmeticExpression .)
+    greater_than    reduce using rule 25 (ArithmeticExpression -> UnaryOperation star ArithmeticExpression .)
+
+
+state 96
+
+    (26) ArithmeticExpression -> UnaryOperation slash ArithmeticExpression .
+
+    comma           reduce using rule 26 (ArithmeticExpression -> UnaryOperation slash ArithmeticExpression .)
+    semicolon       reduce using rule 26 (ArithmeticExpression -> UnaryOperation slash ArithmeticExpression .)
+    close_parenthesis reduce using rule 26 (ArithmeticExpression -> UnaryOperation slash ArithmeticExpression .)
+    is_equal        reduce using rule 26 (ArithmeticExpression -> UnaryOperation slash ArithmeticExpression .)
+    not_equal       reduce using rule 26 (ArithmeticExpression -> UnaryOperation slash ArithmeticExpression .)
+    less_or_equal   reduce using rule 26 (ArithmeticExpression -> UnaryOperation slash ArithmeticExpression .)
+    greater_or_equal reduce using rule 26 (ArithmeticExpression -> UnaryOperation slash ArithmeticExpression .)
+    less_than       reduce using rule 26 (ArithmeticExpression -> UnaryOperation slash ArithmeticExpression .)
+    greater_than    reduce using rule 26 (ArithmeticExpression -> UnaryOperation slash ArithmeticExpression .)
+
+
+state 97
+
+    (14) ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis .
+    (15) ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis . plus ArithmeticExpression
+    (16) ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis . minus ArithmeticExpression
+    (17) ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis . star ArithmeticExpression
+    (18) ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis . slash ArithmeticExpression
+
+    comma           reduce using rule 14 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis .)
+    semicolon       reduce using rule 14 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis .)
+    close_parenthesis reduce using rule 14 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis .)
+    is_equal        reduce using rule 14 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis .)
+    not_equal       reduce using rule 14 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis .)
+    less_or_equal   reduce using rule 14 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis .)
+    greater_or_equal reduce using rule 14 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis .)
+    less_than       reduce using rule 14 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis .)
+    greater_than    reduce using rule 14 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis .)
+    plus            shift and go to state 113
+    minus           shift and go to state 114
+    star            shift and go to state 115
+    slash           shift and go to state 116
+
+
+state 98
+
+    (41) ifCondition -> if open_parenthesis BooleanExpression close_parenthesis . open_brace Routine close_brace elseIfCondition
+
+    open_brace      shift and go to state 117
+
+
+state 99
+
+    (34) BooleanExpression -> ArithmeticExpression LogicOperator . ArithmeticExpression
+    (12) ArithmeticExpression -> . Number
+    (13) ArithmeticExpression -> . UnaryOperation
+    (14) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis
+    (15) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis plus ArithmeticExpression
+    (16) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis minus ArithmeticExpression
+    (17) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis star ArithmeticExpression
+    (18) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis slash ArithmeticExpression
+    (19) ArithmeticExpression -> . Number plus ArithmeticExpression
+    (20) ArithmeticExpression -> . Number minus ArithmeticExpression
+    (21) ArithmeticExpression -> . Number star ArithmeticExpression
+    (22) ArithmeticExpression -> . Number slash ArithmeticExpression
+    (23) ArithmeticExpression -> . UnaryOperation plus ArithmeticExpression
+    (24) ArithmeticExpression -> . UnaryOperation minus ArithmeticExpression
+    (25) ArithmeticExpression -> . UnaryOperation star ArithmeticExpression
+    (26) ArithmeticExpression -> . UnaryOperation slash ArithmeticExpression
+    (31) Number -> . int_number
+    (32) Number -> . double_number
+    (33) Number -> . identifier
+    (27) UnaryOperation -> . plus_plus identifier
+    (28) UnaryOperation -> . minus_minus identifier
+    (29) UnaryOperation -> . identifier plus_plus
+    (30) UnaryOperation -> . identifier minus_minus
+
+    open_parenthesis shift and go to state 46
+    int_number      shift and go to state 47
+    double_number   shift and go to state 48
+    identifier      shift and go to state 42
+    plus_plus       shift and go to state 32
+    minus_minus     shift and go to state 33
+
+    ArithmeticExpression           shift and go to state 118
+    Number                         shift and go to state 44
+    UnaryOperation                 shift and go to state 45
+
+state 100
+
+    (35) LogicOperator -> is_equal .
+
+    open_parenthesis reduce using rule 35 (LogicOperator -> is_equal .)
+    int_number      reduce using rule 35 (LogicOperator -> is_equal .)
+    double_number   reduce using rule 35 (LogicOperator -> is_equal .)
+    identifier      reduce using rule 35 (LogicOperator -> is_equal .)
+    plus_plus       reduce using rule 35 (LogicOperator -> is_equal .)
+    minus_minus     reduce using rule 35 (LogicOperator -> is_equal .)
+
+
+state 101
+
+    (36) LogicOperator -> not_equal .
+
+    open_parenthesis reduce using rule 36 (LogicOperator -> not_equal .)
+    int_number      reduce using rule 36 (LogicOperator -> not_equal .)
+    double_number   reduce using rule 36 (LogicOperator -> not_equal .)
+    identifier      reduce using rule 36 (LogicOperator -> not_equal .)
+    plus_plus       reduce using rule 36 (LogicOperator -> not_equal .)
+    minus_minus     reduce using rule 36 (LogicOperator -> not_equal .)
+
+
+state 102
+
+    (37) LogicOperator -> less_or_equal .
+
+    open_parenthesis reduce using rule 37 (LogicOperator -> less_or_equal .)
+    int_number      reduce using rule 37 (LogicOperator -> less_or_equal .)
+    double_number   reduce using rule 37 (LogicOperator -> less_or_equal .)
+    identifier      reduce using rule 37 (LogicOperator -> less_or_equal .)
+    plus_plus       reduce using rule 37 (LogicOperator -> less_or_equal .)
+    minus_minus     reduce using rule 37 (LogicOperator -> less_or_equal .)
+
+
+state 103
+
+    (38) LogicOperator -> greater_or_equal .
+
+    open_parenthesis reduce using rule 38 (LogicOperator -> greater_or_equal .)
+    int_number      reduce using rule 38 (LogicOperator -> greater_or_equal .)
+    double_number   reduce using rule 38 (LogicOperator -> greater_or_equal .)
+    identifier      reduce using rule 38 (LogicOperator -> greater_or_equal .)
+    plus_plus       reduce using rule 38 (LogicOperator -> greater_or_equal .)
+    minus_minus     reduce using rule 38 (LogicOperator -> greater_or_equal .)
+
+
+state 104
+
+    (39) LogicOperator -> less_than .
+
+    open_parenthesis reduce using rule 39 (LogicOperator -> less_than .)
+    int_number      reduce using rule 39 (LogicOperator -> less_than .)
+    double_number   reduce using rule 39 (LogicOperator -> less_than .)
+    identifier      reduce using rule 39 (LogicOperator -> less_than .)
+    plus_plus       reduce using rule 39 (LogicOperator -> less_than .)
+    minus_minus     reduce using rule 39 (LogicOperator -> less_than .)
+
+
+state 105
+
+    (40) LogicOperator -> greater_than .
+
+    open_parenthesis reduce using rule 40 (LogicOperator -> greater_than .)
+    int_number      reduce using rule 40 (LogicOperator -> greater_than .)
+    double_number   reduce using rule 40 (LogicOperator -> greater_than .)
+    identifier      reduce using rule 40 (LogicOperator -> greater_than .)
+    plus_plus       reduce using rule 40 (LogicOperator -> greater_than .)
+    minus_minus     reduce using rule 40 (LogicOperator -> greater_than .)
+
+
+state 106
+
+    (46) whileLoop -> while open_parenthesis BooleanExpression close_parenthesis . open_brace Routine close_brace
+
+    open_brace      shift and go to state 119
+
+
+state 107
+
+    (47) doWhileLoop -> do open_brace Routine close_brace . while open_parenthesis BooleanExpression close_parenthesis semicolon
+
+    while           shift and go to state 120
+
+
+state 108
+
+    (48) forLoop -> for open_parenthesis SequenceOfIdentifiers semicolon . BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace
+    (34) BooleanExpression -> . ArithmeticExpression LogicOperator ArithmeticExpression
+    (12) ArithmeticExpression -> . Number
+    (13) ArithmeticExpression -> . UnaryOperation
+    (14) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis
+    (15) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis plus ArithmeticExpression
+    (16) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis minus ArithmeticExpression
+    (17) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis star ArithmeticExpression
+    (18) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis slash ArithmeticExpression
+    (19) ArithmeticExpression -> . Number plus ArithmeticExpression
+    (20) ArithmeticExpression -> . Number minus ArithmeticExpression
+    (21) ArithmeticExpression -> . Number star ArithmeticExpression
+    (22) ArithmeticExpression -> . Number slash ArithmeticExpression
+    (23) ArithmeticExpression -> . UnaryOperation plus ArithmeticExpression
+    (24) ArithmeticExpression -> . UnaryOperation minus ArithmeticExpression
+    (25) ArithmeticExpression -> . UnaryOperation star ArithmeticExpression
+    (26) ArithmeticExpression -> . UnaryOperation slash ArithmeticExpression
+    (31) Number -> . int_number
+    (32) Number -> . double_number
+    (33) Number -> . identifier
+    (27) UnaryOperation -> . plus_plus identifier
+    (28) UnaryOperation -> . minus_minus identifier
+    (29) UnaryOperation -> . identifier plus_plus
+    (30) UnaryOperation -> . identifier minus_minus
+
+    open_parenthesis shift and go to state 46
+    int_number      shift and go to state 47
+    double_number   shift and go to state 48
+    identifier      shift and go to state 42
+    plus_plus       shift and go to state 32
+    minus_minus     shift and go to state 33
+
+    BooleanExpression              shift and go to state 121
+    ArithmeticExpression           shift and go to state 83
+    Number                         shift and go to state 44
+    UnaryOperation                 shift and go to state 45
+
+state 109
+
+    (67) RecursiveIn -> in . identifier RecursiveIn
+
+    identifier      shift and go to state 122
+
+
+state 110
+
+    (65) InOut -> cin in identifier RecursiveIn . semicolon
+
+    semicolon       shift and go to state 123
+
+
+state 111
+
+    (69) RecursiveOut -> out . identifier RecursiveOut
+
+    identifier      shift and go to state 124
+
+
+state 112
+
+    (66) InOut -> cout out identifier RecursiveOut . semicolon
+
+    semicolon       shift and go to state 125
+
+
+state 113
+
+    (15) ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis plus . ArithmeticExpression
+    (12) ArithmeticExpression -> . Number
+    (13) ArithmeticExpression -> . UnaryOperation
+    (14) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis
+    (15) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis plus ArithmeticExpression
+    (16) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis minus ArithmeticExpression
+    (17) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis star ArithmeticExpression
+    (18) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis slash ArithmeticExpression
+    (19) ArithmeticExpression -> . Number plus ArithmeticExpression
+    (20) ArithmeticExpression -> . Number minus ArithmeticExpression
+    (21) ArithmeticExpression -> . Number star ArithmeticExpression
+    (22) ArithmeticExpression -> . Number slash ArithmeticExpression
+    (23) ArithmeticExpression -> . UnaryOperation plus ArithmeticExpression
+    (24) ArithmeticExpression -> . UnaryOperation minus ArithmeticExpression
+    (25) ArithmeticExpression -> . UnaryOperation star ArithmeticExpression
+    (26) ArithmeticExpression -> . UnaryOperation slash ArithmeticExpression
+    (31) Number -> . int_number
+    (32) Number -> . double_number
+    (33) Number -> . identifier
+    (27) UnaryOperation -> . plus_plus identifier
+    (28) UnaryOperation -> . minus_minus identifier
+    (29) UnaryOperation -> . identifier plus_plus
+    (30) UnaryOperation -> . identifier minus_minus
+
+    open_parenthesis shift and go to state 46
+    int_number      shift and go to state 47
+    double_number   shift and go to state 48
+    identifier      shift and go to state 42
+    plus_plus       shift and go to state 32
+    minus_minus     shift and go to state 33
+
+    ArithmeticExpression           shift and go to state 126
+    Number                         shift and go to state 44
+    UnaryOperation                 shift and go to state 45
+
+state 114
+
+    (16) ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis minus . ArithmeticExpression
+    (12) ArithmeticExpression -> . Number
+    (13) ArithmeticExpression -> . UnaryOperation
+    (14) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis
+    (15) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis plus ArithmeticExpression
+    (16) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis minus ArithmeticExpression
+    (17) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis star ArithmeticExpression
+    (18) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis slash ArithmeticExpression
+    (19) ArithmeticExpression -> . Number plus ArithmeticExpression
+    (20) ArithmeticExpression -> . Number minus ArithmeticExpression
+    (21) ArithmeticExpression -> . Number star ArithmeticExpression
+    (22) ArithmeticExpression -> . Number slash ArithmeticExpression
+    (23) ArithmeticExpression -> . UnaryOperation plus ArithmeticExpression
+    (24) ArithmeticExpression -> . UnaryOperation minus ArithmeticExpression
+    (25) ArithmeticExpression -> . UnaryOperation star ArithmeticExpression
+    (26) ArithmeticExpression -> . UnaryOperation slash ArithmeticExpression
+    (31) Number -> . int_number
+    (32) Number -> . double_number
+    (33) Number -> . identifier
+    (27) UnaryOperation -> . plus_plus identifier
+    (28) UnaryOperation -> . minus_minus identifier
+    (29) UnaryOperation -> . identifier plus_plus
+    (30) UnaryOperation -> . identifier minus_minus
+
+    open_parenthesis shift and go to state 46
+    int_number      shift and go to state 47
+    double_number   shift and go to state 48
+    identifier      shift and go to state 42
+    plus_plus       shift and go to state 32
+    minus_minus     shift and go to state 33
+
+    ArithmeticExpression           shift and go to state 127
+    Number                         shift and go to state 44
+    UnaryOperation                 shift and go to state 45
+
+state 115
+
+    (17) ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis star . ArithmeticExpression
+    (12) ArithmeticExpression -> . Number
+    (13) ArithmeticExpression -> . UnaryOperation
+    (14) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis
+    (15) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis plus ArithmeticExpression
+    (16) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis minus ArithmeticExpression
+    (17) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis star ArithmeticExpression
+    (18) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis slash ArithmeticExpression
+    (19) ArithmeticExpression -> . Number plus ArithmeticExpression
+    (20) ArithmeticExpression -> . Number minus ArithmeticExpression
+    (21) ArithmeticExpression -> . Number star ArithmeticExpression
+    (22) ArithmeticExpression -> . Number slash ArithmeticExpression
+    (23) ArithmeticExpression -> . UnaryOperation plus ArithmeticExpression
+    (24) ArithmeticExpression -> . UnaryOperation minus ArithmeticExpression
+    (25) ArithmeticExpression -> . UnaryOperation star ArithmeticExpression
+    (26) ArithmeticExpression -> . UnaryOperation slash ArithmeticExpression
+    (31) Number -> . int_number
+    (32) Number -> . double_number
+    (33) Number -> . identifier
+    (27) UnaryOperation -> . plus_plus identifier
+    (28) UnaryOperation -> . minus_minus identifier
+    (29) UnaryOperation -> . identifier plus_plus
+    (30) UnaryOperation -> . identifier minus_minus
+
+    open_parenthesis shift and go to state 46
+    int_number      shift and go to state 47
+    double_number   shift and go to state 48
+    identifier      shift and go to state 42
+    plus_plus       shift and go to state 32
+    minus_minus     shift and go to state 33
+
+    ArithmeticExpression           shift and go to state 128
+    Number                         shift and go to state 44
+    UnaryOperation                 shift and go to state 45
+
+state 116
+
+    (18) ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis slash . ArithmeticExpression
+    (12) ArithmeticExpression -> . Number
+    (13) ArithmeticExpression -> . UnaryOperation
+    (14) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis
+    (15) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis plus ArithmeticExpression
+    (16) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis minus ArithmeticExpression
+    (17) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis star ArithmeticExpression
+    (18) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis slash ArithmeticExpression
+    (19) ArithmeticExpression -> . Number plus ArithmeticExpression
+    (20) ArithmeticExpression -> . Number minus ArithmeticExpression
+    (21) ArithmeticExpression -> . Number star ArithmeticExpression
+    (22) ArithmeticExpression -> . Number slash ArithmeticExpression
+    (23) ArithmeticExpression -> . UnaryOperation plus ArithmeticExpression
+    (24) ArithmeticExpression -> . UnaryOperation minus ArithmeticExpression
+    (25) ArithmeticExpression -> . UnaryOperation star ArithmeticExpression
+    (26) ArithmeticExpression -> . UnaryOperation slash ArithmeticExpression
+    (31) Number -> . int_number
+    (32) Number -> . double_number
+    (33) Number -> . identifier
+    (27) UnaryOperation -> . plus_plus identifier
+    (28) UnaryOperation -> . minus_minus identifier
+    (29) UnaryOperation -> . identifier plus_plus
+    (30) UnaryOperation -> . identifier minus_minus
+
+    open_parenthesis shift and go to state 46
+    int_number      shift and go to state 47
+    double_number   shift and go to state 48
+    identifier      shift and go to state 42
+    plus_plus       shift and go to state 32
+    minus_minus     shift and go to state 33
+
+    ArithmeticExpression           shift and go to state 129
+    Number                         shift and go to state 44
+    UnaryOperation                 shift and go to state 45
+
+state 117
+
+    (41) ifCondition -> if open_parenthesis BooleanExpression close_parenthesis open_brace . Routine close_brace elseIfCondition
+    (53) Routine -> . AssignmentStatement semicolon Routine
+    (54) Routine -> . UnaryOperation semicolon Routine
+    (55) Routine -> . ifCondition Routine
+    (56) Routine -> . whileLoop Routine
+    (57) Routine -> . doWhileLoop Routine
+    (58) Routine -> . forLoop Routine
+    (59) Routine -> . call identifier Routine
+    (60) Routine -> . InOut Routine
+    (61) Routine -> .
+    (2) AssignmentStatement -> . identifier equal ArithmeticExpression
+    (27) UnaryOperation -> . plus_plus identifier
+    (28) UnaryOperation -> . minus_minus identifier
+    (29) UnaryOperation -> . identifier plus_plus
+    (30) UnaryOperation -> . identifier minus_minus
+    (41) ifCondition -> . if open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition
+    (46) whileLoop -> . while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace
+    (47) doWhileLoop -> . do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon
+    (48) forLoop -> . for open_parenthesis SequenceOfIdentifiers semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace
+    (65) InOut -> . cin in identifier RecursiveIn semicolon
+    (66) InOut -> . cout out identifier RecursiveOut semicolon
+
+    call            shift and go to state 30
+    close_brace     reduce using rule 61 (Routine -> .)
+    identifier      shift and go to state 22
+    plus_plus       shift and go to state 32
+    minus_minus     shift and go to state 33
+    if              shift and go to state 34
+    while           shift and go to state 35
+    do              shift and go to state 36
+    for             shift and go to state 37
+    cin             shift and go to state 38
+    cout            shift and go to state 39
+
+    Routine                        shift and go to state 130
+    AssignmentStatement            shift and go to state 24
+    UnaryOperation                 shift and go to state 25
+    ifCondition                    shift and go to state 26
+    whileLoop                      shift and go to state 27
+    doWhileLoop                    shift and go to state 28
+    forLoop                        shift and go to state 29
+    InOut                          shift and go to state 31
+
+state 118
+
+    (34) BooleanExpression -> ArithmeticExpression LogicOperator ArithmeticExpression .
+
+    close_parenthesis reduce using rule 34 (BooleanExpression -> ArithmeticExpression LogicOperator ArithmeticExpression .)
+    semicolon       reduce using rule 34 (BooleanExpression -> ArithmeticExpression LogicOperator ArithmeticExpression .)
+
+
+state 119
+
+    (46) whileLoop -> while open_parenthesis BooleanExpression close_parenthesis open_brace . Routine close_brace
+    (53) Routine -> . AssignmentStatement semicolon Routine
+    (54) Routine -> . UnaryOperation semicolon Routine
+    (55) Routine -> . ifCondition Routine
+    (56) Routine -> . whileLoop Routine
+    (57) Routine -> . doWhileLoop Routine
+    (58) Routine -> . forLoop Routine
+    (59) Routine -> . call identifier Routine
+    (60) Routine -> . InOut Routine
+    (61) Routine -> .
+    (2) AssignmentStatement -> . identifier equal ArithmeticExpression
+    (27) UnaryOperation -> . plus_plus identifier
+    (28) UnaryOperation -> . minus_minus identifier
+    (29) UnaryOperation -> . identifier plus_plus
+    (30) UnaryOperation -> . identifier minus_minus
+    (41) ifCondition -> . if open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition
+    (46) whileLoop -> . while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace
+    (47) doWhileLoop -> . do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon
+    (48) forLoop -> . for open_parenthesis SequenceOfIdentifiers semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace
+    (65) InOut -> . cin in identifier RecursiveIn semicolon
+    (66) InOut -> . cout out identifier RecursiveOut semicolon
+
+    call            shift and go to state 30
+    close_brace     reduce using rule 61 (Routine -> .)
+    identifier      shift and go to state 22
+    plus_plus       shift and go to state 32
+    minus_minus     shift and go to state 33
+    if              shift and go to state 34
+    while           shift and go to state 35
+    do              shift and go to state 36
+    for             shift and go to state 37
+    cin             shift and go to state 38
+    cout            shift and go to state 39
+
+    Routine                        shift and go to state 131
+    AssignmentStatement            shift and go to state 24
+    UnaryOperation                 shift and go to state 25
+    ifCondition                    shift and go to state 26
+    whileLoop                      shift and go to state 27
+    doWhileLoop                    shift and go to state 28
+    forLoop                        shift and go to state 29
+    InOut                          shift and go to state 31
+
+state 120
+
+    (47) doWhileLoop -> do open_brace Routine close_brace while . open_parenthesis BooleanExpression close_parenthesis semicolon
+
+    open_parenthesis shift and go to state 132
+
+
+state 121
+
+    (48) forLoop -> for open_parenthesis SequenceOfIdentifiers semicolon BooleanExpression . semicolon UpdateVariables close_parenthesis open_brace Routine close_brace
+
+    semicolon       shift and go to state 133
+
+
+state 122
+
+    (67) RecursiveIn -> in identifier . RecursiveIn
+    (67) RecursiveIn -> . in identifier RecursiveIn
+    (68) RecursiveIn -> .
+
+    in              shift and go to state 109
+    semicolon       reduce using rule 68 (RecursiveIn -> .)
+
+    RecursiveIn                    shift and go to state 134
+
+state 123
+
+    (65) InOut -> cin in identifier RecursiveIn semicolon .
+
+    call            reduce using rule 65 (InOut -> cin in identifier RecursiveIn semicolon .)
+    identifier      reduce using rule 65 (InOut -> cin in identifier RecursiveIn semicolon .)
+    plus_plus       reduce using rule 65 (InOut -> cin in identifier RecursiveIn semicolon .)
+    minus_minus     reduce using rule 65 (InOut -> cin in identifier RecursiveIn semicolon .)
+    if              reduce using rule 65 (InOut -> cin in identifier RecursiveIn semicolon .)
+    while           reduce using rule 65 (InOut -> cin in identifier RecursiveIn semicolon .)
+    do              reduce using rule 65 (InOut -> cin in identifier RecursiveIn semicolon .)
+    for             reduce using rule 65 (InOut -> cin in identifier RecursiveIn semicolon .)
+    cin             reduce using rule 65 (InOut -> cin in identifier RecursiveIn semicolon .)
+    cout            reduce using rule 65 (InOut -> cin in identifier RecursiveIn semicolon .)
+    close_brace     reduce using rule 65 (InOut -> cin in identifier RecursiveIn semicolon .)
+
+
+state 124
+
+    (69) RecursiveOut -> out identifier . RecursiveOut
+    (69) RecursiveOut -> . out identifier RecursiveOut
+    (70) RecursiveOut -> .
+
+    out             shift and go to state 111
+    semicolon       reduce using rule 70 (RecursiveOut -> .)
+
+    RecursiveOut                   shift and go to state 135
+
+state 125
+
+    (66) InOut -> cout out identifier RecursiveOut semicolon .
+
+    call            reduce using rule 66 (InOut -> cout out identifier RecursiveOut semicolon .)
+    identifier      reduce using rule 66 (InOut -> cout out identifier RecursiveOut semicolon .)
+    plus_plus       reduce using rule 66 (InOut -> cout out identifier RecursiveOut semicolon .)
+    minus_minus     reduce using rule 66 (InOut -> cout out identifier RecursiveOut semicolon .)
+    if              reduce using rule 66 (InOut -> cout out identifier RecursiveOut semicolon .)
+    while           reduce using rule 66 (InOut -> cout out identifier RecursiveOut semicolon .)
+    do              reduce using rule 66 (InOut -> cout out identifier RecursiveOut semicolon .)
+    for             reduce using rule 66 (InOut -> cout out identifier RecursiveOut semicolon .)
+    cin             reduce using rule 66 (InOut -> cout out identifier RecursiveOut semicolon .)
+    cout            reduce using rule 66 (InOut -> cout out identifier RecursiveOut semicolon .)
+    close_brace     reduce using rule 66 (InOut -> cout out identifier RecursiveOut semicolon .)
+
+
+state 126
+
+    (15) ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis plus ArithmeticExpression .
+
+    comma           reduce using rule 15 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis plus ArithmeticExpression .)
+    semicolon       reduce using rule 15 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis plus ArithmeticExpression .)
+    close_parenthesis reduce using rule 15 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis plus ArithmeticExpression .)
+    is_equal        reduce using rule 15 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis plus ArithmeticExpression .)
+    not_equal       reduce using rule 15 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis plus ArithmeticExpression .)
+    less_or_equal   reduce using rule 15 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis plus ArithmeticExpression .)
+    greater_or_equal reduce using rule 15 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis plus ArithmeticExpression .)
+    less_than       reduce using rule 15 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis plus ArithmeticExpression .)
+    greater_than    reduce using rule 15 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis plus ArithmeticExpression .)
+
+
+state 127
+
+    (16) ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis minus ArithmeticExpression .
+
+    comma           reduce using rule 16 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis minus ArithmeticExpression .)
+    semicolon       reduce using rule 16 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis minus ArithmeticExpression .)
+    close_parenthesis reduce using rule 16 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis minus ArithmeticExpression .)
+    is_equal        reduce using rule 16 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis minus ArithmeticExpression .)
+    not_equal       reduce using rule 16 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis minus ArithmeticExpression .)
+    less_or_equal   reduce using rule 16 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis minus ArithmeticExpression .)
+    greater_or_equal reduce using rule 16 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis minus ArithmeticExpression .)
+    less_than       reduce using rule 16 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis minus ArithmeticExpression .)
+    greater_than    reduce using rule 16 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis minus ArithmeticExpression .)
+
+
+state 128
+
+    (17) ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis star ArithmeticExpression .
+
+    comma           reduce using rule 17 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis star ArithmeticExpression .)
+    semicolon       reduce using rule 17 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis star ArithmeticExpression .)
+    close_parenthesis reduce using rule 17 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis star ArithmeticExpression .)
+    is_equal        reduce using rule 17 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis star ArithmeticExpression .)
+    not_equal       reduce using rule 17 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis star ArithmeticExpression .)
+    less_or_equal   reduce using rule 17 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis star ArithmeticExpression .)
+    greater_or_equal reduce using rule 17 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis star ArithmeticExpression .)
+    less_than       reduce using rule 17 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis star ArithmeticExpression .)
+    greater_than    reduce using rule 17 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis star ArithmeticExpression .)
+
+
+state 129
+
+    (18) ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis slash ArithmeticExpression .
+
+    comma           reduce using rule 18 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis slash ArithmeticExpression .)
+    semicolon       reduce using rule 18 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis slash ArithmeticExpression .)
+    close_parenthesis reduce using rule 18 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis slash ArithmeticExpression .)
+    is_equal        reduce using rule 18 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis slash ArithmeticExpression .)
+    not_equal       reduce using rule 18 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis slash ArithmeticExpression .)
+    less_or_equal   reduce using rule 18 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis slash ArithmeticExpression .)
+    greater_or_equal reduce using rule 18 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis slash ArithmeticExpression .)
+    less_than       reduce using rule 18 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis slash ArithmeticExpression .)
+    greater_than    reduce using rule 18 (ArithmeticExpression -> open_parenthesis ArithmeticExpression close_parenthesis slash ArithmeticExpression .)
+
+
+state 130
+
+    (41) ifCondition -> if open_parenthesis BooleanExpression close_parenthesis open_brace Routine . close_brace elseIfCondition
+
+    close_brace     shift and go to state 136
+
+
+state 131
+
+    (46) whileLoop -> while open_parenthesis BooleanExpression close_parenthesis open_brace Routine . close_brace
+
+    close_brace     shift and go to state 137
+
+
+state 132
+
+    (47) doWhileLoop -> do open_brace Routine close_brace while open_parenthesis . BooleanExpression close_parenthesis semicolon
+    (34) BooleanExpression -> . ArithmeticExpression LogicOperator ArithmeticExpression
+    (12) ArithmeticExpression -> . Number
+    (13) ArithmeticExpression -> . UnaryOperation
+    (14) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis
+    (15) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis plus ArithmeticExpression
+    (16) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis minus ArithmeticExpression
+    (17) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis star ArithmeticExpression
+    (18) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis slash ArithmeticExpression
+    (19) ArithmeticExpression -> . Number plus ArithmeticExpression
+    (20) ArithmeticExpression -> . Number minus ArithmeticExpression
+    (21) ArithmeticExpression -> . Number star ArithmeticExpression
+    (22) ArithmeticExpression -> . Number slash ArithmeticExpression
+    (23) ArithmeticExpression -> . UnaryOperation plus ArithmeticExpression
+    (24) ArithmeticExpression -> . UnaryOperation minus ArithmeticExpression
+    (25) ArithmeticExpression -> . UnaryOperation star ArithmeticExpression
+    (26) ArithmeticExpression -> . UnaryOperation slash ArithmeticExpression
+    (31) Number -> . int_number
+    (32) Number -> . double_number
+    (33) Number -> . identifier
+    (27) UnaryOperation -> . plus_plus identifier
+    (28) UnaryOperation -> . minus_minus identifier
+    (29) UnaryOperation -> . identifier plus_plus
+    (30) UnaryOperation -> . identifier minus_minus
+
+    open_parenthesis shift and go to state 46
+    int_number      shift and go to state 47
+    double_number   shift and go to state 48
+    identifier      shift and go to state 42
+    plus_plus       shift and go to state 32
+    minus_minus     shift and go to state 33
+
+    BooleanExpression              shift and go to state 138
+    ArithmeticExpression           shift and go to state 83
+    Number                         shift and go to state 44
+    UnaryOperation                 shift and go to state 45
+
+state 133
+
+    (48) forLoop -> for open_parenthesis SequenceOfIdentifiers semicolon BooleanExpression semicolon . UpdateVariables close_parenthesis open_brace Routine close_brace
+    (49) UpdateVariables -> . AssignmentStatement
+    (50) UpdateVariables -> . AssignmentStatement comma UpdateVariables
+    (51) UpdateVariables -> . UnaryOperation
+    (52) UpdateVariables -> . UnaryOperation comma UpdateVariables
+    (2) AssignmentStatement -> . identifier equal ArithmeticExpression
+    (27) UnaryOperation -> . plus_plus identifier
+    (28) UnaryOperation -> . minus_minus identifier
+    (29) UnaryOperation -> . identifier plus_plus
+    (30) UnaryOperation -> . identifier minus_minus
+
+    identifier      shift and go to state 22
+    plus_plus       shift and go to state 32
+    minus_minus     shift and go to state 33
+
+    UpdateVariables                shift and go to state 139
+    AssignmentStatement            shift and go to state 140
+    UnaryOperation                 shift and go to state 141
+
+state 134
+
+    (67) RecursiveIn -> in identifier RecursiveIn .
+
+    semicolon       reduce using rule 67 (RecursiveIn -> in identifier RecursiveIn .)
+
+
+state 135
+
+    (69) RecursiveOut -> out identifier RecursiveOut .
+
+    semicolon       reduce using rule 69 (RecursiveOut -> out identifier RecursiveOut .)
+
+
+state 136
+
+    (41) ifCondition -> if open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace . elseIfCondition
+    (42) elseIfCondition -> . elseif open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition
+    (43) elseIfCondition -> . elseCondition
+    (44) elseCondition -> . else open_brace Routine close_brace
+    (45) elseCondition -> .
+
+    elseif          shift and go to state 143
+    else            shift and go to state 145
+    call            reduce using rule 45 (elseCondition -> .)
+    identifier      reduce using rule 45 (elseCondition -> .)
+    plus_plus       reduce using rule 45 (elseCondition -> .)
+    minus_minus     reduce using rule 45 (elseCondition -> .)
+    if              reduce using rule 45 (elseCondition -> .)
+    while           reduce using rule 45 (elseCondition -> .)
+    do              reduce using rule 45 (elseCondition -> .)
+    for             reduce using rule 45 (elseCondition -> .)
+    cin             reduce using rule 45 (elseCondition -> .)
+    cout            reduce using rule 45 (elseCondition -> .)
+    close_brace     reduce using rule 45 (elseCondition -> .)
+
+    elseIfCondition                shift and go to state 142
+    elseCondition                  shift and go to state 144
+
+state 137
+
+    (46) whileLoop -> while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace .
+
+    call            reduce using rule 46 (whileLoop -> while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace .)
+    identifier      reduce using rule 46 (whileLoop -> while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace .)
+    plus_plus       reduce using rule 46 (whileLoop -> while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace .)
+    minus_minus     reduce using rule 46 (whileLoop -> while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace .)
+    if              reduce using rule 46 (whileLoop -> while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace .)
+    while           reduce using rule 46 (whileLoop -> while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace .)
+    do              reduce using rule 46 (whileLoop -> while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace .)
+    for             reduce using rule 46 (whileLoop -> while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace .)
+    cin             reduce using rule 46 (whileLoop -> while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace .)
+    cout            reduce using rule 46 (whileLoop -> while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace .)
+    close_brace     reduce using rule 46 (whileLoop -> while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace .)
+
+
+state 138
+
+    (47) doWhileLoop -> do open_brace Routine close_brace while open_parenthesis BooleanExpression . close_parenthesis semicolon
+
+    close_parenthesis shift and go to state 146
+
+
+state 139
+
+    (48) forLoop -> for open_parenthesis SequenceOfIdentifiers semicolon BooleanExpression semicolon UpdateVariables . close_parenthesis open_brace Routine close_brace
+
+    close_parenthesis shift and go to state 147
+
+
+state 140
+
+    (49) UpdateVariables -> AssignmentStatement .
+    (50) UpdateVariables -> AssignmentStatement . comma UpdateVariables
+
+    close_parenthesis reduce using rule 49 (UpdateVariables -> AssignmentStatement .)
+    comma           shift and go to state 148
+
+
+state 141
+
+    (51) UpdateVariables -> UnaryOperation .
+    (52) UpdateVariables -> UnaryOperation . comma UpdateVariables
+
+    close_parenthesis reduce using rule 51 (UpdateVariables -> UnaryOperation .)
+    comma           shift and go to state 149
+
+
+state 142
+
+    (41) ifCondition -> if open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition .
+
+    call            reduce using rule 41 (ifCondition -> if open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition .)
+    identifier      reduce using rule 41 (ifCondition -> if open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition .)
+    plus_plus       reduce using rule 41 (ifCondition -> if open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition .)
+    minus_minus     reduce using rule 41 (ifCondition -> if open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition .)
+    if              reduce using rule 41 (ifCondition -> if open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition .)
+    while           reduce using rule 41 (ifCondition -> if open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition .)
+    do              reduce using rule 41 (ifCondition -> if open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition .)
+    for             reduce using rule 41 (ifCondition -> if open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition .)
+    cin             reduce using rule 41 (ifCondition -> if open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition .)
+    cout            reduce using rule 41 (ifCondition -> if open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition .)
+    close_brace     reduce using rule 41 (ifCondition -> if open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition .)
+
+
+state 143
+
+    (42) elseIfCondition -> elseif . open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition
+
+    open_parenthesis shift and go to state 150
+
+
+state 144
+
+    (43) elseIfCondition -> elseCondition .
+
+    call            reduce using rule 43 (elseIfCondition -> elseCondition .)
+    identifier      reduce using rule 43 (elseIfCondition -> elseCondition .)
+    plus_plus       reduce using rule 43 (elseIfCondition -> elseCondition .)
+    minus_minus     reduce using rule 43 (elseIfCondition -> elseCondition .)
+    if              reduce using rule 43 (elseIfCondition -> elseCondition .)
+    while           reduce using rule 43 (elseIfCondition -> elseCondition .)
+    do              reduce using rule 43 (elseIfCondition -> elseCondition .)
+    for             reduce using rule 43 (elseIfCondition -> elseCondition .)
+    cin             reduce using rule 43 (elseIfCondition -> elseCondition .)
+    cout            reduce using rule 43 (elseIfCondition -> elseCondition .)
+    close_brace     reduce using rule 43 (elseIfCondition -> elseCondition .)
+
+
+state 145
+
+    (44) elseCondition -> else . open_brace Routine close_brace
+
+    open_brace      shift and go to state 151
+
+
+state 146
+
+    (47) doWhileLoop -> do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis . semicolon
+
+    semicolon       shift and go to state 152
+
+
+state 147
+
+    (48) forLoop -> for open_parenthesis SequenceOfIdentifiers semicolon BooleanExpression semicolon UpdateVariables close_parenthesis . open_brace Routine close_brace
+
+    open_brace      shift and go to state 153
+
+
+state 148
+
+    (50) UpdateVariables -> AssignmentStatement comma . UpdateVariables
+    (49) UpdateVariables -> . AssignmentStatement
+    (50) UpdateVariables -> . AssignmentStatement comma UpdateVariables
+    (51) UpdateVariables -> . UnaryOperation
+    (52) UpdateVariables -> . UnaryOperation comma UpdateVariables
+    (2) AssignmentStatement -> . identifier equal ArithmeticExpression
+    (27) UnaryOperation -> . plus_plus identifier
+    (28) UnaryOperation -> . minus_minus identifier
+    (29) UnaryOperation -> . identifier plus_plus
+    (30) UnaryOperation -> . identifier minus_minus
+
+    identifier      shift and go to state 22
+    plus_plus       shift and go to state 32
+    minus_minus     shift and go to state 33
+
+    AssignmentStatement            shift and go to state 140
+    UpdateVariables                shift and go to state 154
+    UnaryOperation                 shift and go to state 141
+
+state 149
+
+    (52) UpdateVariables -> UnaryOperation comma . UpdateVariables
+    (49) UpdateVariables -> . AssignmentStatement
+    (50) UpdateVariables -> . AssignmentStatement comma UpdateVariables
+    (51) UpdateVariables -> . UnaryOperation
+    (52) UpdateVariables -> . UnaryOperation comma UpdateVariables
+    (2) AssignmentStatement -> . identifier equal ArithmeticExpression
+    (27) UnaryOperation -> . plus_plus identifier
+    (28) UnaryOperation -> . minus_minus identifier
+    (29) UnaryOperation -> . identifier plus_plus
+    (30) UnaryOperation -> . identifier minus_minus
+
+    identifier      shift and go to state 22
+    plus_plus       shift and go to state 32
+    minus_minus     shift and go to state 33
+
+    UnaryOperation                 shift and go to state 141
+    UpdateVariables                shift and go to state 155
+    AssignmentStatement            shift and go to state 140
+
+state 150
+
+    (42) elseIfCondition -> elseif open_parenthesis . BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition
+    (34) BooleanExpression -> . ArithmeticExpression LogicOperator ArithmeticExpression
+    (12) ArithmeticExpression -> . Number
+    (13) ArithmeticExpression -> . UnaryOperation
+    (14) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis
+    (15) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis plus ArithmeticExpression
+    (16) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis minus ArithmeticExpression
+    (17) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis star ArithmeticExpression
+    (18) ArithmeticExpression -> . open_parenthesis ArithmeticExpression close_parenthesis slash ArithmeticExpression
+    (19) ArithmeticExpression -> . Number plus ArithmeticExpression
+    (20) ArithmeticExpression -> . Number minus ArithmeticExpression
+    (21) ArithmeticExpression -> . Number star ArithmeticExpression
+    (22) ArithmeticExpression -> . Number slash ArithmeticExpression
+    (23) ArithmeticExpression -> . UnaryOperation plus ArithmeticExpression
+    (24) ArithmeticExpression -> . UnaryOperation minus ArithmeticExpression
+    (25) ArithmeticExpression -> . UnaryOperation star ArithmeticExpression
+    (26) ArithmeticExpression -> . UnaryOperation slash ArithmeticExpression
+    (31) Number -> . int_number
+    (32) Number -> . double_number
+    (33) Number -> . identifier
+    (27) UnaryOperation -> . plus_plus identifier
+    (28) UnaryOperation -> . minus_minus identifier
+    (29) UnaryOperation -> . identifier plus_plus
+    (30) UnaryOperation -> . identifier minus_minus
+
+    open_parenthesis shift and go to state 46
+    int_number      shift and go to state 47
+    double_number   shift and go to state 48
+    identifier      shift and go to state 42
+    plus_plus       shift and go to state 32
+    minus_minus     shift and go to state 33
+
+    BooleanExpression              shift and go to state 156
+    ArithmeticExpression           shift and go to state 83
+    Number                         shift and go to state 44
+    UnaryOperation                 shift and go to state 45
+
+state 151
+
+    (44) elseCondition -> else open_brace . Routine close_brace
+    (53) Routine -> . AssignmentStatement semicolon Routine
+    (54) Routine -> . UnaryOperation semicolon Routine
+    (55) Routine -> . ifCondition Routine
+    (56) Routine -> . whileLoop Routine
+    (57) Routine -> . doWhileLoop Routine
+    (58) Routine -> . forLoop Routine
+    (59) Routine -> . call identifier Routine
+    (60) Routine -> . InOut Routine
+    (61) Routine -> .
+    (2) AssignmentStatement -> . identifier equal ArithmeticExpression
+    (27) UnaryOperation -> . plus_plus identifier
+    (28) UnaryOperation -> . minus_minus identifier
+    (29) UnaryOperation -> . identifier plus_plus
+    (30) UnaryOperation -> . identifier minus_minus
+    (41) ifCondition -> . if open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition
+    (46) whileLoop -> . while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace
+    (47) doWhileLoop -> . do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon
+    (48) forLoop -> . for open_parenthesis SequenceOfIdentifiers semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace
+    (65) InOut -> . cin in identifier RecursiveIn semicolon
+    (66) InOut -> . cout out identifier RecursiveOut semicolon
+
+    call            shift and go to state 30
+    close_brace     reduce using rule 61 (Routine -> .)
+    identifier      shift and go to state 22
+    plus_plus       shift and go to state 32
+    minus_minus     shift and go to state 33
+    if              shift and go to state 34
+    while           shift and go to state 35
+    do              shift and go to state 36
+    for             shift and go to state 37
+    cin             shift and go to state 38
+    cout            shift and go to state 39
+
+    Routine                        shift and go to state 157
+    AssignmentStatement            shift and go to state 24
+    UnaryOperation                 shift and go to state 25
+    ifCondition                    shift and go to state 26
+    whileLoop                      shift and go to state 27
+    doWhileLoop                    shift and go to state 28
+    forLoop                        shift and go to state 29
+    InOut                          shift and go to state 31
+
+state 152
+
+    (47) doWhileLoop -> do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon .
+
+    call            reduce using rule 47 (doWhileLoop -> do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon .)
+    identifier      reduce using rule 47 (doWhileLoop -> do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon .)
+    plus_plus       reduce using rule 47 (doWhileLoop -> do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon .)
+    minus_minus     reduce using rule 47 (doWhileLoop -> do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon .)
+    if              reduce using rule 47 (doWhileLoop -> do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon .)
+    while           reduce using rule 47 (doWhileLoop -> do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon .)
+    do              reduce using rule 47 (doWhileLoop -> do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon .)
+    for             reduce using rule 47 (doWhileLoop -> do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon .)
+    cin             reduce using rule 47 (doWhileLoop -> do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon .)
+    cout            reduce using rule 47 (doWhileLoop -> do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon .)
+    close_brace     reduce using rule 47 (doWhileLoop -> do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon .)
+
+
+state 153
+
+    (48) forLoop -> for open_parenthesis SequenceOfIdentifiers semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace . Routine close_brace
+    (53) Routine -> . AssignmentStatement semicolon Routine
+    (54) Routine -> . UnaryOperation semicolon Routine
+    (55) Routine -> . ifCondition Routine
+    (56) Routine -> . whileLoop Routine
+    (57) Routine -> . doWhileLoop Routine
+    (58) Routine -> . forLoop Routine
+    (59) Routine -> . call identifier Routine
+    (60) Routine -> . InOut Routine
+    (61) Routine -> .
+    (2) AssignmentStatement -> . identifier equal ArithmeticExpression
+    (27) UnaryOperation -> . plus_plus identifier
+    (28) UnaryOperation -> . minus_minus identifier
+    (29) UnaryOperation -> . identifier plus_plus
+    (30) UnaryOperation -> . identifier minus_minus
+    (41) ifCondition -> . if open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition
+    (46) whileLoop -> . while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace
+    (47) doWhileLoop -> . do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon
+    (48) forLoop -> . for open_parenthesis SequenceOfIdentifiers semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace
+    (65) InOut -> . cin in identifier RecursiveIn semicolon
+    (66) InOut -> . cout out identifier RecursiveOut semicolon
+
+    call            shift and go to state 30
+    close_brace     reduce using rule 61 (Routine -> .)
+    identifier      shift and go to state 22
+    plus_plus       shift and go to state 32
+    minus_minus     shift and go to state 33
+    if              shift and go to state 34
+    while           shift and go to state 35
+    do              shift and go to state 36
+    for             shift and go to state 37
+    cin             shift and go to state 38
+    cout            shift and go to state 39
+
+    Routine                        shift and go to state 158
+    AssignmentStatement            shift and go to state 24
+    UnaryOperation                 shift and go to state 25
+    ifCondition                    shift and go to state 26
+    whileLoop                      shift and go to state 27
+    doWhileLoop                    shift and go to state 28
+    forLoop                        shift and go to state 29
+    InOut                          shift and go to state 31
+
+state 154
+
+    (50) UpdateVariables -> AssignmentStatement comma UpdateVariables .
+
+    close_parenthesis reduce using rule 50 (UpdateVariables -> AssignmentStatement comma UpdateVariables .)
+
+
+state 155
+
+    (52) UpdateVariables -> UnaryOperation comma UpdateVariables .
+
+    close_parenthesis reduce using rule 52 (UpdateVariables -> UnaryOperation comma UpdateVariables .)
+
+
+state 156
+
+    (42) elseIfCondition -> elseif open_parenthesis BooleanExpression . close_parenthesis open_brace Routine close_brace elseIfCondition
+
+    close_parenthesis shift and go to state 159
+
+
+state 157
+
+    (44) elseCondition -> else open_brace Routine . close_brace
+
+    close_brace     shift and go to state 160
+
+
+state 158
+
+    (48) forLoop -> for open_parenthesis SequenceOfIdentifiers semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine . close_brace
+
+    close_brace     shift and go to state 161
+
+
+state 159
+
+    (42) elseIfCondition -> elseif open_parenthesis BooleanExpression close_parenthesis . open_brace Routine close_brace elseIfCondition
+
+    open_brace      shift and go to state 162
+
+
+state 160
+
+    (44) elseCondition -> else open_brace Routine close_brace .
+
+    call            reduce using rule 44 (elseCondition -> else open_brace Routine close_brace .)
+    identifier      reduce using rule 44 (elseCondition -> else open_brace Routine close_brace .)
+    plus_plus       reduce using rule 44 (elseCondition -> else open_brace Routine close_brace .)
+    minus_minus     reduce using rule 44 (elseCondition -> else open_brace Routine close_brace .)
+    if              reduce using rule 44 (elseCondition -> else open_brace Routine close_brace .)
+    while           reduce using rule 44 (elseCondition -> else open_brace Routine close_brace .)
+    do              reduce using rule 44 (elseCondition -> else open_brace Routine close_brace .)
+    for             reduce using rule 44 (elseCondition -> else open_brace Routine close_brace .)
+    cin             reduce using rule 44 (elseCondition -> else open_brace Routine close_brace .)
+    cout            reduce using rule 44 (elseCondition -> else open_brace Routine close_brace .)
+    close_brace     reduce using rule 44 (elseCondition -> else open_brace Routine close_brace .)
+
+
+state 161
+
+    (48) forLoop -> for open_parenthesis SequenceOfIdentifiers semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace .
+
+    call            reduce using rule 48 (forLoop -> for open_parenthesis SequenceOfIdentifiers semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace .)
+    identifier      reduce using rule 48 (forLoop -> for open_parenthesis SequenceOfIdentifiers semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace .)
+    plus_plus       reduce using rule 48 (forLoop -> for open_parenthesis SequenceOfIdentifiers semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace .)
+    minus_minus     reduce using rule 48 (forLoop -> for open_parenthesis SequenceOfIdentifiers semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace .)
+    if              reduce using rule 48 (forLoop -> for open_parenthesis SequenceOfIdentifiers semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace .)
+    while           reduce using rule 48 (forLoop -> for open_parenthesis SequenceOfIdentifiers semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace .)
+    do              reduce using rule 48 (forLoop -> for open_parenthesis SequenceOfIdentifiers semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace .)
+    for             reduce using rule 48 (forLoop -> for open_parenthesis SequenceOfIdentifiers semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace .)
+    cin             reduce using rule 48 (forLoop -> for open_parenthesis SequenceOfIdentifiers semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace .)
+    cout            reduce using rule 48 (forLoop -> for open_parenthesis SequenceOfIdentifiers semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace .)
+    close_brace     reduce using rule 48 (forLoop -> for open_parenthesis SequenceOfIdentifiers semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace .)
+
+
+state 162
+
+    (42) elseIfCondition -> elseif open_parenthesis BooleanExpression close_parenthesis open_brace . Routine close_brace elseIfCondition
+    (53) Routine -> . AssignmentStatement semicolon Routine
+    (54) Routine -> . UnaryOperation semicolon Routine
+    (55) Routine -> . ifCondition Routine
+    (56) Routine -> . whileLoop Routine
+    (57) Routine -> . doWhileLoop Routine
+    (58) Routine -> . forLoop Routine
+    (59) Routine -> . call identifier Routine
+    (60) Routine -> . InOut Routine
+    (61) Routine -> .
+    (2) AssignmentStatement -> . identifier equal ArithmeticExpression
+    (27) UnaryOperation -> . plus_plus identifier
+    (28) UnaryOperation -> . minus_minus identifier
+    (29) UnaryOperation -> . identifier plus_plus
+    (30) UnaryOperation -> . identifier minus_minus
+    (41) ifCondition -> . if open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition
+    (46) whileLoop -> . while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace
+    (47) doWhileLoop -> . do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon
+    (48) forLoop -> . for open_parenthesis SequenceOfIdentifiers semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace
+    (65) InOut -> . cin in identifier RecursiveIn semicolon
+    (66) InOut -> . cout out identifier RecursiveOut semicolon
+
+    call            shift and go to state 30
+    close_brace     reduce using rule 61 (Routine -> .)
+    identifier      shift and go to state 22
+    plus_plus       shift and go to state 32
+    minus_minus     shift and go to state 33
+    if              shift and go to state 34
+    while           shift and go to state 35
+    do              shift and go to state 36
+    for             shift and go to state 37
+    cin             shift and go to state 38
+    cout            shift and go to state 39
+
+    Routine                        shift and go to state 163
+    AssignmentStatement            shift and go to state 24
+    UnaryOperation                 shift and go to state 25
+    ifCondition                    shift and go to state 26
+    whileLoop                      shift and go to state 27
+    doWhileLoop                    shift and go to state 28
+    forLoop                        shift and go to state 29
+    InOut                          shift and go to state 31
+
+state 163
+
+    (42) elseIfCondition -> elseif open_parenthesis BooleanExpression close_parenthesis open_brace Routine . close_brace elseIfCondition
+
+    close_brace     shift and go to state 164
+
+
+state 164
+
+    (42) elseIfCondition -> elseif open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace . elseIfCondition
+    (42) elseIfCondition -> . elseif open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition
+    (43) elseIfCondition -> . elseCondition
+    (44) elseCondition -> . else open_brace Routine close_brace
+    (45) elseCondition -> .
+
+    elseif          shift and go to state 143
+    else            shift and go to state 145
+    call            reduce using rule 45 (elseCondition -> .)
+    identifier      reduce using rule 45 (elseCondition -> .)
+    plus_plus       reduce using rule 45 (elseCondition -> .)
+    minus_minus     reduce using rule 45 (elseCondition -> .)
+    if              reduce using rule 45 (elseCondition -> .)
+    while           reduce using rule 45 (elseCondition -> .)
+    do              reduce using rule 45 (elseCondition -> .)
+    for             reduce using rule 45 (elseCondition -> .)
+    cin             reduce using rule 45 (elseCondition -> .)
+    cout            reduce using rule 45 (elseCondition -> .)
+    close_brace     reduce using rule 45 (elseCondition -> .)
+
+    elseIfCondition                shift and go to state 165
+    elseCondition                  shift and go to state 144
+
+state 165
+
+    (42) elseIfCondition -> elseif open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition .
+
+    call            reduce using rule 42 (elseIfCondition -> elseif open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition .)
+    identifier      reduce using rule 42 (elseIfCondition -> elseif open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition .)
+    plus_plus       reduce using rule 42 (elseIfCondition -> elseif open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition .)
+    minus_minus     reduce using rule 42 (elseIfCondition -> elseif open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition .)
+    if              reduce using rule 42 (elseIfCondition -> elseif open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition .)
+    while           reduce using rule 42 (elseIfCondition -> elseif open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition .)
+    do              reduce using rule 42 (elseIfCondition -> elseif open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition .)
+    for             reduce using rule 42 (elseIfCondition -> elseif open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition .)
+    cin             reduce using rule 42 (elseIfCondition -> elseif open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition .)
+    cout            reduce using rule 42 (elseIfCondition -> elseif open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition .)
+    close_brace     reduce using rule 42 (elseIfCondition -> elseif open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition .)
+
