@@ -26,4 +26,13 @@ Begin_Subroutines_Declaration
 			h = i + 50;
 		}
 	}
+
+	funcTwo {
+		mat[4][3] = 56;
+	}
 End_Subroutines_Declaration
+
+main{
+	# This is a comment
+	call funcTwo;
+}
