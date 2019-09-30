@@ -20,6 +20,8 @@ tokens = [
 	"close_parenthesis",
 	"open_brace",
 	"close_brace",
+	"open_bracket",
+	"close_bracket",
 
 	#Logic Operators
 	"is_equal",
@@ -91,6 +93,8 @@ t_comma = r"\,"
 t_semicolon = r"\;"
 t_open_parenthesis = r"\("
 t_close_parenthesis = r"\)"
+t_open_bracket = r"\["
+t_close_bracket = r"\]"
 t_equal = r"\="
 t_greater_or_equal = r"\>\="
 t_less_or_equal = r"\<\="
@@ -166,8 +170,12 @@ def p_SimpleTypes(types):
 
 def p_SequenceOfIdentifiers(sequenceOfIdentifiers):
 	'''
-		SequenceOfIdentifiers 	:	identifier 
+		SequenceOfIdentifiers 		:	identifier 
 									|	identifier comma SequenceOfIdentifiers
+									| 	identifier open_bracket Number close_bracket
+									| 	identifier open_bracket Number close_bracket comma
+									| 	identifier open_bracket Number close_bracket open_bracket Number close_bracket
+									| 	identifier open_bracket Number close_bracket open_bracket Number close_bracket comma
 									|	AssignmentStatement
 									|	AssignmentStatement comma SequenceOfIdentifiers
 	'''

@@ -1,6 +1,6 @@
 Begin_Variables_Declaration
 	double a = (50 + 35.3 * (4 / 500.56) + (50.87 * (6 - 76 - (76 * 3 * 4 / 2)))), b, c;
-	int y = 1487;
+	int y = 1487, mat[20][20];
 End_Variables_Declaration	
 
 Begin_Subroutines_Declaration
