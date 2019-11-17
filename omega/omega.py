@@ -1,9 +1,21 @@
 import ply.lex as lex
 import ply.yacc as yacc
 import sys
+import json
 
-currentIndex = 0
+currentIndex = 50
 variablesTable = {}
+
+quadruplets = []
+quadrupletIndex = 1
+
+operandsStack = []
+operatorsStack = []
+typesStack = []
+avail = []
+
+for i in range(50):
+	avail.append(str(i))
 
 tokens = [
 	#Used for variables and subroutines names
@@ -137,7 +149,7 @@ def addVariable(varName, varType):
 		'varName' : varName,
         'varType':  varType,
         'value': initialValue,
-        'direction': currentIndex
+        'address': currentIndex
     }
 	currentIndex += 1
 
@@ -173,8 +185,12 @@ def p_ProgramFlow(p):
 	'''
 		ProgramFlow : VariablesDeclaration SubroutinesDeclaration Main
 	'''
-	for key in variablesTable:
-		print(variablesTable[key]['varName'] + "\t" + variablesTable[key]['varType'] + "\t" + str(variablesTable[key]['direction']))
+	print(operandsStack)
+	print(operatorsStack)
+	print(quadruplets)
+	print(json.dumps(variablesTable, indent=4))
+	# for key in variablesTable:
+	# 	print(variablesTable[key]['varName'] + "\t" + variablesTable[key]['varType'] + "\t" + str(variablesTable[key]['address']))
 	print('\nCorrecto!!')
 
 def p_Main(p):
@@ -185,8 +201,8 @@ def p_Main(p):
 
 def p_Number(p):
 	'''
-		Number : int_number
-			   | double_number
+		Number : int_number action_insert_int_operand
+			   | double_number action_insert_double_operand
 	'''
 
 def p_variable(p):
@@ -220,27 +236,38 @@ def p_RecVariableDeclaration(p):
 	if(len(p) == 2 or p[2] == '='):
 		p[0] = [p[1]]
 	else:
-		p[0] = p[len(p)-1] + [p[1]]
+		p[0] = [p[1]] + p[len(p)-1]
 
 def p_type(p):
 	'''
-		type : int
+		type : int	
 			 | double
 	'''
 	p[0] = p[1]
 
 ################### Operaciones y Expresiones ###################
 
-def p_ArithmeticExpression(p):
+
+def p_expression_plus_minus(p):
+    '''
+	ArithmeticExpression  : ArithmeticExpression plus action_insert_operator term action_generate_arith_quadruplet
+						  | ArithmeticExpression minus action_insert_operator term action_generate_arith_quadruplet
+						  | term
 	'''
-		ArithmeticExpression : Number
-							| variable
-							| UnaryOperation
-							| ArithmeticExpression plus ArithmeticExpression
-							| ArithmeticExpression minus ArithmeticExpression
-							| ArithmeticExpression star ArithmeticExpression
-							| ArithmeticExpression slash ArithmeticExpression
-							| open_parenthesis ArithmeticExpression close_parenthesis
+     
+def p_term_times_div(p):
+	'''
+    term		: factor
+				| term star action_insert_operator factor action_generate_arith_quadruplet
+				| term slash action_insert_operator factor action_generate_arith_quadruplet
+
+	'''
+def p_factor(p):
+	'''
+    factor : Number
+		   | variable action_insert_variable
+		   | UnaryOperation
+		   | open_parenthesis ArithmeticExpression close_parenthesis
 	'''
 
 def p_BooleanExpression(p):
@@ -253,7 +280,7 @@ def p_BooleanExpression(p):
 
 def p_AssignmentStatement(p):
 	'''
-		AssignmentStatement : variable equal ArithmeticExpression
+		AssignmentStatement : variable action_insert_variable equal ArithmeticExpression action_assignation
 	'''
 
 def p_UnaryOperation(p):
@@ -361,6 +388,46 @@ def p_RecursiveOut(p):
 					 | out string RecursiveOut
 					 |
 	'''
+
+def p_action_insert_variable(p):
+	"action_insert_variable :"
+	if p[-1] not in variablesTable:
+		raise Exception(f'The variable {p[-1]} was not declared in this scope')
+	address = variablesTable[p[-1]]['address']
+	operandsStack.append(f'${address}')
+
+def p_action_insert_int_operand(p):
+	"action_insert_int_operand :"
+	operandsStack.append(p[-1])
+	typesStack.append('int')
+
+def p_action_insert_double_operand(p):
+	"action_insert_double_operand :"
+	operandsStack.append(p[-1])
+	typesStack.append('double')
+
+def p_action_insert_operator(p):
+	"action_insert_operator : "
+	operatorsStack.append(p[-1])
+
+def p_action_generate_arith_quadruplet(p):
+	"action_generate_arith_quadruplet :"
+	global quadrupletIndex
+	global avail
+	operator = operatorsStack.pop()
+	operand2 = operandsStack.pop()
+	operand1 = operandsStack.pop()
+	temp = avail.pop(0)
+	operandsStack.append(temp)
+	quadruplets.append(str(operator) + ' ' + str(operand1) + ' ' + str(operand2) + ' ' + str(temp))
+	quadrupletIndex += 1
+
+def p_action_assignation(p):
+	"action_assignation :"
+	operand2 = operandsStack.pop()
+	operand1 = operandsStack.pop()
+	quadruplets.append('= ' + str(operand2) + '    ' + str(operand1))
+
 
 # Error rule for syntax errors
 def p_error(p): 
