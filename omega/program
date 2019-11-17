@@ -1,36 +1,33 @@
-Begin_Variables_Declaration
-	double a = (50 + 35.3 * (4 / 500.56) + (50.87 * (6 - 76 - (76 * 3 * 4 / 2)))), b, c;
-	int y = 1487, mat[20][20];
-End_Variables_Declaration	
+double a = (50 + 35.3 * (4 / 500.56) + (50.87 * (6 - 76 - (76 * 3 * 4 / 2)))), b, c;
+int y = 1487, mat[20][20];	
 
-Begin_Subroutines_Declaration
-	func {
-		a = 5;
-		if(cont == MAX){
-			cont = 0;
-			if(x <= u){
-				cin >> k;
-				cout << a << b << c;
-				while(k > 8 * 5 - (56.4 + 2)){
-					k--;
-				}
+func {
+	a = 5;
+	if(cont == MAX){
+		cont = 0;
+		if(x <= u){
+			cin >> k;
+			cout << a << b << c;
+			while(k > 8 * 5 - (56.4 + 2)){
+				k--;
 			}
 		}
-		elseif ( x == y ){
-			y = x++;
-		}
-		else{
-			f = 8;
-		}
-		for(i, j; i < MAX; i++, j--){
-			h = i + 50;
-		}
 	}
+	elseif ( x == y ){
+		y = x++;
+	}
+	else{
+		f = 8;
+	}
+	for(i, j; i < MAX; i++, j--){
+		h = i + 50;
+	}
+}
 
-	funcTwo {
-		mat[4][3] = 56;
-	}
-End_Subroutines_Declaration
+funcTwo {
+	mat[4][3] = 56;
+}
+
 
 main{
 	# This is a comment

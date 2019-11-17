@@ -2,6 +2,9 @@ import ply.lex as lex
 import ply.yacc as yacc
 import sys
 
+currentIndex = 0
+variablesTable = {}
+
 tokens = [
 	#Used for variables and subroutines names
 	"identifier",
@@ -33,6 +36,10 @@ tokens = [
 	"and",
 	"or",
 
+	# Logic Constants
+	"true",
+	"false",
+
 	# Arithmetic Operators
 	"equal",
 	"plus",
@@ -62,13 +69,7 @@ tokens = [
 	"cin",
 	"cout",
 	"in",
-	"out",
-
-	# Seperadores de código
-	"Begin_Variables_Declaration",
-	"End_Variables_Declaration",
-	"Begin_Subroutines_Declaration",
-	"End_Subroutines_Declaration"
+	"out"
 ]
 
 # Diccionario para palabras reservadas
@@ -87,10 +88,8 @@ reserved = {
 	"cout"									: "cout",
 	"and"									: "and",
 	"or"									: "or",
-	"Begin_Variables_Declaration" 			: "Begin_Variables_Declaration",
-	"End_Variables_Declaration" 			: "End_Variables_Declaration",
-	"Begin_Subroutines_Declaration" 		: "Begin_Subroutines_Declaration",
-	"End_Subroutines_Declaration"			: "End_Subroutines_Declaration"
+	"true"									: "true",
+	"false"									: "false"
 }
 
 
@@ -124,6 +123,24 @@ t_string = r'\"[a-zA-Z0-9 \.\?\:\t\r\n\f()\[\]\&\!\@\#\$\%\^\-\=\+\/\,]*\"'
 t_ignore_COMMENT = r'\#.*'
 t_ignore = " \t\n"
 
+precedence = (
+	('left', 'is_equal', 'not_equal', 'less_or_equal', 'greater_or_equal', 'less_than', 'greater_than', 'and', 'or'),
+	('left', 'plus', 'minus'),
+	('left', 'star', 'slash'),
+)
+
+
+def addVariable(varName, varType):
+	global currentIndex
+	initialValue = 0 if varType == 'int' else 0.0
+	variablesTable[varName] = {
+		'varName' : varName,
+        'varType':  varType,
+        'value': initialValue,
+        'direction': currentIndex
+    }
+	currentIndex += 1
+
 def t_double_number(t):
     r"\d+\.\d+"
     t.value = float(t.value)
@@ -150,98 +167,104 @@ def t_error(t):
 
 lexer = lex.lex()
 
-def p_ProgramFlow(programFlow):
+################### Flujo del Programa ###################
+
+def p_ProgramFlow(p):
 	'''
 		ProgramFlow : VariablesDeclaration SubroutinesDeclaration Main
 	'''
+	for key in variablesTable:
+		print(variablesTable[key]['varName'] + "\t" + variablesTable[key]['varType'] + "\t" + str(variablesTable[key]['direction']))
 	print('\nCorrecto!!')
 
-def p_AssignmentStatement(variable):
+def p_Main(p):
 	'''
-		AssignmentStatement : identifier equal ArithmeticExpression
-							| MatrixElement equal ArithmeticExpression
+		Main : main open_brace Routine close_brace
+	'''
+################### Definicion y declaracion de variables ###################
+
+def p_Number(p):
+	'''
+		Number : int_number
+			   | double_number
 	'''
 
-def p_VariablesDeclaration(variablesDeclaration):
+def p_variable(p):
 	'''
-		VariablesDeclaration : Begin_Variables_Declaration SingleTypeVariableDeclaration End_Variables_Declaration
+		variable : identifier dimensions
+	'''
+	p[0] = p[1]
+
+def p_dimensions(p):
+	'''
+		dimensions : open_bracket variable close_bracket dimensions
+				   | 
 	'''
 
-def p_SingleTypeVariableDeclaration(singleTypeVariableDeclaration):
+def p_VariablesDeclaration(p):
+	'''	
+		VariablesDeclaration : type RecVariableDeclaration semicolon VariablesDeclaration
+							 |
 	'''
-		SingleTypeVariableDeclaration : SimpleTypes SequenceOfIdentifiers semicolon SingleTypeVariableDeclaration
-									  |
-	'''
+	if(len(p) > 1):
+		for name in p[2]:
+			addVariable(name, p[1])
 
-def p_SimpleTypes(types):
+def p_RecVariableDeclaration(p):
 	'''
-		SimpleTypes : int
-					| double 
+		RecVariableDeclaration  :	variable 
+								|	variable comma RecVariableDeclaration
+								|   variable equal ArithmeticExpression
+								|	variable equal ArithmeticExpression comma RecVariableDeclaration
 	'''
+	if(len(p) == 2 or p[2] == '='):
+		p[0] = [p[1]]
+	else:
+		p[0] = p[len(p)-1] + [p[1]]
 
-def p_SequenceOfIdentifiers(sequenceOfIdentifiers):
+def p_type(p):
 	'''
-		SequenceOfIdentifiers 		:	identifier 
-									|	identifier comma SequenceOfIdentifiers
-									| 	MatrixElement 
-									| 	MatrixElement comma SequenceOfIdentifiers
-									|	AssignmentStatement
-									|	AssignmentStatement comma SequenceOfIdentifiers
+		type : int
+			 | double
 	'''
+	p[0] = p[1]
 
-def p_MatrixElement(mat):
-	'''
-		MatrixElement : identifier open_bracket Number close_bracket
-					  | identifier open_bracket Number close_bracket open_bracket Number close_bracket
-	'''
+################### Operaciones y Expresiones ###################
 
-def p_ArithmeticExpression(arithmeticExpression):
+def p_ArithmeticExpression(p):
 	'''
 		ArithmeticExpression : Number
-				   | UnaryOperation
-				   | MatrixElement
-				   | open_parenthesis ArithmeticExpression close_parenthesis
-				   | open_parenthesis ArithmeticExpression close_parenthesis plus ArithmeticExpression
-				   | open_parenthesis ArithmeticExpression close_parenthesis minus ArithmeticExpression
-				   | open_parenthesis ArithmeticExpression close_parenthesis star ArithmeticExpression
-				   | open_parenthesis ArithmeticExpression close_parenthesis slash ArithmeticExpression
-				   | Number plus ArithmeticExpression
-				   | Number minus ArithmeticExpression
-				   | Number star ArithmeticExpression
-				   | Number slash ArithmeticExpression
-				   | MatrixElement plus ArithmeticExpression
-				   | MatrixElement minus ArithmeticExpression
-				   | MatrixElement star ArithmeticExpression
-				   | MatrixElement slash ArithmeticExpression
-				   | UnaryOperation plus ArithmeticExpression
-				   | UnaryOperation minus ArithmeticExpression
-				   | UnaryOperation star ArithmeticExpression
-				   | UnaryOperation slash ArithmeticExpression
+							| variable
+							| UnaryOperation
+							| ArithmeticExpression plus ArithmeticExpression
+							| ArithmeticExpression minus ArithmeticExpression
+							| ArithmeticExpression star ArithmeticExpression
+							| ArithmeticExpression slash ArithmeticExpression
+							| open_parenthesis ArithmeticExpression close_parenthesis
+	'''
+
+def p_BooleanExpression(p):
+	'''
+		BooleanExpression : true
+						  | false
+						  | ArithmeticExpression
+						  | ArithmeticExpression LogicOperator BooleanExpression
+	'''
+
+def p_AssignmentStatement(p):
+	'''
+		AssignmentStatement : variable equal ArithmeticExpression
 	'''
 
 def p_UnaryOperation(p):
 	'''
-		UnaryOperation : plus_plus identifier
-					   | minus_minus identifier
-					   | identifier plus_plus
-					   | identifier minus_minus
+		UnaryOperation : plus_plus variable
+					   | minus_minus variable
+					   | variable plus_plus
+					   | variable minus_minus
 	'''
 
-def p_Number(number):
-	'''
-		Number : int_number
-			   | double_number
-			   | identifier
-	'''
-
-def p_BooleanExpression(booleanExpression):
-	'''
-		BooleanExpression : ArithmeticExpression
-						  | ArithmeticExpression LogicOperator ArithmeticExpression
-						  | BooleanExpression LogicOperator BooleanExpression
-	'''
-
-def p_LogicOperator(logicOperator):
+def p_LogicOperator(p):
 	'''
 		LogicOperator : is_equal
 					  |	not_equal
@@ -252,6 +275,8 @@ def p_LogicOperator(logicOperator):
 					  | and
 					  | or
 	'''
+
+################### Saltos Condicionales ###################
 
 def p_ifCondition(p):
 	'''
@@ -270,6 +295,8 @@ def p_elseCondition(p):
 					  |
 	'''
 
+################### Ciclos ###################
+
 def p_whileLoop(p):
 	'''
 		whileLoop : while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace
@@ -282,7 +309,7 @@ def p_doWhileLoop(p):
 
 def p_forLoop(p):
 	'''
-		forLoop : for open_parenthesis SequenceOfIdentifiers semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace
+		forLoop : for open_parenthesis RecVariableDeclaration semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace
 	'''
 def p_UpdateVariables(p):
  	'''
@@ -291,6 +318,14 @@ def p_UpdateVariables(p):
 					| UnaryOperation
 					| UnaryOperation comma UpdateVariables
  	'''
+
+################### Rutinas ###################
+
+def p_SubroutinesDeclaration(p):
+	'''
+		SubroutinesDeclaration : identifier open_brace Routine close_brace SubroutinesDeclaration
+							   |
+	'''
 
 def p_Routine(p):
 	'''
@@ -305,48 +340,31 @@ def p_Routine(p):
 				|
 	'''
 
-def p_SubroutinesDeclaration(p):
-	'''
-		SubroutinesDeclaration : Begin_Subroutines_Declaration SingleSubroutine End_Subroutines_Declaration
-	'''
+################### Entrada y Salida ###################
 
-def p_SingleSubroutine(p):
+def p_InOut(p):
 	'''
-		SingleSubroutine : identifier open_brace Routine close_brace SingleSubroutine
-						 |
-	'''
-
-def p_InOut(inout):
-	'''
-		InOut : cin in identifier RecursiveIn semicolon
-			  | cin in MatrixElement RecursiveIn semicolon
+		InOut : cin in variable RecursiveIn semicolon
 			  | cout out ArithmeticExpression RecursiveOut semicolon
 			  | cout out string RecursiveOut semicolon
 	'''
 
-def p_RecursiveIn(i):
+def p_RecursiveIn(p):
 	'''
-		RecursiveIn : in identifier RecursiveIn
-					| in MatrixElement RecursiveIn
+		RecursiveIn : in variable RecursiveIn
 					|
 	'''
 
-def p_RecursiveOut(o):
+def p_RecursiveOut(p):
 	'''
 		RecursiveOut : out ArithmeticExpression RecursiveOut
 					 | out string RecursiveOut
 					 |
 	'''
 
-def p_Main(m):
-	'''
-		Main : main open_brace Routine close_brace
-	'''
-
 # Error rule for syntax errors
 def p_error(p): 
-    print("Syntax error in input!");
-
+    print("Syntax error in input!")
 
 #Build Parser
 parser = yacc.yacc()

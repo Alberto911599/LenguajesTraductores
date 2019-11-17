@@ -1,30 +1,23 @@
-Begin_Variables_Declaration
-	int MAX = 100;
-	int matA[MAX][MAX], matB[MAX][MAX];
-	int rowsA, colsA, rowsB, colsB;
-	int j, i;
-End_Variables_Declaration
+int MAX = 100;
+int matA[MAX][MAX], matB[MAX][MAX];
+int rowsA, colsA, rowsB, colsB;
+int j, i;
 
-Begin_Subroutines_Declaration
+readDimensions{
+	do{
+		cout << "De las dimensiones de las matrices, (mismas filas y columnas)" << "\n";
+		cin >> rowsA >> colsA >> rowsB >> colsB;
+	}while(rowsA != rowsB && colsA != colsB);
+}
 
-	readDimensions{
-		do{
-			cout << "De las dimensiones de las matrices, (mismas filas y columnas)" << "\n";
-			cin >> rowsA >> colsA >> rowsB >> colsB;
-		}while(rowsA != rowsB && colsA != colsB);
-	}
-
-	printSum{
-		for(i = 0; i < rowsA; i++){
-			for(j = 0; j < colsA; j++){
-				cout << matA[i][j] + matB[i][j] << " ";
-			}
-			cout << "\n";
+printSum{
+	for(i = 0; i < rowsA; i++){
+		for(j = 0; j < colsA; j++){
+			cout << matA[i][j] + matB[i][j] << " ";
 		}
+		cout << "\n";
 	}
-
-End_Subroutines_Declaration
-
+}
 
 main {
 	call readDimensions;
