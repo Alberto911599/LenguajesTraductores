@@ -1,3 +1,6 @@
+# TODO : Types Validations
+# TODO : Return temporal registers to the avail
+
 import ply.lex as lex
 import ply.yacc as yacc
 import sys
@@ -15,7 +18,7 @@ typesStack = []
 avail = []
 
 for i in range(50):
-	avail.append(str(i))
+	avail.append('T' + str(i))
 
 tokens = [
 	#Used for variables and subroutines names
@@ -185,12 +188,12 @@ def p_ProgramFlow(p):
 	'''
 		ProgramFlow : VariablesDeclaration SubroutinesDeclaration Main
 	'''
-	print(operandsStack)
-	print(operatorsStack)
-	print(quadruplets)
+	# print(operandsStack)
+	# print(operatorsStack)
+	# print(quadruplets)
 	print(json.dumps(variablesTable, indent=4))
-	# for key in variablesTable:
-	# 	print(variablesTable[key]['varName'] + "\t" + variablesTable[key]['varType'] + "\t" + str(variablesTable[key]['address']))
+	for q in quadruplets:
+		print(q)
 	print('\nCorrecto!!')
 
 def p_Main(p):
@@ -214,7 +217,8 @@ def p_variable(p):
 def p_dimensions(p):
 	'''
 		dimensions : open_bracket variable close_bracket dimensions
-				   | 
+				   | open_bracket Number close_bracket dimensions
+				   |
 	'''
 
 def p_VariablesDeclaration(p):
@@ -250,16 +254,16 @@ def p_type(p):
 
 def p_expression_plus_minus(p):
     '''
-	ArithmeticExpression  : ArithmeticExpression plus action_insert_operator term action_generate_arith_quadruplet
-						  | ArithmeticExpression minus action_insert_operator term action_generate_arith_quadruplet
+	ArithmeticExpression  : ArithmeticExpression plus action_insert_operator term action_generate_quadruplet
+						  | ArithmeticExpression minus action_insert_operator term action_generate_quadruplet
 						  | term
 	'''
      
 def p_term_times_div(p):
 	'''
     term		: factor
-				| term star action_insert_operator factor action_generate_arith_quadruplet
-				| term slash action_insert_operator factor action_generate_arith_quadruplet
+				| term star action_insert_operator factor action_generate_quadruplet
+				| term slash action_insert_operator factor action_generate_quadruplet
 
 	'''
 def p_factor(p):
@@ -272,10 +276,10 @@ def p_factor(p):
 
 def p_BooleanExpression(p):
 	'''
-		BooleanExpression : true
-						  | false
+		BooleanExpression : true 
+						  | false 
 						  | ArithmeticExpression
-						  | ArithmeticExpression LogicOperator BooleanExpression
+						  | ArithmeticExpression LogicOperator action_insert_operator BooleanExpression action_generate_quadruplet
 	'''
 
 def p_AssignmentStatement(p):
@@ -285,10 +289,8 @@ def p_AssignmentStatement(p):
 
 def p_UnaryOperation(p):
 	'''
-		UnaryOperation : plus_plus variable
-					   | minus_minus variable
-					   | variable plus_plus
-					   | variable minus_minus
+		UnaryOperation : plus_plus action_insert_operator variable action_generate_unary_operation_quadruplet
+					   | minus_minus action_insert_operator variable action_generate_unary_operation_quadruplet
 	'''
 
 def p_LogicOperator(p):
@@ -302,6 +304,7 @@ def p_LogicOperator(p):
 					  | and
 					  | or
 	'''
+	p[0] = p[1]
 
 ################### Saltos Condicionales ###################
 
@@ -410,8 +413,8 @@ def p_action_insert_operator(p):
 	"action_insert_operator : "
 	operatorsStack.append(p[-1])
 
-def p_action_generate_arith_quadruplet(p):
-	"action_generate_arith_quadruplet :"
+def p_action_generate_aquadruplet(p):
+	"action_generate_quadruplet :"
 	global quadrupletIndex
 	global avail
 	operator = operatorsStack.pop()
@@ -426,7 +429,17 @@ def p_action_assignation(p):
 	"action_assignation :"
 	operand2 = operandsStack.pop()
 	operand1 = operandsStack.pop()
-	quadruplets.append('= ' + str(operand2) + '    ' + str(operand1))
+	quadruplets.append('=' + str(operand2) + '    ' + str(operand1))
+
+def p_action_generate_unary_operation_quadruplet(p):
+	"action_generate_unary_operation_quadruplet :"
+	operand = operandsStack.pop()
+	operator = operatorsStack.pop()
+	temp = avail.pop(0)
+	quadruplets.append(str(operator)[0] + ' ' + str(operand) + ' ' + str(1) + ' ' + str(temp))
+	quadrupletIndex += 1
+
+
 
 
 # Error rule for syntax errors
@@ -443,4 +456,4 @@ if (len(sys.argv) > 1):
     parser.parse(program)
     programFile.close()
 else:
-    raise Exception('''Espesifique un archivo''')
+    raise Exception('''Espesifique un archivo''')	
