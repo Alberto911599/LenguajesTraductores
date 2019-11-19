@@ -145,6 +145,12 @@ precedence = (
 )
 
 
+
+def isTemp(operand):
+	if type(operand) is not str:
+		return False
+	return operand[0] == 'T'
+
 def addVariable(varName, varType):
 	global currentIndex
 	initialValue = 0 if varType == 'int' else 0.0
@@ -269,7 +275,7 @@ def p_term_times_div(p):
 def p_factor(p):
 	'''
     factor : Number
-		   | variable action_insert_variable
+		   | variable action_insert_variable_as_operand
 		   | UnaryOperation
 		   | open_parenthesis ArithmeticExpression close_parenthesis
 	'''
@@ -284,13 +290,14 @@ def p_BooleanExpression(p):
 
 def p_AssignmentStatement(p):
 	'''
-		AssignmentStatement : variable action_insert_variable equal ArithmeticExpression action_assignation
+		AssignmentStatement : variable action_insert_variable_as_operand equal ArithmeticExpression action_assignation
+							| UnaryOperation
 	'''
 
 def p_UnaryOperation(p):
 	'''
-		UnaryOperation : plus_plus action_insert_operator variable action_generate_unary_operation_quadruplet
-					   | minus_minus action_insert_operator variable action_generate_unary_operation_quadruplet
+		UnaryOperation : plus_plus action_insert_operator variable action_insert_variable_as_operand action_generate_unary_operation_quadruplet
+					   | minus_minus action_insert_operator variable action_insert_variable_as_operand action_generate_unary_operation_quadruplet
 	'''
 
 def p_LogicOperator(p):
@@ -345,8 +352,6 @@ def p_UpdateVariables(p):
  	'''
 	UpdateVariables : AssignmentStatement
 					| AssignmentStatement comma UpdateVariables
-					| UnaryOperation
-					| UnaryOperation comma UpdateVariables
  	'''
 
 ################### Rutinas ###################
@@ -360,7 +365,6 @@ def p_SubroutinesDeclaration(p):
 def p_Routine(p):
 	'''
 		Routine : AssignmentStatement semicolon Routine
-				| UnaryOperation semicolon Routine
 				| ifCondition Routine
 				| whileLoop Routine
 				| doWhileLoop Routine
@@ -392,8 +396,8 @@ def p_RecursiveOut(p):
 					 |
 	'''
 
-def p_action_insert_variable(p):
-	"action_insert_variable :"
+def p_action_insert_variable_as_operand(p):
+	"action_insert_variable_as_operand :"
 	if p[-1] not in variablesTable:
 		raise Exception(f'The variable {p[-1]} was not declared in this scope')
 	address = variablesTable[p[-1]]['address']
@@ -422,24 +426,32 @@ def p_action_generate_aquadruplet(p):
 	operand1 = operandsStack.pop()
 	temp = avail.pop(0)
 	operandsStack.append(temp)
-	quadruplets.append(str(operator) + ' ' + str(operand1) + ' ' + str(operand2) + ' ' + str(temp))
+	quadruplets.append(str(operator) + '\t' + str(operand1) + '\t' + str(operand2) + '\t' + str(temp))
 	quadrupletIndex += 1
+	if (isTemp(operand2)):
+		avail = [operand2] + avail
+	if (isTemp(operand1)):
+		avail = [operand1] + avail
 
 def p_action_assignation(p):
 	"action_assignation :"
+	global quadrupletIndex
+	global avail
 	operand2 = operandsStack.pop()
 	operand1 = operandsStack.pop()
-	quadruplets.append('=' + str(operand2) + '    ' + str(operand1))
+	quadruplets.append('=' + '\t' + str(operand2) + '\t' + '\t' + '\t' + str(operand1))
+	quadrupletIndex += 1
+	#operand1 is always a variable that takes the value of operand2
+	if isTemp(operand2):
+		avail = [operand2] + avail
 
 def p_action_generate_unary_operation_quadruplet(p):
 	"action_generate_unary_operation_quadruplet :"
+	global quadrupletIndex
 	operand = operandsStack.pop()
 	operator = operatorsStack.pop()
-	temp = avail.pop(0)
-	quadruplets.append(str(operator)[0] + ' ' + str(operand) + ' ' + str(1) + ' ' + str(temp))
+	quadruplets.append(str(operator)[0] + '\t' + str(operand) + '\t' + str(1) + '\t' + str(operand))
 	quadrupletIndex += 1
-
-
 
 
 # Error rule for syntax errors
