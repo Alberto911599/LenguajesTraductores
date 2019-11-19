@@ -1,5 +1,4 @@
 # TODO : Types Validations
-# TODO : Return temporal registers to the avail
 
 import ply.lex as lex
 import ply.yacc as yacc
@@ -10,10 +9,12 @@ currentIndex = 50
 variablesTable = {}
 
 quadruplets = []
-quadrupletIndex = 1
+quadrupletIndex = 0
 
 operandsStack = []
 operatorsStack = []
+ifStack = []
+jumpStack = []
 typesStack = []
 avail = []
 
@@ -144,8 +145,6 @@ precedence = (
 	('left', 'star', 'slash'),
 )
 
-
-
 def isTemp(operand):
 	if type(operand) is not str:
 		return False
@@ -198,8 +197,8 @@ def p_ProgramFlow(p):
 	# print(operatorsStack)
 	# print(quadruplets)
 	print(json.dumps(variablesTable, indent=4))
-	for q in quadruplets:
-		print(q)
+	for q in range(len(quadruplets)):
+		print(str(q) + " " + quadruplets[q])
 	print('\nCorrecto!!')
 
 def p_Main(p):
@@ -317,19 +316,19 @@ def p_LogicOperator(p):
 
 def p_ifCondition(p):
 	'''
-		ifCondition : if open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition
+		ifCondition : if open_parenthesis BooleanExpression action_pushToIfStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
 	'''
 
 def p_elseIfCondition(p):
 	'''
-		elseIfCondition : elseif open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace elseIfCondition
+		elseIfCondition : action_fillPreviousGotoFalse action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
 						| elseCondition
 	'''
 
 def p_elseCondition(p):
 	'''
-		elseCondition : else open_brace Routine close_brace
-					  |
+		elseCondition : action_fillPreviousGotoFalse action_generateUnconditionalGoto  else open_brace Routine close_brace action_fillUnconditionalGotosWithEnd
+					  | action_fillUnconditionalGotosWithEnd
 	'''
 
 ################### Ciclos ###################
@@ -453,6 +452,52 @@ def p_action_generate_unary_operation_quadruplet(p):
 	quadruplets.append(str(operator)[0] + '\t' + str(operand) + '\t' + str(1) + '\t' + str(operand))
 	quadrupletIndex += 1
 
+def p_action_generateEmptyGotoFalse_quadruplet(p):
+	"action_generateEmptyGotoFalse_quadruplet :"
+	global quadrupletIndex
+	global jumpStack
+	global quadruplets
+	global avail
+	operand = operandsStack.pop()
+	jumpStack.append(quadrupletIndex)
+	quadruplets.append("gotoF" + '\t' + str(operand) + '\t')
+	quadrupletIndex += 1
+	if isTemp(operand):
+		avail = [operand] + avail
+
+def p_action_generateUnconditionalGoto(p):
+	"action_generateUnconditionalGoto :"
+	global quadrupletIndex
+	global jumpStack
+	global quadruplets
+	global avail
+	jumpStack.append(quadrupletIndex)
+	quadruplets.append("goto" + '\t')
+	quadrupletIndex += 1
+
+def p_action_fillPreviousGotoFalse(p):
+	"action_fillPreviousGotoFalse :"
+	global quadrupletIndex
+	global quadruplets
+	global jumpStack
+	fillAddr = jumpStack.pop()
+	quadruplets[fillAddr] += str(quadrupletIndex+1)
+
+def p_action_pushToIfStack(p):
+	"action_pushToIfStack :"
+	global quadrupletIndex
+	global ifStack
+	ifStack.append(quadrupletIndex)
+
+def p_action_fillUnconditionalGotosWithEnd(p):
+	"action_fillUnconditionalGotosWithEnd :"
+	global quadrupletIndex
+	print(ifStack)
+	print(jumpStack)
+	limit = ifStack.pop()
+	while len(jumpStack) > 0 and limit <= jumpStack[-1]:
+		quadruplets[jumpStack[-1]] += str(quadrupletIndex)
+		jumpStack.pop()
 
 # Error rule for syntax errors
 def p_error(p): 
