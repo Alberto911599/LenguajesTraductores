@@ -196,9 +196,9 @@ def p_ProgramFlow(p):
 	# print(operandsStack)
 	# print(operatorsStack)
 	# print(quadruplets)
-	print(json.dumps(variablesTable, indent=4))
+	# print(json.dumps(variablesTable, indent=4))
 	for q in range(len(quadruplets)):
-		print(str(q) + " " + quadruplets[q])
+		print(str(q) + '\t' + quadruplets[q])
 	print('\nCorrecto!!')
 
 def p_Main(p):
@@ -316,18 +316,18 @@ def p_LogicOperator(p):
 
 def p_ifCondition(p):
 	'''
-		ifCondition : if open_parenthesis BooleanExpression action_pushToIfStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
+		ifCondition : if open_parenthesis BooleanExpression action_pushToIfStack action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
 	'''
 
 def p_elseIfCondition(p):
 	'''
-		elseIfCondition : action_fillPreviousGotoFalse action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
+		elseIfCondition : action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
 						| elseCondition
 	'''
 
 def p_elseCondition(p):
 	'''
-		elseCondition : action_fillPreviousGotoFalse action_generateUnconditionalGoto  else open_brace Routine close_brace action_fillUnconditionalGotosWithEnd
+		elseCondition : action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto  else open_brace Routine close_brace action_fillUnconditionalGotosWithEnd
 					  | action_fillUnconditionalGotosWithEnd
 	'''
 
@@ -335,7 +335,7 @@ def p_elseCondition(p):
 
 def p_whileLoop(p):
 	'''
-		whileLoop : while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace
+		whileLoop : while open_parenthesis action_pushToJumpStack BooleanExpression  action_pushToJumpStack  action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace action_fillPreviousGotoFalse action_generateGotoBooleanExpression
 	'''
 
 def p_doWhileLoop(p):
@@ -452,6 +452,12 @@ def p_action_generate_unary_operation_quadruplet(p):
 	quadruplets.append(str(operator)[0] + '\t' + str(operand) + '\t' + str(1) + '\t' + str(operand))
 	quadrupletIndex += 1
 
+def p_action_pushToJumpStack(p):
+	"action_pushToJumpStack :"
+	global quadrupletIndex
+	global jumpStack
+	jumpStack.append(quadrupletIndex)
+
 def p_action_generateEmptyGotoFalse_quadruplet(p):
 	"action_generateEmptyGotoFalse_quadruplet :"
 	global quadrupletIndex
@@ -459,7 +465,6 @@ def p_action_generateEmptyGotoFalse_quadruplet(p):
 	global quadruplets
 	global avail
 	operand = operandsStack.pop()
-	jumpStack.append(quadrupletIndex)
 	quadruplets.append("gotoF" + '\t' + str(operand) + '\t')
 	quadrupletIndex += 1
 	if isTemp(operand):
@@ -471,7 +476,6 @@ def p_action_generateUnconditionalGoto(p):
 	global jumpStack
 	global quadruplets
 	global avail
-	jumpStack.append(quadrupletIndex)
 	quadruplets.append("goto" + '\t')
 	quadrupletIndex += 1
 
@@ -492,12 +496,17 @@ def p_action_pushToIfStack(p):
 def p_action_fillUnconditionalGotosWithEnd(p):
 	"action_fillUnconditionalGotosWithEnd :"
 	global quadrupletIndex
-	print(ifStack)
-	print(jumpStack)
 	limit = ifStack.pop()
 	while len(jumpStack) > 0 and limit <= jumpStack[-1]:
 		quadruplets[jumpStack[-1]] += str(quadrupletIndex)
 		jumpStack.pop()
+
+def p_action_generateGotoBooleanExpression(p):
+	"action_generateGotoBooleanExpression :"
+	global quadrupletIndex
+	booleanEvaluation = jumpStack.pop()
+	quadruplets.append("goto" + '\t' + str(booleanEvaluation))
+	quadrupletIndex += 1
 
 # Error rule for syntax errors
 def p_error(p): 

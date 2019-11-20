@@ -45,12 +45,12 @@ Rule 39    LogicOperator -> less_than
 Rule 40    LogicOperator -> greater_than
 Rule 41    LogicOperator -> and
 Rule 42    LogicOperator -> or
-Rule 43    ifCondition -> if open_parenthesis BooleanExpression action_pushToIfStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
-Rule 44    elseIfCondition -> action_fillPreviousGotoFalse action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
+Rule 43    ifCondition -> if open_parenthesis BooleanExpression action_pushToIfStack action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
+Rule 44    elseIfCondition -> action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
 Rule 45    elseIfCondition -> elseCondition
-Rule 46    elseCondition -> action_fillPreviousGotoFalse action_generateUnconditionalGoto else open_brace Routine close_brace action_fillUnconditionalGotosWithEnd
+Rule 46    elseCondition -> action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto else open_brace Routine close_brace action_fillUnconditionalGotosWithEnd
 Rule 47    elseCondition -> action_fillUnconditionalGotosWithEnd
-Rule 48    whileLoop -> while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace
+Rule 48    whileLoop -> while open_parenthesis action_pushToJumpStack BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace action_fillPreviousGotoFalse action_generateGotoBooleanExpression
 Rule 49    doWhileLoop -> do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon
 Rule 50    forLoop -> for open_parenthesis RecVariableDeclaration semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace
 Rule 51    UpdateVariables -> AssignmentStatement
@@ -80,11 +80,13 @@ Rule 74    action_insert_operator -> <empty>
 Rule 75    action_generate_quadruplet -> <empty>
 Rule 76    action_assignation -> <empty>
 Rule 77    action_generate_unary_operation_quadruplet -> <empty>
-Rule 78    action_generateEmptyGotoFalse_quadruplet -> <empty>
-Rule 79    action_generateUnconditionalGoto -> <empty>
-Rule 80    action_fillPreviousGotoFalse -> <empty>
-Rule 81    action_pushToIfStack -> <empty>
-Rule 82    action_fillUnconditionalGotosWithEnd -> <empty>
+Rule 78    action_pushToJumpStack -> <empty>
+Rule 79    action_generateEmptyGotoFalse_quadruplet -> <empty>
+Rule 80    action_generateUnconditionalGoto -> <empty>
+Rule 81    action_fillPreviousGotoFalse -> <empty>
+Rule 82    action_pushToIfStack -> <empty>
+Rule 83    action_fillUnconditionalGotosWithEnd -> <empty>
+Rule 84    action_generateGotoBooleanExpression -> <empty>
 
 Terminals, with rules where they appear
 
@@ -152,9 +154,10 @@ UnaryOperation       : 25 32
 UpdateVariables      : 50 52
 VariablesDeclaration : 1 9
 action_assignation   : 31
-action_fillPreviousGotoFalse : 44 46
+action_fillPreviousGotoFalse : 44 46 48
 action_fillUnconditionalGotosWithEnd : 46 47
-action_generateEmptyGotoFalse_quadruplet : 43 44
+action_generateEmptyGotoFalse_quadruplet : 43 44 48
+action_generateGotoBooleanExpression : 48
 action_generateUnconditionalGoto : 44 46
 action_generate_quadruplet : 17 18 21 22 30
 action_generate_unary_operation_quadruplet : 33 34
@@ -163,6 +166,7 @@ action_insert_int_operand : 3
 action_insert_operator : 17 18 21 22 30 33 34
 action_insert_variable_as_operand : 24 31 33 34
 action_pushToIfStack : 43
+action_pushToJumpStack : 43 44 44 46 48 48
 dimensions           : 5 6 7
 doWhileLoop          : 58
 elseCondition        : 45
@@ -332,8 +336,8 @@ state 13
     (62) Routine -> .
     (31) AssignmentStatement -> . variable action_insert_variable_as_operand equal ArithmeticExpression action_assignation
     (32) AssignmentStatement -> . UnaryOperation
-    (43) ifCondition -> . if open_parenthesis BooleanExpression action_pushToIfStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
-    (48) whileLoop -> . while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace
+    (43) ifCondition -> . if open_parenthesis BooleanExpression action_pushToIfStack action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
+    (48) whileLoop -> . while open_parenthesis action_pushToJumpStack BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace action_fillPreviousGotoFalse action_generateGotoBooleanExpression
     (49) doWhileLoop -> . do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon
     (50) forLoop -> . for open_parenthesis RecVariableDeclaration semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace
     (63) InOut -> . cin in variable RecursiveIn semicolon
@@ -482,8 +486,8 @@ state 19
     (62) Routine -> .
     (31) AssignmentStatement -> . variable action_insert_variable_as_operand equal ArithmeticExpression action_assignation
     (32) AssignmentStatement -> . UnaryOperation
-    (43) ifCondition -> . if open_parenthesis BooleanExpression action_pushToIfStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
-    (48) whileLoop -> . while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace
+    (43) ifCondition -> . if open_parenthesis BooleanExpression action_pushToIfStack action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
+    (48) whileLoop -> . while open_parenthesis action_pushToJumpStack BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace action_fillPreviousGotoFalse action_generateGotoBooleanExpression
     (49) doWhileLoop -> . do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon
     (50) forLoop -> . for open_parenthesis RecVariableDeclaration semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace
     (63) InOut -> . cin in variable RecursiveIn semicolon
@@ -542,8 +546,8 @@ state 22
     (62) Routine -> .
     (31) AssignmentStatement -> . variable action_insert_variable_as_operand equal ArithmeticExpression action_assignation
     (32) AssignmentStatement -> . UnaryOperation
-    (43) ifCondition -> . if open_parenthesis BooleanExpression action_pushToIfStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
-    (48) whileLoop -> . while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace
+    (43) ifCondition -> . if open_parenthesis BooleanExpression action_pushToIfStack action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
+    (48) whileLoop -> . while open_parenthesis action_pushToJumpStack BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace action_fillPreviousGotoFalse action_generateGotoBooleanExpression
     (49) doWhileLoop -> . do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon
     (50) forLoop -> . for open_parenthesis RecVariableDeclaration semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace
     (63) InOut -> . cin in variable RecursiveIn semicolon
@@ -588,8 +592,8 @@ state 23
     (62) Routine -> .
     (31) AssignmentStatement -> . variable action_insert_variable_as_operand equal ArithmeticExpression action_assignation
     (32) AssignmentStatement -> . UnaryOperation
-    (43) ifCondition -> . if open_parenthesis BooleanExpression action_pushToIfStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
-    (48) whileLoop -> . while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace
+    (43) ifCondition -> . if open_parenthesis BooleanExpression action_pushToIfStack action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
+    (48) whileLoop -> . while open_parenthesis action_pushToJumpStack BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace action_fillPreviousGotoFalse action_generateGotoBooleanExpression
     (49) doWhileLoop -> . do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon
     (50) forLoop -> . for open_parenthesis RecVariableDeclaration semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace
     (63) InOut -> . cin in variable RecursiveIn semicolon
@@ -634,8 +638,8 @@ state 24
     (62) Routine -> .
     (31) AssignmentStatement -> . variable action_insert_variable_as_operand equal ArithmeticExpression action_assignation
     (32) AssignmentStatement -> . UnaryOperation
-    (43) ifCondition -> . if open_parenthesis BooleanExpression action_pushToIfStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
-    (48) whileLoop -> . while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace
+    (43) ifCondition -> . if open_parenthesis BooleanExpression action_pushToIfStack action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
+    (48) whileLoop -> . while open_parenthesis action_pushToJumpStack BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace action_fillPreviousGotoFalse action_generateGotoBooleanExpression
     (49) doWhileLoop -> . do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon
     (50) forLoop -> . for open_parenthesis RecVariableDeclaration semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace
     (63) InOut -> . cin in variable RecursiveIn semicolon
@@ -680,8 +684,8 @@ state 25
     (62) Routine -> .
     (31) AssignmentStatement -> . variable action_insert_variable_as_operand equal ArithmeticExpression action_assignation
     (32) AssignmentStatement -> . UnaryOperation
-    (43) ifCondition -> . if open_parenthesis BooleanExpression action_pushToIfStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
-    (48) whileLoop -> . while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace
+    (43) ifCondition -> . if open_parenthesis BooleanExpression action_pushToIfStack action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
+    (48) whileLoop -> . while open_parenthesis action_pushToJumpStack BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace action_fillPreviousGotoFalse action_generateGotoBooleanExpression
     (49) doWhileLoop -> . do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon
     (50) forLoop -> . for open_parenthesis RecVariableDeclaration semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace
     (63) InOut -> . cin in variable RecursiveIn semicolon
@@ -733,8 +737,8 @@ state 27
     (62) Routine -> .
     (31) AssignmentStatement -> . variable action_insert_variable_as_operand equal ArithmeticExpression action_assignation
     (32) AssignmentStatement -> . UnaryOperation
-    (43) ifCondition -> . if open_parenthesis BooleanExpression action_pushToIfStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
-    (48) whileLoop -> . while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace
+    (43) ifCondition -> . if open_parenthesis BooleanExpression action_pushToIfStack action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
+    (48) whileLoop -> . while open_parenthesis action_pushToJumpStack BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace action_fillPreviousGotoFalse action_generateGotoBooleanExpression
     (49) doWhileLoop -> . do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon
     (50) forLoop -> . for open_parenthesis RecVariableDeclaration semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace
     (63) InOut -> . cin in variable RecursiveIn semicolon
@@ -786,14 +790,14 @@ state 29
 
 state 30
 
-    (43) ifCondition -> if . open_parenthesis BooleanExpression action_pushToIfStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
+    (43) ifCondition -> if . open_parenthesis BooleanExpression action_pushToIfStack action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
 
     open_parenthesis shift and go to state 61
 
 
 state 31
 
-    (48) whileLoop -> while . open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace
+    (48) whileLoop -> while . open_parenthesis action_pushToJumpStack BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace action_fillPreviousGotoFalse action_generateGotoBooleanExpression
 
     open_parenthesis shift and go to state 62
 
@@ -1115,8 +1119,8 @@ state 53
     (62) Routine -> .
     (31) AssignmentStatement -> . variable action_insert_variable_as_operand equal ArithmeticExpression action_assignation
     (32) AssignmentStatement -> . UnaryOperation
-    (43) ifCondition -> . if open_parenthesis BooleanExpression action_pushToIfStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
-    (48) whileLoop -> . while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace
+    (43) ifCondition -> . if open_parenthesis BooleanExpression action_pushToIfStack action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
+    (48) whileLoop -> . while open_parenthesis action_pushToJumpStack BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace action_fillPreviousGotoFalse action_generateGotoBooleanExpression
     (49) doWhileLoop -> . do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon
     (50) forLoop -> . for open_parenthesis RecVariableDeclaration semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace
     (63) InOut -> . cin in variable RecursiveIn semicolon
@@ -1199,7 +1203,7 @@ state 60
 
 state 61
 
-    (43) ifCondition -> if open_parenthesis . BooleanExpression action_pushToIfStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
+    (43) ifCondition -> if open_parenthesis . BooleanExpression action_pushToIfStack action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
     (27) BooleanExpression -> . true
     (28) BooleanExpression -> . false
     (29) BooleanExpression -> . ArithmeticExpression
@@ -1239,43 +1243,19 @@ state 61
 
 state 62
 
-    (48) whileLoop -> while open_parenthesis . BooleanExpression close_parenthesis open_brace Routine close_brace
-    (27) BooleanExpression -> . true
-    (28) BooleanExpression -> . false
-    (29) BooleanExpression -> . ArithmeticExpression
-    (30) BooleanExpression -> . ArithmeticExpression LogicOperator action_insert_operator BooleanExpression action_generate_quadruplet
-    (17) ArithmeticExpression -> . ArithmeticExpression plus action_insert_operator term action_generate_quadruplet
-    (18) ArithmeticExpression -> . ArithmeticExpression minus action_insert_operator term action_generate_quadruplet
-    (19) ArithmeticExpression -> . term
-    (20) term -> . factor
-    (21) term -> . term star action_insert_operator factor action_generate_quadruplet
-    (22) term -> . term slash action_insert_operator factor action_generate_quadruplet
-    (23) factor -> . Number
-    (24) factor -> . variable action_insert_variable_as_operand
-    (25) factor -> . UnaryOperation
-    (26) factor -> . open_parenthesis ArithmeticExpression close_parenthesis
-    (3) Number -> . int_number action_insert_int_operand
-    (4) Number -> . double_number action_insert_double_operand
-    (5) variable -> . identifier dimensions
-    (33) UnaryOperation -> . plus_plus action_insert_operator variable action_insert_variable_as_operand action_generate_unary_operation_quadruplet
-    (34) UnaryOperation -> . minus_minus action_insert_operator variable action_insert_variable_as_operand action_generate_unary_operation_quadruplet
+    (48) whileLoop -> while open_parenthesis . action_pushToJumpStack BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace action_fillPreviousGotoFalse action_generateGotoBooleanExpression
+    (78) action_pushToJumpStack -> .
 
-    true            shift and go to state 86
-    false           shift and go to state 87
-    open_parenthesis shift and go to state 46
-    int_number      shift and go to state 47
-    double_number   shift and go to state 48
-    identifier      shift and go to state 10
-    plus_plus       shift and go to state 36
-    minus_minus     shift and go to state 37
+    true            reduce using rule 78 (action_pushToJumpStack -> .)
+    false           reduce using rule 78 (action_pushToJumpStack -> .)
+    open_parenthesis reduce using rule 78 (action_pushToJumpStack -> .)
+    int_number      reduce using rule 78 (action_pushToJumpStack -> .)
+    double_number   reduce using rule 78 (action_pushToJumpStack -> .)
+    identifier      reduce using rule 78 (action_pushToJumpStack -> .)
+    plus_plus       reduce using rule 78 (action_pushToJumpStack -> .)
+    minus_minus     reduce using rule 78 (action_pushToJumpStack -> .)
 
-    BooleanExpression              shift and go to state 89
-    ArithmeticExpression           shift and go to state 88
-    term                           shift and go to state 42
-    factor                         shift and go to state 43
-    Number                         shift and go to state 44
-    variable                       shift and go to state 40
-    UnaryOperation                 shift and go to state 45
+    action_pushToJumpStack         shift and go to state 89
 
 state 63
 
@@ -1290,8 +1270,8 @@ state 63
     (62) Routine -> .
     (31) AssignmentStatement -> . variable action_insert_variable_as_operand equal ArithmeticExpression action_assignation
     (32) AssignmentStatement -> . UnaryOperation
-    (43) ifCondition -> . if open_parenthesis BooleanExpression action_pushToIfStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
-    (48) whileLoop -> . while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace
+    (43) ifCondition -> . if open_parenthesis BooleanExpression action_pushToIfStack action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
+    (48) whileLoop -> . while open_parenthesis action_pushToJumpStack BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace action_fillPreviousGotoFalse action_generateGotoBooleanExpression
     (49) doWhileLoop -> . do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon
     (50) forLoop -> . for open_parenthesis RecVariableDeclaration semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace
     (63) InOut -> . cin in variable RecursiveIn semicolon
@@ -1642,8 +1622,8 @@ state 83
     (62) Routine -> .
     (31) AssignmentStatement -> . variable action_insert_variable_as_operand equal ArithmeticExpression action_assignation
     (32) AssignmentStatement -> . UnaryOperation
-    (43) ifCondition -> . if open_parenthesis BooleanExpression action_pushToIfStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
-    (48) whileLoop -> . while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace
+    (43) ifCondition -> . if open_parenthesis BooleanExpression action_pushToIfStack action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
+    (48) whileLoop -> . while open_parenthesis action_pushToJumpStack BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace action_fillPreviousGotoFalse action_generateGotoBooleanExpression
     (49) doWhileLoop -> . do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon
     (50) forLoop -> . for open_parenthesis RecVariableDeclaration semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace
     (63) InOut -> . cin in variable RecursiveIn semicolon
@@ -1710,10 +1690,10 @@ state 84
 
 state 85
 
-    (43) ifCondition -> if open_parenthesis BooleanExpression . action_pushToIfStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
-    (81) action_pushToIfStack -> .
+    (43) ifCondition -> if open_parenthesis BooleanExpression . action_pushToIfStack action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
+    (82) action_pushToIfStack -> .
 
-    close_parenthesis reduce using rule 81 (action_pushToIfStack -> .)
+    close_parenthesis reduce using rule 82 (action_pushToIfStack -> .)
 
     action_pushToIfStack           shift and go to state 107
 
@@ -1765,10 +1745,43 @@ state 88
 
 state 89
 
-    (48) whileLoop -> while open_parenthesis BooleanExpression . close_parenthesis open_brace Routine close_brace
+    (48) whileLoop -> while open_parenthesis action_pushToJumpStack . BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace action_fillPreviousGotoFalse action_generateGotoBooleanExpression
+    (27) BooleanExpression -> . true
+    (28) BooleanExpression -> . false
+    (29) BooleanExpression -> . ArithmeticExpression
+    (30) BooleanExpression -> . ArithmeticExpression LogicOperator action_insert_operator BooleanExpression action_generate_quadruplet
+    (17) ArithmeticExpression -> . ArithmeticExpression plus action_insert_operator term action_generate_quadruplet
+    (18) ArithmeticExpression -> . ArithmeticExpression minus action_insert_operator term action_generate_quadruplet
+    (19) ArithmeticExpression -> . term
+    (20) term -> . factor
+    (21) term -> . term star action_insert_operator factor action_generate_quadruplet
+    (22) term -> . term slash action_insert_operator factor action_generate_quadruplet
+    (23) factor -> . Number
+    (24) factor -> . variable action_insert_variable_as_operand
+    (25) factor -> . UnaryOperation
+    (26) factor -> . open_parenthesis ArithmeticExpression close_parenthesis
+    (3) Number -> . int_number action_insert_int_operand
+    (4) Number -> . double_number action_insert_double_operand
+    (5) variable -> . identifier dimensions
+    (33) UnaryOperation -> . plus_plus action_insert_operator variable action_insert_variable_as_operand action_generate_unary_operation_quadruplet
+    (34) UnaryOperation -> . minus_minus action_insert_operator variable action_insert_variable_as_operand action_generate_unary_operation_quadruplet
 
-    close_parenthesis shift and go to state 117
+    true            shift and go to state 86
+    false           shift and go to state 87
+    open_parenthesis shift and go to state 46
+    int_number      shift and go to state 47
+    double_number   shift and go to state 48
+    identifier      shift and go to state 10
+    plus_plus       shift and go to state 36
+    minus_minus     shift and go to state 37
 
+    BooleanExpression              shift and go to state 117
+    ArithmeticExpression           shift and go to state 88
+    term                           shift and go to state 42
+    factor                         shift and go to state 43
+    Number                         shift and go to state 44
+    variable                       shift and go to state 40
+    UnaryOperation                 shift and go to state 45
 
 state 90
 
@@ -2082,12 +2095,12 @@ state 106
 
 state 107
 
-    (43) ifCondition -> if open_parenthesis BooleanExpression action_pushToIfStack . action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
-    (78) action_generateEmptyGotoFalse_quadruplet -> .
+    (43) ifCondition -> if open_parenthesis BooleanExpression action_pushToIfStack . action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
+    (78) action_pushToJumpStack -> .
 
-    close_parenthesis reduce using rule 78 (action_generateEmptyGotoFalse_quadruplet -> .)
+    close_parenthesis reduce using rule 78 (action_pushToJumpStack -> .)
 
-    action_generateEmptyGotoFalse_quadruplet shift and go to state 132
+    action_pushToJumpStack         shift and go to state 132
 
 state 108
 
@@ -2219,10 +2232,12 @@ state 116
 
 state 117
 
-    (48) whileLoop -> while open_parenthesis BooleanExpression close_parenthesis . open_brace Routine close_brace
+    (48) whileLoop -> while open_parenthesis action_pushToJumpStack BooleanExpression . action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace action_fillPreviousGotoFalse action_generateGotoBooleanExpression
+    (78) action_pushToJumpStack -> .
 
-    open_brace      shift and go to state 134
+    close_parenthesis reduce using rule 78 (action_pushToJumpStack -> .)
 
+    action_pushToJumpStack         shift and go to state 134
 
 state 118
 
@@ -2495,10 +2510,12 @@ state 131
 
 state 132
 
-    (43) ifCondition -> if open_parenthesis BooleanExpression action_pushToIfStack action_generateEmptyGotoFalse_quadruplet . close_parenthesis open_brace Routine close_brace elseIfCondition
+    (43) ifCondition -> if open_parenthesis BooleanExpression action_pushToIfStack action_pushToJumpStack . action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
+    (79) action_generateEmptyGotoFalse_quadruplet -> .
 
-    close_parenthesis shift and go to state 149
+    close_parenthesis reduce using rule 79 (action_generateEmptyGotoFalse_quadruplet -> .)
 
+    action_generateEmptyGotoFalse_quadruplet shift and go to state 149
 
 state 133
 
@@ -2542,49 +2559,12 @@ state 133
 
 state 134
 
-    (48) whileLoop -> while open_parenthesis BooleanExpression close_parenthesis open_brace . Routine close_brace
-    (55) Routine -> . AssignmentStatement semicolon Routine
-    (56) Routine -> . ifCondition Routine
-    (57) Routine -> . whileLoop Routine
-    (58) Routine -> . doWhileLoop Routine
-    (59) Routine -> . forLoop Routine
-    (60) Routine -> . call identifier semicolon Routine
-    (61) Routine -> . InOut Routine
-    (62) Routine -> .
-    (31) AssignmentStatement -> . variable action_insert_variable_as_operand equal ArithmeticExpression action_assignation
-    (32) AssignmentStatement -> . UnaryOperation
-    (43) ifCondition -> . if open_parenthesis BooleanExpression action_pushToIfStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
-    (48) whileLoop -> . while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace
-    (49) doWhileLoop -> . do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon
-    (50) forLoop -> . for open_parenthesis RecVariableDeclaration semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace
-    (63) InOut -> . cin in variable RecursiveIn semicolon
-    (64) InOut -> . cout out ArithmeticExpression RecursiveOut semicolon
-    (65) InOut -> . cout out string RecursiveOut semicolon
-    (5) variable -> . identifier dimensions
-    (33) UnaryOperation -> . plus_plus action_insert_operator variable action_insert_variable_as_operand action_generate_unary_operation_quadruplet
-    (34) UnaryOperation -> . minus_minus action_insert_operator variable action_insert_variable_as_operand action_generate_unary_operation_quadruplet
+    (48) whileLoop -> while open_parenthesis action_pushToJumpStack BooleanExpression action_pushToJumpStack . action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace action_fillPreviousGotoFalse action_generateGotoBooleanExpression
+    (79) action_generateEmptyGotoFalse_quadruplet -> .
 
-    call            shift and go to state 26
-    close_brace     reduce using rule 62 (Routine -> .)
-    if              shift and go to state 30
-    while           shift and go to state 31
-    do              shift and go to state 32
-    for             shift and go to state 33
-    cin             shift and go to state 34
-    cout            shift and go to state 35
-    identifier      shift and go to state 10
-    plus_plus       shift and go to state 36
-    minus_minus     shift and go to state 37
+    close_parenthesis reduce using rule 79 (action_generateEmptyGotoFalse_quadruplet -> .)
 
-    Routine                        shift and go to state 151
-    AssignmentStatement            shift and go to state 21
-    ifCondition                    shift and go to state 22
-    whileLoop                      shift and go to state 23
-    doWhileLoop                    shift and go to state 24
-    forLoop                        shift and go to state 25
-    InOut                          shift and go to state 27
-    variable                       shift and go to state 28
-    UnaryOperation                 shift and go to state 29
+    action_generateEmptyGotoFalse_quadruplet shift and go to state 151
 
 state 135
 
@@ -2820,9 +2800,9 @@ state 148
 
 state 149
 
-    (43) ifCondition -> if open_parenthesis BooleanExpression action_pushToIfStack action_generateEmptyGotoFalse_quadruplet close_parenthesis . open_brace Routine close_brace elseIfCondition
+    (43) ifCondition -> if open_parenthesis BooleanExpression action_pushToIfStack action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet . close_parenthesis open_brace Routine close_brace elseIfCondition
 
-    open_brace      shift and go to state 157
+    close_parenthesis shift and go to state 157
 
 
 state 150
@@ -2837,9 +2817,9 @@ state 150
 
 state 151
 
-    (48) whileLoop -> while open_parenthesis BooleanExpression close_parenthesis open_brace Routine . close_brace
+    (48) whileLoop -> while open_parenthesis action_pushToJumpStack BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet . close_parenthesis open_brace Routine close_brace action_fillPreviousGotoFalse action_generateGotoBooleanExpression
 
-    close_brace     shift and go to state 159
+    close_parenthesis shift and go to state 159
 
 
 state 152
@@ -2925,7 +2905,52 @@ state 156
 
 state 157
 
-    (43) ifCondition -> if open_parenthesis BooleanExpression action_pushToIfStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace . Routine close_brace elseIfCondition
+    (43) ifCondition -> if open_parenthesis BooleanExpression action_pushToIfStack action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis . open_brace Routine close_brace elseIfCondition
+
+    open_brace      shift and go to state 163
+
+
+state 158
+
+    (30) BooleanExpression -> ArithmeticExpression LogicOperator action_insert_operator BooleanExpression action_generate_quadruplet .
+
+    close_parenthesis reduce using rule 30 (BooleanExpression -> ArithmeticExpression LogicOperator action_insert_operator BooleanExpression action_generate_quadruplet .)
+    semicolon       reduce using rule 30 (BooleanExpression -> ArithmeticExpression LogicOperator action_insert_operator BooleanExpression action_generate_quadruplet .)
+
+
+state 159
+
+    (48) whileLoop -> while open_parenthesis action_pushToJumpStack BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis . open_brace Routine close_brace action_fillPreviousGotoFalse action_generateGotoBooleanExpression
+
+    open_brace      shift and go to state 164
+
+
+state 160
+
+    (49) doWhileLoop -> do open_brace Routine close_brace while open_parenthesis BooleanExpression . close_parenthesis semicolon
+
+    close_parenthesis shift and go to state 165
+
+
+state 161
+
+    (50) forLoop -> for open_parenthesis RecVariableDeclaration semicolon BooleanExpression semicolon UpdateVariables . close_parenthesis open_brace Routine close_brace
+
+    close_parenthesis shift and go to state 166
+
+
+state 162
+
+    (51) UpdateVariables -> AssignmentStatement .
+    (52) UpdateVariables -> AssignmentStatement . comma UpdateVariables
+
+    close_parenthesis reduce using rule 51 (UpdateVariables -> AssignmentStatement .)
+    comma           shift and go to state 167
+
+
+state 163
+
+    (43) ifCondition -> if open_parenthesis BooleanExpression action_pushToIfStack action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace . Routine close_brace elseIfCondition
     (55) Routine -> . AssignmentStatement semicolon Routine
     (56) Routine -> . ifCondition Routine
     (57) Routine -> . whileLoop Routine
@@ -2936,8 +2961,8 @@ state 157
     (62) Routine -> .
     (31) AssignmentStatement -> . variable action_insert_variable_as_operand equal ArithmeticExpression action_assignation
     (32) AssignmentStatement -> . UnaryOperation
-    (43) ifCondition -> . if open_parenthesis BooleanExpression action_pushToIfStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
-    (48) whileLoop -> . while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace
+    (43) ifCondition -> . if open_parenthesis BooleanExpression action_pushToIfStack action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
+    (48) whileLoop -> . while open_parenthesis action_pushToJumpStack BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace action_fillPreviousGotoFalse action_generateGotoBooleanExpression
     (49) doWhileLoop -> . do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon
     (50) forLoop -> . for open_parenthesis RecVariableDeclaration semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace
     (63) InOut -> . cin in variable RecursiveIn semicolon
@@ -2959,7 +2984,7 @@ state 157
     plus_plus       shift and go to state 36
     minus_minus     shift and go to state 37
 
-    Routine                        shift and go to state 163
+    Routine                        shift and go to state 168
     AssignmentStatement            shift and go to state 21
     ifCondition                    shift and go to state 22
     whileLoop                      shift and go to state 23
@@ -2969,76 +2994,67 @@ state 157
     variable                       shift and go to state 28
     UnaryOperation                 shift and go to state 29
 
-state 158
-
-    (30) BooleanExpression -> ArithmeticExpression LogicOperator action_insert_operator BooleanExpression action_generate_quadruplet .
-
-    close_parenthesis reduce using rule 30 (BooleanExpression -> ArithmeticExpression LogicOperator action_insert_operator BooleanExpression action_generate_quadruplet .)
-    semicolon       reduce using rule 30 (BooleanExpression -> ArithmeticExpression LogicOperator action_insert_operator BooleanExpression action_generate_quadruplet .)
-
-
-state 159
-
-    (48) whileLoop -> while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace .
-
-    call            reduce using rule 48 (whileLoop -> while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace .)
-    if              reduce using rule 48 (whileLoop -> while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace .)
-    while           reduce using rule 48 (whileLoop -> while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace .)
-    do              reduce using rule 48 (whileLoop -> while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace .)
-    for             reduce using rule 48 (whileLoop -> while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace .)
-    cin             reduce using rule 48 (whileLoop -> while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace .)
-    cout            reduce using rule 48 (whileLoop -> while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace .)
-    identifier      reduce using rule 48 (whileLoop -> while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace .)
-    plus_plus       reduce using rule 48 (whileLoop -> while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace .)
-    minus_minus     reduce using rule 48 (whileLoop -> while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace .)
-    close_brace     reduce using rule 48 (whileLoop -> while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace .)
-
-
-state 160
-
-    (49) doWhileLoop -> do open_brace Routine close_brace while open_parenthesis BooleanExpression . close_parenthesis semicolon
-
-    close_parenthesis shift and go to state 164
-
-
-state 161
-
-    (50) forLoop -> for open_parenthesis RecVariableDeclaration semicolon BooleanExpression semicolon UpdateVariables . close_parenthesis open_brace Routine close_brace
-
-    close_parenthesis shift and go to state 165
-
-
-state 162
-
-    (51) UpdateVariables -> AssignmentStatement .
-    (52) UpdateVariables -> AssignmentStatement . comma UpdateVariables
-
-    close_parenthesis reduce using rule 51 (UpdateVariables -> AssignmentStatement .)
-    comma           shift and go to state 166
-
-
-state 163
-
-    (43) ifCondition -> if open_parenthesis BooleanExpression action_pushToIfStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine . close_brace elseIfCondition
-
-    close_brace     shift and go to state 167
-
-
 state 164
 
-    (49) doWhileLoop -> do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis . semicolon
+    (48) whileLoop -> while open_parenthesis action_pushToJumpStack BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace . Routine close_brace action_fillPreviousGotoFalse action_generateGotoBooleanExpression
+    (55) Routine -> . AssignmentStatement semicolon Routine
+    (56) Routine -> . ifCondition Routine
+    (57) Routine -> . whileLoop Routine
+    (58) Routine -> . doWhileLoop Routine
+    (59) Routine -> . forLoop Routine
+    (60) Routine -> . call identifier semicolon Routine
+    (61) Routine -> . InOut Routine
+    (62) Routine -> .
+    (31) AssignmentStatement -> . variable action_insert_variable_as_operand equal ArithmeticExpression action_assignation
+    (32) AssignmentStatement -> . UnaryOperation
+    (43) ifCondition -> . if open_parenthesis BooleanExpression action_pushToIfStack action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
+    (48) whileLoop -> . while open_parenthesis action_pushToJumpStack BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace action_fillPreviousGotoFalse action_generateGotoBooleanExpression
+    (49) doWhileLoop -> . do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon
+    (50) forLoop -> . for open_parenthesis RecVariableDeclaration semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace
+    (63) InOut -> . cin in variable RecursiveIn semicolon
+    (64) InOut -> . cout out ArithmeticExpression RecursiveOut semicolon
+    (65) InOut -> . cout out string RecursiveOut semicolon
+    (5) variable -> . identifier dimensions
+    (33) UnaryOperation -> . plus_plus action_insert_operator variable action_insert_variable_as_operand action_generate_unary_operation_quadruplet
+    (34) UnaryOperation -> . minus_minus action_insert_operator variable action_insert_variable_as_operand action_generate_unary_operation_quadruplet
 
-    semicolon       shift and go to state 168
+    call            shift and go to state 26
+    close_brace     reduce using rule 62 (Routine -> .)
+    if              shift and go to state 30
+    while           shift and go to state 31
+    do              shift and go to state 32
+    for             shift and go to state 33
+    cin             shift and go to state 34
+    cout            shift and go to state 35
+    identifier      shift and go to state 10
+    plus_plus       shift and go to state 36
+    minus_minus     shift and go to state 37
 
+    Routine                        shift and go to state 169
+    AssignmentStatement            shift and go to state 21
+    ifCondition                    shift and go to state 22
+    whileLoop                      shift and go to state 23
+    doWhileLoop                    shift and go to state 24
+    forLoop                        shift and go to state 25
+    InOut                          shift and go to state 27
+    variable                       shift and go to state 28
+    UnaryOperation                 shift and go to state 29
 
 state 165
 
-    (50) forLoop -> for open_parenthesis RecVariableDeclaration semicolon BooleanExpression semicolon UpdateVariables close_parenthesis . open_brace Routine close_brace
+    (49) doWhileLoop -> do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis . semicolon
 
-    open_brace      shift and go to state 169
+    semicolon       shift and go to state 170
 
 
 state 166
+
+    (50) forLoop -> for open_parenthesis RecVariableDeclaration semicolon BooleanExpression semicolon UpdateVariables close_parenthesis . open_brace Routine close_brace
+
+    open_brace      shift and go to state 171
+
+
+state 167
 
     (52) UpdateVariables -> AssignmentStatement comma . UpdateVariables
     (51) UpdateVariables -> . AssignmentStatement
@@ -3054,40 +3070,25 @@ state 166
     minus_minus     shift and go to state 37
 
     AssignmentStatement            shift and go to state 162
-    UpdateVariables                shift and go to state 170
+    UpdateVariables                shift and go to state 172
     variable                       shift and go to state 28
     UnaryOperation                 shift and go to state 29
 
-state 167
-
-    (43) ifCondition -> if open_parenthesis BooleanExpression action_pushToIfStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace . elseIfCondition
-    (44) elseIfCondition -> . action_fillPreviousGotoFalse action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
-    (45) elseIfCondition -> . elseCondition
-    (80) action_fillPreviousGotoFalse -> .
-    (46) elseCondition -> . action_fillPreviousGotoFalse action_generateUnconditionalGoto else open_brace Routine close_brace action_fillUnconditionalGotosWithEnd
-    (47) elseCondition -> . action_fillUnconditionalGotosWithEnd
-    (82) action_fillUnconditionalGotosWithEnd -> .
-
-    elseif          reduce using rule 80 (action_fillPreviousGotoFalse -> .)
-    else            reduce using rule 80 (action_fillPreviousGotoFalse -> .)
-    call            reduce using rule 82 (action_fillUnconditionalGotosWithEnd -> .)
-    if              reduce using rule 82 (action_fillUnconditionalGotosWithEnd -> .)
-    while           reduce using rule 82 (action_fillUnconditionalGotosWithEnd -> .)
-    do              reduce using rule 82 (action_fillUnconditionalGotosWithEnd -> .)
-    for             reduce using rule 82 (action_fillUnconditionalGotosWithEnd -> .)
-    cin             reduce using rule 82 (action_fillUnconditionalGotosWithEnd -> .)
-    cout            reduce using rule 82 (action_fillUnconditionalGotosWithEnd -> .)
-    identifier      reduce using rule 82 (action_fillUnconditionalGotosWithEnd -> .)
-    plus_plus       reduce using rule 82 (action_fillUnconditionalGotosWithEnd -> .)
-    minus_minus     reduce using rule 82 (action_fillUnconditionalGotosWithEnd -> .)
-    close_brace     reduce using rule 82 (action_fillUnconditionalGotosWithEnd -> .)
-
-    elseIfCondition                shift and go to state 171
-    action_fillPreviousGotoFalse   shift and go to state 172
-    elseCondition                  shift and go to state 173
-    action_fillUnconditionalGotosWithEnd shift and go to state 174
-
 state 168
+
+    (43) ifCondition -> if open_parenthesis BooleanExpression action_pushToIfStack action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine . close_brace elseIfCondition
+
+    close_brace     shift and go to state 173
+
+
+state 169
+
+    (48) whileLoop -> while open_parenthesis action_pushToJumpStack BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine . close_brace action_fillPreviousGotoFalse action_generateGotoBooleanExpression
+
+    close_brace     shift and go to state 174
+
+
+state 170
 
     (49) doWhileLoop -> do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon .
 
@@ -3104,7 +3105,7 @@ state 168
     close_brace     reduce using rule 49 (doWhileLoop -> do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon .)
 
 
-state 169
+state 171
 
     (50) forLoop -> for open_parenthesis RecVariableDeclaration semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace . Routine close_brace
     (55) Routine -> . AssignmentStatement semicolon Routine
@@ -3117,8 +3118,8 @@ state 169
     (62) Routine -> .
     (31) AssignmentStatement -> . variable action_insert_variable_as_operand equal ArithmeticExpression action_assignation
     (32) AssignmentStatement -> . UnaryOperation
-    (43) ifCondition -> . if open_parenthesis BooleanExpression action_pushToIfStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
-    (48) whileLoop -> . while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace
+    (43) ifCondition -> . if open_parenthesis BooleanExpression action_pushToIfStack action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
+    (48) whileLoop -> . while open_parenthesis action_pushToJumpStack BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace action_fillPreviousGotoFalse action_generateGotoBooleanExpression
     (49) doWhileLoop -> . do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon
     (50) forLoop -> . for open_parenthesis RecVariableDeclaration semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace
     (63) InOut -> . cin in variable RecursiveIn semicolon
@@ -3150,42 +3151,97 @@ state 169
     variable                       shift and go to state 28
     UnaryOperation                 shift and go to state 29
 
-state 170
+state 172
 
     (52) UpdateVariables -> AssignmentStatement comma UpdateVariables .
 
     close_parenthesis reduce using rule 52 (UpdateVariables -> AssignmentStatement comma UpdateVariables .)
 
 
-state 171
-
-    (43) ifCondition -> if open_parenthesis BooleanExpression action_pushToIfStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .
-
-    call            reduce using rule 43 (ifCondition -> if open_parenthesis BooleanExpression action_pushToIfStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
-    if              reduce using rule 43 (ifCondition -> if open_parenthesis BooleanExpression action_pushToIfStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
-    while           reduce using rule 43 (ifCondition -> if open_parenthesis BooleanExpression action_pushToIfStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
-    do              reduce using rule 43 (ifCondition -> if open_parenthesis BooleanExpression action_pushToIfStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
-    for             reduce using rule 43 (ifCondition -> if open_parenthesis BooleanExpression action_pushToIfStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
-    cin             reduce using rule 43 (ifCondition -> if open_parenthesis BooleanExpression action_pushToIfStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
-    cout            reduce using rule 43 (ifCondition -> if open_parenthesis BooleanExpression action_pushToIfStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
-    identifier      reduce using rule 43 (ifCondition -> if open_parenthesis BooleanExpression action_pushToIfStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
-    plus_plus       reduce using rule 43 (ifCondition -> if open_parenthesis BooleanExpression action_pushToIfStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
-    minus_minus     reduce using rule 43 (ifCondition -> if open_parenthesis BooleanExpression action_pushToIfStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
-    close_brace     reduce using rule 43 (ifCondition -> if open_parenthesis BooleanExpression action_pushToIfStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
-
-
-state 172
-
-    (44) elseIfCondition -> action_fillPreviousGotoFalse . action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
-    (46) elseCondition -> action_fillPreviousGotoFalse . action_generateUnconditionalGoto else open_brace Routine close_brace action_fillUnconditionalGotosWithEnd
-    (79) action_generateUnconditionalGoto -> .
-
-    elseif          reduce using rule 79 (action_generateUnconditionalGoto -> .)
-    else            reduce using rule 79 (action_generateUnconditionalGoto -> .)
-
-    action_generateUnconditionalGoto shift and go to state 176
-
 state 173
+
+    (43) ifCondition -> if open_parenthesis BooleanExpression action_pushToIfStack action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace . elseIfCondition
+    (44) elseIfCondition -> . action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
+    (45) elseIfCondition -> . elseCondition
+    (81) action_fillPreviousGotoFalse -> .
+    (46) elseCondition -> . action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto else open_brace Routine close_brace action_fillUnconditionalGotosWithEnd
+    (47) elseCondition -> . action_fillUnconditionalGotosWithEnd
+    (83) action_fillUnconditionalGotosWithEnd -> .
+
+    elseif          reduce using rule 81 (action_fillPreviousGotoFalse -> .)
+    else            reduce using rule 81 (action_fillPreviousGotoFalse -> .)
+    call            reduce using rule 83 (action_fillUnconditionalGotosWithEnd -> .)
+    if              reduce using rule 83 (action_fillUnconditionalGotosWithEnd -> .)
+    while           reduce using rule 83 (action_fillUnconditionalGotosWithEnd -> .)
+    do              reduce using rule 83 (action_fillUnconditionalGotosWithEnd -> .)
+    for             reduce using rule 83 (action_fillUnconditionalGotosWithEnd -> .)
+    cin             reduce using rule 83 (action_fillUnconditionalGotosWithEnd -> .)
+    cout            reduce using rule 83 (action_fillUnconditionalGotosWithEnd -> .)
+    identifier      reduce using rule 83 (action_fillUnconditionalGotosWithEnd -> .)
+    plus_plus       reduce using rule 83 (action_fillUnconditionalGotosWithEnd -> .)
+    minus_minus     reduce using rule 83 (action_fillUnconditionalGotosWithEnd -> .)
+    close_brace     reduce using rule 83 (action_fillUnconditionalGotosWithEnd -> .)
+
+    elseIfCondition                shift and go to state 176
+    action_fillPreviousGotoFalse   shift and go to state 177
+    elseCondition                  shift and go to state 178
+    action_fillUnconditionalGotosWithEnd shift and go to state 179
+
+state 174
+
+    (48) whileLoop -> while open_parenthesis action_pushToJumpStack BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace . action_fillPreviousGotoFalse action_generateGotoBooleanExpression
+    (81) action_fillPreviousGotoFalse -> .
+
+    call            reduce using rule 81 (action_fillPreviousGotoFalse -> .)
+    if              reduce using rule 81 (action_fillPreviousGotoFalse -> .)
+    while           reduce using rule 81 (action_fillPreviousGotoFalse -> .)
+    do              reduce using rule 81 (action_fillPreviousGotoFalse -> .)
+    for             reduce using rule 81 (action_fillPreviousGotoFalse -> .)
+    cin             reduce using rule 81 (action_fillPreviousGotoFalse -> .)
+    cout            reduce using rule 81 (action_fillPreviousGotoFalse -> .)
+    identifier      reduce using rule 81 (action_fillPreviousGotoFalse -> .)
+    plus_plus       reduce using rule 81 (action_fillPreviousGotoFalse -> .)
+    minus_minus     reduce using rule 81 (action_fillPreviousGotoFalse -> .)
+    close_brace     reduce using rule 81 (action_fillPreviousGotoFalse -> .)
+
+    action_fillPreviousGotoFalse   shift and go to state 180
+
+state 175
+
+    (50) forLoop -> for open_parenthesis RecVariableDeclaration semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine . close_brace
+
+    close_brace     shift and go to state 181
+
+
+state 176
+
+    (43) ifCondition -> if open_parenthesis BooleanExpression action_pushToIfStack action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .
+
+    call            reduce using rule 43 (ifCondition -> if open_parenthesis BooleanExpression action_pushToIfStack action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
+    if              reduce using rule 43 (ifCondition -> if open_parenthesis BooleanExpression action_pushToIfStack action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
+    while           reduce using rule 43 (ifCondition -> if open_parenthesis BooleanExpression action_pushToIfStack action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
+    do              reduce using rule 43 (ifCondition -> if open_parenthesis BooleanExpression action_pushToIfStack action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
+    for             reduce using rule 43 (ifCondition -> if open_parenthesis BooleanExpression action_pushToIfStack action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
+    cin             reduce using rule 43 (ifCondition -> if open_parenthesis BooleanExpression action_pushToIfStack action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
+    cout            reduce using rule 43 (ifCondition -> if open_parenthesis BooleanExpression action_pushToIfStack action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
+    identifier      reduce using rule 43 (ifCondition -> if open_parenthesis BooleanExpression action_pushToIfStack action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
+    plus_plus       reduce using rule 43 (ifCondition -> if open_parenthesis BooleanExpression action_pushToIfStack action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
+    minus_minus     reduce using rule 43 (ifCondition -> if open_parenthesis BooleanExpression action_pushToIfStack action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
+    close_brace     reduce using rule 43 (ifCondition -> if open_parenthesis BooleanExpression action_pushToIfStack action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
+
+
+state 177
+
+    (44) elseIfCondition -> action_fillPreviousGotoFalse . action_pushToJumpStack action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
+    (46) elseCondition -> action_fillPreviousGotoFalse . action_pushToJumpStack action_generateUnconditionalGoto else open_brace Routine close_brace action_fillUnconditionalGotosWithEnd
+    (78) action_pushToJumpStack -> .
+
+    elseif          reduce using rule 78 (action_pushToJumpStack -> .)
+    else            reduce using rule 78 (action_pushToJumpStack -> .)
+
+    action_pushToJumpStack         shift and go to state 182
+
+state 178
 
     (45) elseIfCondition -> elseCondition .
 
@@ -3202,7 +3258,7 @@ state 173
     close_brace     reduce using rule 45 (elseIfCondition -> elseCondition .)
 
 
-state 174
+state 179
 
     (47) elseCondition -> action_fillUnconditionalGotosWithEnd .
 
@@ -3219,23 +3275,26 @@ state 174
     close_brace     reduce using rule 47 (elseCondition -> action_fillUnconditionalGotosWithEnd .)
 
 
-state 175
+state 180
 
-    (50) forLoop -> for open_parenthesis RecVariableDeclaration semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine . close_brace
+    (48) whileLoop -> while open_parenthesis action_pushToJumpStack BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace action_fillPreviousGotoFalse . action_generateGotoBooleanExpression
+    (84) action_generateGotoBooleanExpression -> .
 
-    close_brace     shift and go to state 177
+    call            reduce using rule 84 (action_generateGotoBooleanExpression -> .)
+    if              reduce using rule 84 (action_generateGotoBooleanExpression -> .)
+    while           reduce using rule 84 (action_generateGotoBooleanExpression -> .)
+    do              reduce using rule 84 (action_generateGotoBooleanExpression -> .)
+    for             reduce using rule 84 (action_generateGotoBooleanExpression -> .)
+    cin             reduce using rule 84 (action_generateGotoBooleanExpression -> .)
+    cout            reduce using rule 84 (action_generateGotoBooleanExpression -> .)
+    identifier      reduce using rule 84 (action_generateGotoBooleanExpression -> .)
+    plus_plus       reduce using rule 84 (action_generateGotoBooleanExpression -> .)
+    minus_minus     reduce using rule 84 (action_generateGotoBooleanExpression -> .)
+    close_brace     reduce using rule 84 (action_generateGotoBooleanExpression -> .)
 
+    action_generateGotoBooleanExpression shift and go to state 183
 
-state 176
-
-    (44) elseIfCondition -> action_fillPreviousGotoFalse action_generateUnconditionalGoto . elseif open_parenthesis BooleanExpression action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
-    (46) elseCondition -> action_fillPreviousGotoFalse action_generateUnconditionalGoto . else open_brace Routine close_brace action_fillUnconditionalGotosWithEnd
-
-    elseif          shift and go to state 178
-    else            shift and go to state 179
-
-
-state 177
+state 181
 
     (50) forLoop -> for open_parenthesis RecVariableDeclaration semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace .
 
@@ -3252,23 +3311,60 @@ state 177
     close_brace     reduce using rule 50 (forLoop -> for open_parenthesis RecVariableDeclaration semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace .)
 
 
-state 178
+state 182
 
-    (44) elseIfCondition -> action_fillPreviousGotoFalse action_generateUnconditionalGoto elseif . open_parenthesis BooleanExpression action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
+    (44) elseIfCondition -> action_fillPreviousGotoFalse action_pushToJumpStack . action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
+    (46) elseCondition -> action_fillPreviousGotoFalse action_pushToJumpStack . action_generateUnconditionalGoto else open_brace Routine close_brace action_fillUnconditionalGotosWithEnd
+    (80) action_generateUnconditionalGoto -> .
 
-    open_parenthesis shift and go to state 180
+    elseif          reduce using rule 80 (action_generateUnconditionalGoto -> .)
+    else            reduce using rule 80 (action_generateUnconditionalGoto -> .)
+
+    action_generateUnconditionalGoto shift and go to state 184
+
+state 183
+
+    (48) whileLoop -> while open_parenthesis action_pushToJumpStack BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace action_fillPreviousGotoFalse action_generateGotoBooleanExpression .
+
+    call            reduce using rule 48 (whileLoop -> while open_parenthesis action_pushToJumpStack BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace action_fillPreviousGotoFalse action_generateGotoBooleanExpression .)
+    if              reduce using rule 48 (whileLoop -> while open_parenthesis action_pushToJumpStack BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace action_fillPreviousGotoFalse action_generateGotoBooleanExpression .)
+    while           reduce using rule 48 (whileLoop -> while open_parenthesis action_pushToJumpStack BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace action_fillPreviousGotoFalse action_generateGotoBooleanExpression .)
+    do              reduce using rule 48 (whileLoop -> while open_parenthesis action_pushToJumpStack BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace action_fillPreviousGotoFalse action_generateGotoBooleanExpression .)
+    for             reduce using rule 48 (whileLoop -> while open_parenthesis action_pushToJumpStack BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace action_fillPreviousGotoFalse action_generateGotoBooleanExpression .)
+    cin             reduce using rule 48 (whileLoop -> while open_parenthesis action_pushToJumpStack BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace action_fillPreviousGotoFalse action_generateGotoBooleanExpression .)
+    cout            reduce using rule 48 (whileLoop -> while open_parenthesis action_pushToJumpStack BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace action_fillPreviousGotoFalse action_generateGotoBooleanExpression .)
+    identifier      reduce using rule 48 (whileLoop -> while open_parenthesis action_pushToJumpStack BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace action_fillPreviousGotoFalse action_generateGotoBooleanExpression .)
+    plus_plus       reduce using rule 48 (whileLoop -> while open_parenthesis action_pushToJumpStack BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace action_fillPreviousGotoFalse action_generateGotoBooleanExpression .)
+    minus_minus     reduce using rule 48 (whileLoop -> while open_parenthesis action_pushToJumpStack BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace action_fillPreviousGotoFalse action_generateGotoBooleanExpression .)
+    close_brace     reduce using rule 48 (whileLoop -> while open_parenthesis action_pushToJumpStack BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace action_fillPreviousGotoFalse action_generateGotoBooleanExpression .)
 
 
-state 179
+state 184
 
-    (46) elseCondition -> action_fillPreviousGotoFalse action_generateUnconditionalGoto else . open_brace Routine close_brace action_fillUnconditionalGotosWithEnd
+    (44) elseIfCondition -> action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto . elseif open_parenthesis BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
+    (46) elseCondition -> action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto . else open_brace Routine close_brace action_fillUnconditionalGotosWithEnd
 
-    open_brace      shift and go to state 181
+    elseif          shift and go to state 185
+    else            shift and go to state 186
 
 
-state 180
+state 185
 
-    (44) elseIfCondition -> action_fillPreviousGotoFalse action_generateUnconditionalGoto elseif open_parenthesis . BooleanExpression action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
+    (44) elseIfCondition -> action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto elseif . open_parenthesis BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
+
+    open_parenthesis shift and go to state 187
+
+
+state 186
+
+    (46) elseCondition -> action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto else . open_brace Routine close_brace action_fillUnconditionalGotosWithEnd
+
+    open_brace      shift and go to state 188
+
+
+state 187
+
+    (44) elseIfCondition -> action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto elseif open_parenthesis . BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
     (27) BooleanExpression -> . true
     (28) BooleanExpression -> . false
     (29) BooleanExpression -> . ArithmeticExpression
@@ -3298,7 +3394,7 @@ state 180
     plus_plus       shift and go to state 36
     minus_minus     shift and go to state 37
 
-    BooleanExpression              shift and go to state 182
+    BooleanExpression              shift and go to state 189
     ArithmeticExpression           shift and go to state 88
     term                           shift and go to state 42
     factor                         shift and go to state 43
@@ -3306,121 +3402,9 @@ state 180
     variable                       shift and go to state 40
     UnaryOperation                 shift and go to state 45
 
-state 181
-
-    (46) elseCondition -> action_fillPreviousGotoFalse action_generateUnconditionalGoto else open_brace . Routine close_brace action_fillUnconditionalGotosWithEnd
-    (55) Routine -> . AssignmentStatement semicolon Routine
-    (56) Routine -> . ifCondition Routine
-    (57) Routine -> . whileLoop Routine
-    (58) Routine -> . doWhileLoop Routine
-    (59) Routine -> . forLoop Routine
-    (60) Routine -> . call identifier semicolon Routine
-    (61) Routine -> . InOut Routine
-    (62) Routine -> .
-    (31) AssignmentStatement -> . variable action_insert_variable_as_operand equal ArithmeticExpression action_assignation
-    (32) AssignmentStatement -> . UnaryOperation
-    (43) ifCondition -> . if open_parenthesis BooleanExpression action_pushToIfStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
-    (48) whileLoop -> . while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace
-    (49) doWhileLoop -> . do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon
-    (50) forLoop -> . for open_parenthesis RecVariableDeclaration semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace
-    (63) InOut -> . cin in variable RecursiveIn semicolon
-    (64) InOut -> . cout out ArithmeticExpression RecursiveOut semicolon
-    (65) InOut -> . cout out string RecursiveOut semicolon
-    (5) variable -> . identifier dimensions
-    (33) UnaryOperation -> . plus_plus action_insert_operator variable action_insert_variable_as_operand action_generate_unary_operation_quadruplet
-    (34) UnaryOperation -> . minus_minus action_insert_operator variable action_insert_variable_as_operand action_generate_unary_operation_quadruplet
-
-    call            shift and go to state 26
-    close_brace     reduce using rule 62 (Routine -> .)
-    if              shift and go to state 30
-    while           shift and go to state 31
-    do              shift and go to state 32
-    for             shift and go to state 33
-    cin             shift and go to state 34
-    cout            shift and go to state 35
-    identifier      shift and go to state 10
-    plus_plus       shift and go to state 36
-    minus_minus     shift and go to state 37
-
-    Routine                        shift and go to state 183
-    AssignmentStatement            shift and go to state 21
-    ifCondition                    shift and go to state 22
-    whileLoop                      shift and go to state 23
-    doWhileLoop                    shift and go to state 24
-    forLoop                        shift and go to state 25
-    InOut                          shift and go to state 27
-    variable                       shift and go to state 28
-    UnaryOperation                 shift and go to state 29
-
-state 182
-
-    (44) elseIfCondition -> action_fillPreviousGotoFalse action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression . action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
-    (78) action_generateEmptyGotoFalse_quadruplet -> .
-
-    close_parenthesis reduce using rule 78 (action_generateEmptyGotoFalse_quadruplet -> .)
-
-    action_generateEmptyGotoFalse_quadruplet shift and go to state 184
-
-state 183
-
-    (46) elseCondition -> action_fillPreviousGotoFalse action_generateUnconditionalGoto else open_brace Routine . close_brace action_fillUnconditionalGotosWithEnd
-
-    close_brace     shift and go to state 185
-
-
-state 184
-
-    (44) elseIfCondition -> action_fillPreviousGotoFalse action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_generateEmptyGotoFalse_quadruplet . close_parenthesis open_brace Routine close_brace elseIfCondition
-
-    close_parenthesis shift and go to state 186
-
-
-state 185
-
-    (46) elseCondition -> action_fillPreviousGotoFalse action_generateUnconditionalGoto else open_brace Routine close_brace . action_fillUnconditionalGotosWithEnd
-    (82) action_fillUnconditionalGotosWithEnd -> .
-
-    call            reduce using rule 82 (action_fillUnconditionalGotosWithEnd -> .)
-    if              reduce using rule 82 (action_fillUnconditionalGotosWithEnd -> .)
-    while           reduce using rule 82 (action_fillUnconditionalGotosWithEnd -> .)
-    do              reduce using rule 82 (action_fillUnconditionalGotosWithEnd -> .)
-    for             reduce using rule 82 (action_fillUnconditionalGotosWithEnd -> .)
-    cin             reduce using rule 82 (action_fillUnconditionalGotosWithEnd -> .)
-    cout            reduce using rule 82 (action_fillUnconditionalGotosWithEnd -> .)
-    identifier      reduce using rule 82 (action_fillUnconditionalGotosWithEnd -> .)
-    plus_plus       reduce using rule 82 (action_fillUnconditionalGotosWithEnd -> .)
-    minus_minus     reduce using rule 82 (action_fillUnconditionalGotosWithEnd -> .)
-    close_brace     reduce using rule 82 (action_fillUnconditionalGotosWithEnd -> .)
-
-    action_fillUnconditionalGotosWithEnd shift and go to state 187
-
-state 186
-
-    (44) elseIfCondition -> action_fillPreviousGotoFalse action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_generateEmptyGotoFalse_quadruplet close_parenthesis . open_brace Routine close_brace elseIfCondition
-
-    open_brace      shift and go to state 188
-
-
-state 187
-
-    (46) elseCondition -> action_fillPreviousGotoFalse action_generateUnconditionalGoto else open_brace Routine close_brace action_fillUnconditionalGotosWithEnd .
-
-    call            reduce using rule 46 (elseCondition -> action_fillPreviousGotoFalse action_generateUnconditionalGoto else open_brace Routine close_brace action_fillUnconditionalGotosWithEnd .)
-    if              reduce using rule 46 (elseCondition -> action_fillPreviousGotoFalse action_generateUnconditionalGoto else open_brace Routine close_brace action_fillUnconditionalGotosWithEnd .)
-    while           reduce using rule 46 (elseCondition -> action_fillPreviousGotoFalse action_generateUnconditionalGoto else open_brace Routine close_brace action_fillUnconditionalGotosWithEnd .)
-    do              reduce using rule 46 (elseCondition -> action_fillPreviousGotoFalse action_generateUnconditionalGoto else open_brace Routine close_brace action_fillUnconditionalGotosWithEnd .)
-    for             reduce using rule 46 (elseCondition -> action_fillPreviousGotoFalse action_generateUnconditionalGoto else open_brace Routine close_brace action_fillUnconditionalGotosWithEnd .)
-    cin             reduce using rule 46 (elseCondition -> action_fillPreviousGotoFalse action_generateUnconditionalGoto else open_brace Routine close_brace action_fillUnconditionalGotosWithEnd .)
-    cout            reduce using rule 46 (elseCondition -> action_fillPreviousGotoFalse action_generateUnconditionalGoto else open_brace Routine close_brace action_fillUnconditionalGotosWithEnd .)
-    identifier      reduce using rule 46 (elseCondition -> action_fillPreviousGotoFalse action_generateUnconditionalGoto else open_brace Routine close_brace action_fillUnconditionalGotosWithEnd .)
-    plus_plus       reduce using rule 46 (elseCondition -> action_fillPreviousGotoFalse action_generateUnconditionalGoto else open_brace Routine close_brace action_fillUnconditionalGotosWithEnd .)
-    minus_minus     reduce using rule 46 (elseCondition -> action_fillPreviousGotoFalse action_generateUnconditionalGoto else open_brace Routine close_brace action_fillUnconditionalGotosWithEnd .)
-    close_brace     reduce using rule 46 (elseCondition -> action_fillPreviousGotoFalse action_generateUnconditionalGoto else open_brace Routine close_brace action_fillUnconditionalGotosWithEnd .)
-
-
 state 188
 
-    (44) elseIfCondition -> action_fillPreviousGotoFalse action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace . Routine close_brace elseIfCondition
+    (46) elseCondition -> action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto else open_brace . Routine close_brace action_fillUnconditionalGotosWithEnd
     (55) Routine -> . AssignmentStatement semicolon Routine
     (56) Routine -> . ifCondition Routine
     (57) Routine -> . whileLoop Routine
@@ -3431,8 +3415,8 @@ state 188
     (62) Routine -> .
     (31) AssignmentStatement -> . variable action_insert_variable_as_operand equal ArithmeticExpression action_assignation
     (32) AssignmentStatement -> . UnaryOperation
-    (43) ifCondition -> . if open_parenthesis BooleanExpression action_pushToIfStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
-    (48) whileLoop -> . while open_parenthesis BooleanExpression close_parenthesis open_brace Routine close_brace
+    (43) ifCondition -> . if open_parenthesis BooleanExpression action_pushToIfStack action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
+    (48) whileLoop -> . while open_parenthesis action_pushToJumpStack BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace action_fillPreviousGotoFalse action_generateGotoBooleanExpression
     (49) doWhileLoop -> . do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon
     (50) forLoop -> . for open_parenthesis RecVariableDeclaration semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace
     (63) InOut -> . cin in variable RecursiveIn semicolon
@@ -3454,7 +3438,7 @@ state 188
     plus_plus       shift and go to state 36
     minus_minus     shift and go to state 37
 
-    Routine                        shift and go to state 189
+    Routine                        shift and go to state 190
     AssignmentStatement            shift and go to state 21
     ifCondition                    shift and go to state 22
     whileLoop                      shift and go to state 23
@@ -3466,53 +3450,174 @@ state 188
 
 state 189
 
-    (44) elseIfCondition -> action_fillPreviousGotoFalse action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine . close_brace elseIfCondition
+    (44) elseIfCondition -> action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression . action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
+    (78) action_pushToJumpStack -> .
 
-    close_brace     shift and go to state 190
+    close_parenthesis reduce using rule 78 (action_pushToJumpStack -> .)
 
+    action_pushToJumpStack         shift and go to state 191
 
 state 190
 
-    (44) elseIfCondition -> action_fillPreviousGotoFalse action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace . elseIfCondition
-    (44) elseIfCondition -> . action_fillPreviousGotoFalse action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
-    (45) elseIfCondition -> . elseCondition
-    (80) action_fillPreviousGotoFalse -> .
-    (46) elseCondition -> . action_fillPreviousGotoFalse action_generateUnconditionalGoto else open_brace Routine close_brace action_fillUnconditionalGotosWithEnd
-    (47) elseCondition -> . action_fillUnconditionalGotosWithEnd
-    (82) action_fillUnconditionalGotosWithEnd -> .
+    (46) elseCondition -> action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto else open_brace Routine . close_brace action_fillUnconditionalGotosWithEnd
 
-    elseif          reduce using rule 80 (action_fillPreviousGotoFalse -> .)
-    else            reduce using rule 80 (action_fillPreviousGotoFalse -> .)
-    call            reduce using rule 82 (action_fillUnconditionalGotosWithEnd -> .)
-    if              reduce using rule 82 (action_fillUnconditionalGotosWithEnd -> .)
-    while           reduce using rule 82 (action_fillUnconditionalGotosWithEnd -> .)
-    do              reduce using rule 82 (action_fillUnconditionalGotosWithEnd -> .)
-    for             reduce using rule 82 (action_fillUnconditionalGotosWithEnd -> .)
-    cin             reduce using rule 82 (action_fillUnconditionalGotosWithEnd -> .)
-    cout            reduce using rule 82 (action_fillUnconditionalGotosWithEnd -> .)
-    identifier      reduce using rule 82 (action_fillUnconditionalGotosWithEnd -> .)
-    plus_plus       reduce using rule 82 (action_fillUnconditionalGotosWithEnd -> .)
-    minus_minus     reduce using rule 82 (action_fillUnconditionalGotosWithEnd -> .)
-    close_brace     reduce using rule 82 (action_fillUnconditionalGotosWithEnd -> .)
+    close_brace     shift and go to state 192
 
-    action_fillPreviousGotoFalse   shift and go to state 172
-    elseIfCondition                shift and go to state 191
-    elseCondition                  shift and go to state 173
-    action_fillUnconditionalGotosWithEnd shift and go to state 174
 
 state 191
 
-    (44) elseIfCondition -> action_fillPreviousGotoFalse action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .
+    (44) elseIfCondition -> action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_pushToJumpStack . action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
+    (79) action_generateEmptyGotoFalse_quadruplet -> .
 
-    call            reduce using rule 44 (elseIfCondition -> action_fillPreviousGotoFalse action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
-    if              reduce using rule 44 (elseIfCondition -> action_fillPreviousGotoFalse action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
-    while           reduce using rule 44 (elseIfCondition -> action_fillPreviousGotoFalse action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
-    do              reduce using rule 44 (elseIfCondition -> action_fillPreviousGotoFalse action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
-    for             reduce using rule 44 (elseIfCondition -> action_fillPreviousGotoFalse action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
-    cin             reduce using rule 44 (elseIfCondition -> action_fillPreviousGotoFalse action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
-    cout            reduce using rule 44 (elseIfCondition -> action_fillPreviousGotoFalse action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
-    identifier      reduce using rule 44 (elseIfCondition -> action_fillPreviousGotoFalse action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
-    plus_plus       reduce using rule 44 (elseIfCondition -> action_fillPreviousGotoFalse action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
-    minus_minus     reduce using rule 44 (elseIfCondition -> action_fillPreviousGotoFalse action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
-    close_brace     reduce using rule 44 (elseIfCondition -> action_fillPreviousGotoFalse action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
+    close_parenthesis reduce using rule 79 (action_generateEmptyGotoFalse_quadruplet -> .)
+
+    action_generateEmptyGotoFalse_quadruplet shift and go to state 193
+
+state 192
+
+    (46) elseCondition -> action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto else open_brace Routine close_brace . action_fillUnconditionalGotosWithEnd
+    (83) action_fillUnconditionalGotosWithEnd -> .
+
+    call            reduce using rule 83 (action_fillUnconditionalGotosWithEnd -> .)
+    if              reduce using rule 83 (action_fillUnconditionalGotosWithEnd -> .)
+    while           reduce using rule 83 (action_fillUnconditionalGotosWithEnd -> .)
+    do              reduce using rule 83 (action_fillUnconditionalGotosWithEnd -> .)
+    for             reduce using rule 83 (action_fillUnconditionalGotosWithEnd -> .)
+    cin             reduce using rule 83 (action_fillUnconditionalGotosWithEnd -> .)
+    cout            reduce using rule 83 (action_fillUnconditionalGotosWithEnd -> .)
+    identifier      reduce using rule 83 (action_fillUnconditionalGotosWithEnd -> .)
+    plus_plus       reduce using rule 83 (action_fillUnconditionalGotosWithEnd -> .)
+    minus_minus     reduce using rule 83 (action_fillUnconditionalGotosWithEnd -> .)
+    close_brace     reduce using rule 83 (action_fillUnconditionalGotosWithEnd -> .)
+
+    action_fillUnconditionalGotosWithEnd shift and go to state 194
+
+state 193
+
+    (44) elseIfCondition -> action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet . close_parenthesis open_brace Routine close_brace elseIfCondition
+
+    close_parenthesis shift and go to state 195
+
+
+state 194
+
+    (46) elseCondition -> action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto else open_brace Routine close_brace action_fillUnconditionalGotosWithEnd .
+
+    call            reduce using rule 46 (elseCondition -> action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto else open_brace Routine close_brace action_fillUnconditionalGotosWithEnd .)
+    if              reduce using rule 46 (elseCondition -> action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto else open_brace Routine close_brace action_fillUnconditionalGotosWithEnd .)
+    while           reduce using rule 46 (elseCondition -> action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto else open_brace Routine close_brace action_fillUnconditionalGotosWithEnd .)
+    do              reduce using rule 46 (elseCondition -> action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto else open_brace Routine close_brace action_fillUnconditionalGotosWithEnd .)
+    for             reduce using rule 46 (elseCondition -> action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto else open_brace Routine close_brace action_fillUnconditionalGotosWithEnd .)
+    cin             reduce using rule 46 (elseCondition -> action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto else open_brace Routine close_brace action_fillUnconditionalGotosWithEnd .)
+    cout            reduce using rule 46 (elseCondition -> action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto else open_brace Routine close_brace action_fillUnconditionalGotosWithEnd .)
+    identifier      reduce using rule 46 (elseCondition -> action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto else open_brace Routine close_brace action_fillUnconditionalGotosWithEnd .)
+    plus_plus       reduce using rule 46 (elseCondition -> action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto else open_brace Routine close_brace action_fillUnconditionalGotosWithEnd .)
+    minus_minus     reduce using rule 46 (elseCondition -> action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto else open_brace Routine close_brace action_fillUnconditionalGotosWithEnd .)
+    close_brace     reduce using rule 46 (elseCondition -> action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto else open_brace Routine close_brace action_fillUnconditionalGotosWithEnd .)
+
+
+state 195
+
+    (44) elseIfCondition -> action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis . open_brace Routine close_brace elseIfCondition
+
+    open_brace      shift and go to state 196
+
+
+state 196
+
+    (44) elseIfCondition -> action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace . Routine close_brace elseIfCondition
+    (55) Routine -> . AssignmentStatement semicolon Routine
+    (56) Routine -> . ifCondition Routine
+    (57) Routine -> . whileLoop Routine
+    (58) Routine -> . doWhileLoop Routine
+    (59) Routine -> . forLoop Routine
+    (60) Routine -> . call identifier semicolon Routine
+    (61) Routine -> . InOut Routine
+    (62) Routine -> .
+    (31) AssignmentStatement -> . variable action_insert_variable_as_operand equal ArithmeticExpression action_assignation
+    (32) AssignmentStatement -> . UnaryOperation
+    (43) ifCondition -> . if open_parenthesis BooleanExpression action_pushToIfStack action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
+    (48) whileLoop -> . while open_parenthesis action_pushToJumpStack BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace action_fillPreviousGotoFalse action_generateGotoBooleanExpression
+    (49) doWhileLoop -> . do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon
+    (50) forLoop -> . for open_parenthesis RecVariableDeclaration semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace
+    (63) InOut -> . cin in variable RecursiveIn semicolon
+    (64) InOut -> . cout out ArithmeticExpression RecursiveOut semicolon
+    (65) InOut -> . cout out string RecursiveOut semicolon
+    (5) variable -> . identifier dimensions
+    (33) UnaryOperation -> . plus_plus action_insert_operator variable action_insert_variable_as_operand action_generate_unary_operation_quadruplet
+    (34) UnaryOperation -> . minus_minus action_insert_operator variable action_insert_variable_as_operand action_generate_unary_operation_quadruplet
+
+    call            shift and go to state 26
+    close_brace     reduce using rule 62 (Routine -> .)
+    if              shift and go to state 30
+    while           shift and go to state 31
+    do              shift and go to state 32
+    for             shift and go to state 33
+    cin             shift and go to state 34
+    cout            shift and go to state 35
+    identifier      shift and go to state 10
+    plus_plus       shift and go to state 36
+    minus_minus     shift and go to state 37
+
+    Routine                        shift and go to state 197
+    AssignmentStatement            shift and go to state 21
+    ifCondition                    shift and go to state 22
+    whileLoop                      shift and go to state 23
+    doWhileLoop                    shift and go to state 24
+    forLoop                        shift and go to state 25
+    InOut                          shift and go to state 27
+    variable                       shift and go to state 28
+    UnaryOperation                 shift and go to state 29
+
+state 197
+
+    (44) elseIfCondition -> action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine . close_brace elseIfCondition
+
+    close_brace     shift and go to state 198
+
+
+state 198
+
+    (44) elseIfCondition -> action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace . elseIfCondition
+    (44) elseIfCondition -> . action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition
+    (45) elseIfCondition -> . elseCondition
+    (81) action_fillPreviousGotoFalse -> .
+    (46) elseCondition -> . action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto else open_brace Routine close_brace action_fillUnconditionalGotosWithEnd
+    (47) elseCondition -> . action_fillUnconditionalGotosWithEnd
+    (83) action_fillUnconditionalGotosWithEnd -> .
+
+    elseif          reduce using rule 81 (action_fillPreviousGotoFalse -> .)
+    else            reduce using rule 81 (action_fillPreviousGotoFalse -> .)
+    call            reduce using rule 83 (action_fillUnconditionalGotosWithEnd -> .)
+    if              reduce using rule 83 (action_fillUnconditionalGotosWithEnd -> .)
+    while           reduce using rule 83 (action_fillUnconditionalGotosWithEnd -> .)
+    do              reduce using rule 83 (action_fillUnconditionalGotosWithEnd -> .)
+    for             reduce using rule 83 (action_fillUnconditionalGotosWithEnd -> .)
+    cin             reduce using rule 83 (action_fillUnconditionalGotosWithEnd -> .)
+    cout            reduce using rule 83 (action_fillUnconditionalGotosWithEnd -> .)
+    identifier      reduce using rule 83 (action_fillUnconditionalGotosWithEnd -> .)
+    plus_plus       reduce using rule 83 (action_fillUnconditionalGotosWithEnd -> .)
+    minus_minus     reduce using rule 83 (action_fillUnconditionalGotosWithEnd -> .)
+    close_brace     reduce using rule 83 (action_fillUnconditionalGotosWithEnd -> .)
+
+    action_fillPreviousGotoFalse   shift and go to state 177
+    elseIfCondition                shift and go to state 199
+    elseCondition                  shift and go to state 178
+    action_fillUnconditionalGotosWithEnd shift and go to state 179
+
+state 199
+
+    (44) elseIfCondition -> action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .
+
+    call            reduce using rule 44 (elseIfCondition -> action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
+    if              reduce using rule 44 (elseIfCondition -> action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
+    while           reduce using rule 44 (elseIfCondition -> action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
+    do              reduce using rule 44 (elseIfCondition -> action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
+    for             reduce using rule 44 (elseIfCondition -> action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
+    cin             reduce using rule 44 (elseIfCondition -> action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
+    cout            reduce using rule 44 (elseIfCondition -> action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
+    identifier      reduce using rule 44 (elseIfCondition -> action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
+    plus_plus       reduce using rule 44 (elseIfCondition -> action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
+    minus_minus     reduce using rule 44 (elseIfCondition -> action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
+    close_brace     reduce using rule 44 (elseIfCondition -> action_fillPreviousGotoFalse action_pushToJumpStack action_generateUnconditionalGoto elseif open_parenthesis BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet close_parenthesis open_brace Routine close_brace elseIfCondition .)
 
