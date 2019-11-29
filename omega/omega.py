@@ -9,8 +9,7 @@ import sys
 import json
 
 currentIndex = 50
-variablesTable = {}
-
+symbolsTable = {}
 
 quadruplets = []
 quadrupletIndex = 0
@@ -156,14 +155,15 @@ def isTemp(operand):
 
 def addVariable(varName, varType):
 	global currentIndex
-	initialValue = 0 if varType == 'int' else 0.0
-	variablesTable[varName] = {
+	initialValue = 0.0 if varType == 'double' else 0
+	symbolsTable[varName] = {
 		'varName' : varName,
         'varType':  varType,
         'value': initialValue,
         'address': currentIndex
     }
 	currentIndex += 1
+
 
 def t_double_number(t):
     r"\d+\.\d+"
@@ -200,7 +200,7 @@ def p_ProgramFlow(p):
 	# print(operandsStack)
 	# print(operatorsStack)
 	# print(quadruplets)
-	# print(json.dumps(variablesTable, indent=4))
+	# print(json.dumps(symbolsTable, indent=4))
 	for q in range(len(quadruplets)):
 		print(str(q) + '\t' + quadruplets[q])
 	print('\nCorrecto!!')
@@ -225,8 +225,7 @@ def p_variable(p):
 
 def p_dimensions(p):
 	'''
-		dimensions : open_bracket variable close_bracket dimensions
-				   | open_bracket Number close_bracket dimensions
+		dimensions : open_bracket int_number close_bracket dimensions
 				   |
 	'''
 
@@ -344,7 +343,7 @@ def p_whileLoop(p):
 
 def p_doWhileLoop(p):
 	'''
-		doWhileLoop : do open_brace Routine close_brace while open_parenthesis BooleanExpression close_parenthesis semicolon
+		doWhileLoop : do open_brace action_pushToJumpStack Routine close_brace while open_parenthesis BooleanExpression action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet action_fillPreviousGotoFalse  action_generateUnconditionalGoto action_fillWithStartUpdateDirection close_parenthesis semicolon
 	'''
 
 def p_forLoop(p):
@@ -407,9 +406,9 @@ def p_RecursiveOut(p):
 
 def p_action_insert_variable_as_operand(p):
 	"action_insert_variable_as_operand :"
-	if p[-1] not in variablesTable:
+	if p[-1] not in symbolsTable:
 		raise Exception(f'The variable {p[-1]} was not declared in this scope')
-	address = variablesTable[p[-1]]['address']
+	address = symbolsTable[p[-1]]['address']
 	operandsStack.append(f'${address}')
 
 def p_action_insert_int_operand(p):

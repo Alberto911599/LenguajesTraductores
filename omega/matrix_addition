@@ -4,8 +4,7 @@ main {
 	i = 10;
 	k = 5;
 	j = 100;
-	for(i = 0; i < j; ++i){
-		for(k = 0; k < j; ++k){
-		}
-	}
+	do{
+		++i;
+	}while(i < j);
 }
