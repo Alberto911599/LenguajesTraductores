@@ -1,4 +1,7 @@
 # TODO : Types Validations
+# TODO : Jerarquias para operadores lógicos
+# TODO : Matrices
+
 
 import ply.lex as lex
 import ply.yacc as yacc
@@ -7,6 +10,7 @@ import json
 
 currentIndex = 50
 variablesTable = {}
+
 
 quadruplets = []
 quadrupletIndex = 0
@@ -345,13 +349,19 @@ def p_doWhileLoop(p):
 
 def p_forLoop(p):
 	'''
-		forLoop : for open_parenthesis RecVariableDeclaration semicolon BooleanExpression semicolon UpdateVariables close_parenthesis open_brace Routine close_brace
+		forLoop : for open_parenthesis initializeForLoop semicolon action_pushToJumpStack BooleanExpression semicolon action_pushToJumpStack action_generateEmptyGotoFalse_quadruplet action_pushToJumpStack action_generateUnconditionalGoto action_pushToJumpStack UpdateVariables action_generateUnconditionalGoto action_fillWithTestingDirection close_parenthesis open_brace action_fillWithStartDirectionForRoutine Routine action_generateUnconditionalGoto action_fillWithStartUpdateDirection close_brace action_fillWithEndLoop
 	'''
 def p_UpdateVariables(p):
  	'''
 	UpdateVariables : AssignmentStatement
 					| AssignmentStatement comma UpdateVariables
  	'''
+
+def p_initializeForLoop(p):
+	'''
+		initializeForLoop : UpdateVariables
+						  |
+	'''
 
 ################### Rutinas ###################
 
@@ -473,9 +483,7 @@ def p_action_generateEmptyGotoFalse_quadruplet(p):
 def p_action_generateUnconditionalGoto(p):
 	"action_generateUnconditionalGoto :"
 	global quadrupletIndex
-	global jumpStack
 	global quadruplets
-	global avail
 	quadruplets.append("goto" + '\t')
 	quadrupletIndex += 1
 
@@ -487,11 +495,22 @@ def p_action_fillPreviousGotoFalse(p):
 	fillAddr = jumpStack.pop()
 	quadruplets[fillAddr] += str(quadrupletIndex+1)
 
-def p_action_pushToIfStack(p):
-	"action_pushToIfStack :"
+def p_action_fillWithStartDirectionForRoutine(p):
+	"action_fillWithStartDirectionForRoutine : "
 	global quadrupletIndex
-	global ifStack
-	ifStack.append(quadrupletIndex)
+	fillAddr = jumpStack.pop(-2)
+	quadruplets[fillAddr] += str(quadrupletIndex)
+
+def p_action_fillWithTestingDirection(p):
+	"action_fillWithTestingDirection : "
+	global quadrupletIndex
+	fillAddr = jumpStack.pop(-4)
+	quadruplets[-1] += str(fillAddr)
+
+def p_action_fillWithStartUpdateDirection(p):
+	"action_fillWithStartUpdateDirection : "
+	fillAddr = jumpStack.pop()
+	quadruplets[-1] += str(fillAddr)
 
 def p_action_fillUnconditionalGotosWithEnd(p):
 	"action_fillUnconditionalGotosWithEnd :"
@@ -500,6 +519,21 @@ def p_action_fillUnconditionalGotosWithEnd(p):
 	while len(jumpStack) > 0 and limit <= jumpStack[-1]:
 		quadruplets[jumpStack[-1]] += str(quadrupletIndex)
 		jumpStack.pop()
+
+def p_action_fillWithEndLoop(p):
+	"action_fillWithEndLoop : "
+	global quadrupletIndex
+	global quadruplets
+	global jumpStack
+	fillAddr = jumpStack.pop()
+	quadruplets[fillAddr] += str(quadrupletIndex)
+
+def p_action_pushToIfStack(p):
+	"action_pushToIfStack :"
+	global quadrupletIndex
+	global ifStack
+	ifStack.append(quadrupletIndex)
+
 
 def p_action_generateGotoBooleanExpression(p):
 	"action_generateGotoBooleanExpression :"
